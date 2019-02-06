@@ -11,13 +11,9 @@ def is_valid_file(parser, arg):
     if not os.path.exists(arg):
         parser.error("The file %s does not exist!" % arg)
     else:
-        return open(arg, 'r')  # return an open file handle
+        return open(arg, 'rb+')  # return an open file handle
 
-<<<<<<< HEAD
-parser = argparse.ArgumentParser(description='This function is a tool that count the words obviously')
-=======
-parser = argparse.ArgumentParser(description='This function is a tool that count the words given as arguments')
->>>>>>> 31f9f2662d7c09754905a86a33cbb566a2b4af43
+parser = argparse.ArgumentParser(description='upper utility')
 parser.add_argument('-f', '--file',
                     dest='file',
                     help='input file', metavar="FILE",
@@ -25,11 +21,11 @@ parser.add_argument('-f', '--file',
 
 options = parser.parse_args()
 
-count = 0
 while 1:
-    ln = options.file.readline()
-    if not ln:
+    c = options.file.read(1)
+    if not c:
         break
-    count+=1
+    options.file.seek(-1,1)
+    options.file.write(c.upper())
+    
 options.file.close()
-print (count)
