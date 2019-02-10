@@ -13,11 +13,7 @@ def is_valid_file(parser, arg):
     else:
         return open(arg, 'r')  # return an open file handle
 
-<<<<<<< HEAD
-parser = argparse.ArgumentParser(description='This function is a tool that count the words obviously')
-=======
 parser = argparse.ArgumentParser(description='This function is a tool that count the words given as arguments')
->>>>>>> 31f9f2662d7c09754905a86a33cbb566a2b4af43
 parser.add_argument('-f', '--file',
                     dest='file',
                     help='input file', metavar="FILE",
