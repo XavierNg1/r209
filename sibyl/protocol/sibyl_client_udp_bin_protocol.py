@@ -74,7 +74,6 @@ class SibylClientUdpBinProtocol(DatagramProtocol):
         timeStamp = time.gmtime()
         timeTmp = time.mktime(timeStamp)
         msg = str(int(timeTmp))+":"+" "+line+"CLRF"
-        len_msg = str(len(msg))
         buf = struct.pack('100s', msg.encode('utf-8'))
         print(buf)
         self.transport.write(buf)
