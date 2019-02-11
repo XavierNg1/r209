@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import Protocol
-
+import struct
 
 class SibylClientTcpBinProtocol(Protocol):
     """
@@ -66,6 +66,7 @@ class SibylClientTcpBinProtocol(Protocol):
             as the controller calls it.
 
         """
+
         pass
 
     def dataReceived(self, line):

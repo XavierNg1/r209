@@ -54,5 +54,10 @@ class SibylServerUdpTextProtocol(DatagramProtocol):
                 parameters, as Twisted calls it.
 
         """
+        receive = datagram.decode("utf-8")
+	print(receive)
+        print(receive[:12]+self.sibylServerProxy.generateResponse(receive[9:])+"CLRF")
         pass
+
+       
     
