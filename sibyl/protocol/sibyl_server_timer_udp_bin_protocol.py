@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import DatagramProtocol
-from twisted.internet import reactor
 import struct
 import math
-
-from twisted.internet.defer import inlineCallbacks
-from twisted.internet import reactor
-from twisted.internet.task import deferLater
+from twisted.internet import reactor 
 
 class SibylServerTimerUdpBinProtocol(DatagramProtocol):
     """The class implementing the Sibyl UDP binary server protocol.
@@ -61,13 +57,13 @@ class SibylServerTimerUdpBinProtocol(DatagramProtocol):
                 parameters, as Twisted calls it.
 
         """
-        receive = struct.unpack('100s', datagram)
-        print(receive)
-        receive = receive[0].decode("utf-8")        
-        tm = math.floor(math.log(len(receive)))
-        msg = receive[:12]+self.sibylServerProxy.generateResponse(receive[9:])+"CLRF"
-        print(msg)
+        current_time = struct.unpack('i', datagram[:4])[0]
+        msg_length = struct.unpack('h', datagram[4:6])[0]
+        msg = struct.unpack(str(msg_length-6)+'s', datagram[6:])[0].decode('utf-8')
+        answer = str(current_time)+':'+self.sibylServerProxy.generateResponse(msg)+"CLRF"
         self.transport.connect(host_port[0], host_port[1])
-        reactor.callLater(tm, self.transport.write, msg.encode('utf-8'))
+        tm = math.floor(math.log(msg_length))
+        print(tm)
+        reactor.callLater(tm, self.transport.write, answer.encode('utf-8'))
         pass
     

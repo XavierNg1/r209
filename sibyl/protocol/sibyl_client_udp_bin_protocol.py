@@ -71,11 +71,17 @@ class SibylClientUdpBinProtocol(DatagramProtocol):
 
         """
         self.transport.connect(self.serverAddress, self.serverPort)
+        #Getting the current time
         timeStamp = time.gmtime()
-        timeTmp = time.mktime(timeStamp)
-        msg = str(int(timeTmp))+":"+" "+line+"CLRF"
-        buf = struct.pack('100s', msg.encode('utf-8'))
+        current_time = int(time.mktime(timeStamp))
+        #Specs the package
+        msg_length = len(line) + 6
+        buf = bytearray(msg_length)
+        #Packing it
+        struct.pack_into('ih%is'%len(buf[6:]), buf, 0, current_time, msg_length, line.encode('utf-8'))
         print(buf)
+        print(current_time)
+        print(msg_length)
         self.transport.write(buf)
         pass
 
