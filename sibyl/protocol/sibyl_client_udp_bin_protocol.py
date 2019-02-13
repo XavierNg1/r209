@@ -99,7 +99,7 @@ class SibylClientUdpBinProtocol(DatagramProtocol):
             as Twisted calls it.
 
         """
-        receive = datagram.decode("utf-8")
+        self.clientProxy.responseReceived(datagram.decode("utf-8"))
         print(receive)
         pass
     
