@@ -56,8 +56,8 @@ class SibylServerTcpBinProtocol(Protocol):
         """
         current_time = struct.unpack('i', line[:4])[0]
         msg_length = struct.unpack('h', line[4:6])[0]
-        msg = struct.unpack(str(msg_length-6)+'s', line[6:])[0].decode('utf-8')
+        msg = struct.unpack(str(msg_length-6)+'s', line[6:])[0].decode('ascii')
         answer = str(current_time)+':'+self.sibylServerProxy.generateResponse(msg)+"CLRF"
-        self.transport.write(answer.encode('utf-8'))
+        self.transport.write(answer.encode('ascii'))
         pass
     

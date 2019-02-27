@@ -74,8 +74,10 @@ class SibylClientTcpBinProtocol(Protocol):
         msg_length = len(line) + 6
         buf = bytearray(msg_length)
         #Packing it
-        struct.pack_into('ih%is'%len(buf[6:]), buf, 0, current_time, msg_length, line.encode('utf-8'))
+        struct.pack_into('ih%is'%len(buf[6:]), buf, 0, current_time, msg_length, line.encode('ascii'))
+        print(line.encode('ascii').hex())
         self.transport.write(buf)
+        print(current_time)
         pass
 
     def dataReceived(self, line):
@@ -94,7 +96,7 @@ class SibylClientTcpBinProtocol(Protocol):
 
         """
         receive = line.decode("utf-8")
-        self.clientProxy.responseReceived(line.decode("utf-8"))
+        self.clientProxy.responseReceived(line.decode('ascii'))
         print(receive)
         pass
     
