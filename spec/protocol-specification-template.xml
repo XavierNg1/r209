@@ -46,14 +46,13 @@
     <!-- The abbreviated title is used in the page header - it is only necessary if the
          full title is longer than 39 characters -->
 
-    <title abbrev="Abbreviated Title">Group 17: c2w protocol specification proposal
+    <title abbrev="Abbreviated Title">Group 17: c2w protocol specification proposal (Binary Version)
     </title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
 
-
-    <author fullname="XXX Firstname Lastname" initials="F.N."
-            surname="Lastname">
+	<author fullname="Claude KADJO MAMI - Eric Xavier N'GUESSAN" initials="C.K.M."
+            surname="KADJO MAMI">
       <organization>Telecom Bretagne</organization>
 
       <address>
@@ -73,13 +72,14 @@
 
 
 
-        <email>firstname.lastname@telecom-bretagne.eu</email>
+        <email>eric-xavier.nguessan@imt-atlantique.net</email>
 
         <!-- uri and facsimile elements may also be added -->
       </address>
     </author>
 
     <date month="February" year="2019" />
+
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
          in the current day for you. If only the current year is specified, xml2rfc will fill
@@ -96,13 +96,38 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-      <t>Insert an abstract: MANDATORY.</t>
+      <t>This document presents a protocol specification for the binary
+		 version of the C2W - Chat While Watching - protocol. The aim 
+		of this protocol is to allow a client to chat on each types of 
+		room of the application. There are two (2)
+		 types of room : The main room and the movie room associated 
+		with a movie. The client will be able to
+		send and receive messages in each of a chat rooms one at a time.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t>Given an introduction and an overview of the protocol.</t>
+      <t>The purpose of the C2W protocol is to allow client with 
+		other clients to chat on each specific types of
+		room of the application: the main room or one the watching room. 
+		Each client MUST know the IP address or the name and the corresponding
+		port number of the server.</t>
+
+	  <t>We will specify in the later section of the document, the 
+		different formats of the messages that will be sent.</t>
+
+	  <t>Clients can use UDP or TCP to exchange messages with the server.
+		The server MUST use the same layer four used by the client.</t>
+
+	  <t>Examples will be shown later in this document in order
+		 to understand better the protocol.</t>
+
+		<section title="Requirements Language">
+		    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+		    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+		    document are to be interpreted as described in RFC 2119.</t>
+      	</section>
 
     </section>
 
@@ -393,7 +418,6 @@ main(int argc, char *argv[])
     <references title="Normative References">
       <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
 
-
       <reference anchor="min_ref">
         <!-- the following is the minimum to make xml2rfc happy -->
 
@@ -446,6 +470,7 @@ main(int argc, char *argv[])
     <section anchor="app-additional" title="Additional Stuff">
       <t>This becomes an Appendix.</t>
     </section>
+
 
     <!-- Change Log
 
