@@ -1,0 +1,448 @@
+
+
+
+
+                                                           C. KADJO MAMI
+                                                        Telecom Bretagne
+                                                       February 27, 2019
+
+
+     Group 17: c2w protocol specification proposal (Binary Version)
+                     draft-ietf-xml2rfc-template-05
+
+Abstract
+
+   This document presents a protocol specification for the binary
+   version of the C2W - Chat While Watching - protocol.  The aim of this
+   protocol is to allow a client to chat on each types of room of the
+   application.  There are two (2) types of room : The main room and the
+   movie room associated with a movie.  The client will be able to send
+   and receive messages in each of a chat rooms one at a time.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
+   2.  Packet format . . . . . . . . . . . . . . . . . . . . . . . .   2
+   3.  Example scenario  . . . . . . . . . . . . . . . . . . . . . .   3
+     3.1.  Scenario 1: title . . . . . . . . . . . . . . . . . . . .   3
+   4.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  xml2rfc Features  . . . . . . . . . . . . . . . . . . . . . .   3
+   6.  Simple List . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   7.  Figures . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   8.  Subsections and Tables  . . . . . . . . . . . . . . . . . . .   4
+     8.1.  A Subsection  . . . . . . . . . . . . . . . . . . . . . .   4
+     8.2.  Tables  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   9.  More about Lists  . . . . . . . . . . . . . . . . . . . . . .   5
+     9.1.  Numbering Lists across Lists and Sections . . . . . . . .   5
+     9.2.  Where the List Numbering Continues  . . . . . . . . . . .   6
+   10. Example of Code or MIB Module To Be Extracted . . . . . . . .   6
+   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .   8
+     12.2.  Informative References . . . . . . . . . . . . . . . . .   8
+   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .   8
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   8
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 1]
+
+                            Abbreviated Title              February 2019
+
+
+1.  Introduction
+
+   The purpose of the C2W protocol is to allow client with other clients
+   to chat on each specific types of room of the application: the main
+   room or one the watching room.  Each client MUST know the IP address
+   or the name and the corresponding port number of the server.
+
+   We will specify in the later section of the document, the different
+   formats of the messages that will be sent.
+
+   Clients can use UDP or TCP to exchange messages with the server.  The
+   server MUST use the same layer four used by the client.
+
+   Examples will be shown later in this document in order to understand
+   better the protocol.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119.
+
+2.  Packet format
+
+   Describe the packet format and the headers.  For example, if you have
+   a binary header, you can use a figure like the following example
+   (where we have used the generic name "Field" for most of the fields,
+   you should use the names corresponding to your solution):
+
+
+        0                   1                   2                   3
+        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |    Field 1  |   Field 2   |      Field 3      |   Field 4     |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |           Field 5             |                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+       |                                                               |
+       .                                                               .
+       .                       Message Data                            .
+       .                                                               .
+       |                                                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+                                 Figure 1
+
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 2]
+
+                            Abbreviated Title              February 2019
+
+
+3.  Example scenario
+
+3.1.  Scenario 1: title
+
+   Description of the scenario and then the corresponding messages:
+
+   MSG 1 from toto to titi
+
+   etc
+
+   You can also use a figure like this:
+
+        Alice                                            Bob
+           |                                               |
+           |             Message 1 (Request)               |
+           |---------------------------------------------->|
+           |            (details of the message)           |
+           |                                               |
+           |                                               |
+           |               Message 2 (Response)            |
+           |<----------------------------------------------|
+           |                   (Details)                   |
+
+
+4.  Conclusion
+
+   Your conclusion goes here.
+
+5.  xml2rfc Features
+
+   In this sample file, the following sections show how to use some of
+   the features of supported by xml2rfc.  This is a non-exhaustive list.
+   It is up to each group to decide which of these features (if any) to
+   use in the protocol specification.
+
+   This document is a modified version of the Internet-Draft template by
+   Elwyn Davies, available on the IETF website [IDSample].
+
+6.  Simple List
+
+   List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',
+   'format'.
+
+   o  First bullet
+
+   o  Second bullet
+
+   You can write text here as well.
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 3]
+
+                            Abbreviated Title              February 2019
+
+
+7.  Figures
+
+   Figures should not exceed 69 characters wide to allow for the indent
+   of sections.
+
+                 Preamble text - can be omitted or empty.
+
+   +-----------------------+
+   | Use XML, be Happy :-) |
+   |_______________________|
+
+        Cross-references allowed in pre- and postamble. [min_ref].
+
+                                 Figure 2
+
+   The CDATA means you don't need to escape meta-characters (especially
+   <(&lt;) and &(&amp;)) but is not essential.  Figures may also have a
+   title attribute but it won't be displayed unless there is also an
+   anchor.  White space, both horizontal and vertical, is significant in
+   figures even if you don't use CDATA.
+
+8.  Subsections and Tables
+
+8.1.  A Subsection
+
+   By default 3 levels of nesting show in table of contents but that can
+   be adjusted with the value of the "tocdepth" processing instruction.
+
+8.2.  Tables
+
+   .. are very similar to figures:
+
+     Tables use ttcol to define column headers and widths.  Every cell
+                  then has a "c" element for its content.
+
+                          +----------+----------+
+                          | ttcol #1 | ttcol #2 |
+                          +----------+----------+
+                          |   c #1   |   c #2   |
+                          |   c #3   |   c #4   |
+                          |   c #5   |   c #6   |
+                          +----------+----------+
+
+                      which is a very simple example.
+
+                       Table 1: A Very Simple Table
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 4]
+
+                            Abbreviated Title              February 2019
+
+
+9.  More about Lists
+
+   Lists with 'hanging labels': the list item is indented the amount of
+   the hangIndent:
+
+   short   With a label shorter than the hangIndent.
+
+   fantastically long label  With a label longer than the hangIndent.
+
+   vspace_trick
+           Forces the new item to start on a new line.
+
+   Simulating more than one paragraph in a list item using <vspace>:
+
+   a.  First, a short item.
+
+   b.  Second, a longer list item.
+
+       And something that looks like a separate pararaph..
+
+   Simple indented paragraph using the "empty" style:
+
+      The quick, brown fox jumped over the lazy dog and lived to fool
+      many another hunter in the great wood in the west.
+
+9.1.  Numbering Lists across Lists and Sections
+
+   Numbering items continuously although they are in separate <list>
+   elements, maybe in separate sections using the "format" style and a
+   "counter" variable.
+
+   First list:
+
+   R1  #1
+
+   R2  #2
+
+   R3  #3
+
+   Specify the indent explicitly so that all the items line up nicely.
+
+   Second list:
+
+   R4  #4
+
+   R5  #5
+
+   R6  #6
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 5]
+
+                            Abbreviated Title              February 2019
+
+
+9.2.  Where the List Numbering Continues
+
+   List continues here.
+
+   Third list:
+
+   R7  #7
+
+   R8  #8
+
+   R9  #9
+
+   R10 #10
+
+   The end of the list.
+
+10.  Example of Code or MIB Module To Be Extracted
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 6]
+
+                            Abbreviated Title              February 2019
+
+
+   The <artwork> element has a number of extra attributes that can be
+   used to substitute a more aesthetically pleasing rendition into HTML
+   output while continuing to use the ASCII art version in the text and
+   nroff outputs (see the xml2rfc README for details).  It also has a
+   "type" attribute.  This is currently ignored except in the case
+   'type="abnf"'.  In this case the "artwork" is expected to contain a
+   piece of valid Augmented Backus-Naur Format (ABNF) grammar.  This
+   will be syntax checked by xml2rfc and any errors will cause a fatal
+   error if the "strict" processing instruction is set to "yes".  The
+   ABNF will also be colorized in HTML output to highlight the syntactic
+   components.  Checking of additional "types" may be provided in future
+   versions of xml2rfc.
+
+
+   /**** an example C program */
+
+   #include <stdio.h>
+
+   void
+   main(int argc, char *argv[])
+   {
+       int i;
+
+       printf("program arguments are:\n");
+       for (i = 0; i < argc; i++) {
+           printf("%d: \"%s\"\n", i, argv[i]);
+       }
+
+       exit(0);
+   } /* main */
+
+   /* end of file */
+
+
+11.  Acknowledgements
+
+   This template was derived from an initial version written by Pekka
+   Savola and contributed by him to the xml2rfc project.
+
+   This document is part of a plan to make xml2rfc indispensable
+   [DOMINATION].
+
+12.  References
+
+
+
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 7]
+
+                            Abbreviated Title              February 2019
+
+
+12.1.  Normative References
+
+   [min_ref]  authSurName, authInitials., "Minimal Reference", 2006.
+
+12.2.  Informative References
+
+   [DOMINATION]
+              Mad Dominators, Inc., "Ultimate Plan for Taking Over the
+              World", 1984, <http://www.example.com/dominator.html>.
+
+   [IDSample]
+              Davies, E., "Internet Draft Sample", 2006,
+              <http://tools.ietf.org/tools/templates/
+              draft-davies-template-bare.txt>.
+
+Appendix A.  Additional Stuff
+
+   This becomes an Appendix.
+
+Author's Address
+
+   Claude KADJO MAMI - Eric Xavier N'GUESSAN
+   Telecom Bretagne
+   Brest
+   France
+
+   Email: eric-xavier.nguessan@imt-atlantique.net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI               Expires August 31, 2019                [Page 8]

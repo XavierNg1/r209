@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import DatagramProtocol
+import struct
+import math
+from twisted.internet import reactor 
 
-
-class SibylServerUdpTextProtocol(DatagramProtocol):
-    """The class implementing the Sibyl UDP text server protocol.
+class SibylServerTimerUdpBinProtocol(DatagramProtocol):
+    """The class implementing the Sibyl UDP binary server protocol.
 
         .. note::
             You must not instantiate this class.  This is done by the code
@@ -15,7 +17,7 @@ class SibylServerUdpTextProtocol(DatagramProtocol):
             method that you see fit to this class.  You must implement the
             following method (called by Twisted whenever it receives a
             datagram):
-            :py:meth:`~sibyl.main.protocol.sibyl_server_udp_text_protocol.datagramReceived`
+            :py:meth:`~sibyl.main.protocol.sibyl_server_udp_bin_protocol.datagramReceived`
             See the corresponding documentation below.
 
     This class has the following attribute:
@@ -40,6 +42,7 @@ class SibylServerUdpTextProtocol(DatagramProtocol):
         """
         self.sibylServerProxy = sibylServerProxy
 
+
     def datagramReceived(self, datagram, host_port):
         """Called by Twisted whenever a datagram is received
 
@@ -54,10 +57,13 @@ class SibylServerUdpTextProtocol(DatagramProtocol):
                 parameters, as Twisted calls it.
 
         """
-        receive = datagram.decode("utf-8")
-	print(receive)
-        print(receive[:12]+self.sibylServerProxy.generateResponse(receive[9:])+"CLRF")
+        current_time = struct.unpack('i', datagram[:4])[0]
+        msg_length = struct.unpack('h', datagram[4:6])[0]
+        msg = struct.unpack(str(msg_length-6)+'s', datagram[6:])[0].decode('utf-8')
+        answer = str(current_time)+':'+self.sibylServerProxy.generateResponse(msg)+"CLRF"
+        self.transport.connect(host_port[0], host_port[1])
+        tm = math.floor(math.log(msg_length))
+        print(tm)
+        reactor.callLater(tm, self.transport.write, answer.encode('utf-8'))
         pass
-
-       
     

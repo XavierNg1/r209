@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import Protocol
-
+import struct
+import time
 
 class SibylClientTcpBinProtocol(Protocol):
     """
@@ -66,6 +67,17 @@ class SibylClientTcpBinProtocol(Protocol):
             as the controller calls it.
 
         """
+        #Getting the current time
+        timeStamp = time.gmtime()
+        current_time = int(time.mktime(timeStamp))
+        #Specs the package
+        msg_length = len(line) + 6
+        buf = bytearray(msg_length)
+        #Packing it
+        struct.pack_into('ih%is'%len(buf[6:]), buf, 0, current_time, msg_length, line.encode('ascii'))
+        print(line.encode('ascii').hex())
+        self.transport.write(buf)
+        print(current_time)
         pass
 
     def dataReceived(self, line):
@@ -83,5 +95,8 @@ class SibylClientTcpBinProtocol(Protocol):
             as Twisted calls it.
 
         """
+        receive = line.decode("utf-8")
+        self.clientProxy.responseReceived(line.decode('ascii'))
+        print(receive)
         pass
     
