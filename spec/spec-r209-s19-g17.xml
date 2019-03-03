@@ -138,7 +138,7 @@
 		document decrit la specification du protocole de communication 
 		utilise pour la mise en place de ladite application.
 		Cette application permet a un utilisateur, apres s'etre connecte,
-		d'acceder a des certains nombres de videos, de pouvoir les regarder 
+		d'acceder a un certains nombres de videos, de pouvoir les regarder 
 		d'une part et, d'autre part, de pouvoir echanger des messages avec les 
 		utilisateurs se trouvant dans le meme salon.</t>
 
@@ -148,7 +148,7 @@
 
 	  <t>Dans la suite du document nous spécifierons le fonctionnement
 		du protocole, les types de messages envoyés, le format des differents 
-		messages et les differents examples de scenarii pouvant arriver dans 
+		messages et donnerons differents examples de scenarii pouvant arriver dans 
 		l'execution du protocole.</t>
 
     </section>
@@ -176,7 +176,7 @@
     	sont respectees:</t>
 
     	<t>Le serveur n'est pas sature : Leur serveur est sature si il atteint le
-    	nombre maximal d'utilisateurs qu'il peut supporter. si ce n'est pas le cas
+    	nombre maximal d'utilisateurs qu'il peut supporter en l'occurence 128. si ce n'est pas le cas
     	la connexion peut etre etablie.</t>
 
     	<t>Le nom d'utilisateur est correct: Il respecte les conditions de taille,
@@ -184,8 +184,8 @@
     	pseudos existants ni des pseudos bannis.</t>
 
     	<t>Une fois ces conditions satisfaites, le client est connecte. Il accede au
-    	salon principal et recoit la liste de tous les utilisateurs connectes et la 
-    	liste des videos disponibles. La liste des utilisateurs recue par les autres
+    	salon principal et recoit la liste de tous les utilisateurs connectes (pseudos, presence) et la 
+    	liste des videos disponibles (nom, adresse IP, port). La liste des utilisateurs recue par les autres
     	utilisateurs est aussi actualisee. Pour changer de salon, le client envoie
     	au serveur le nom, le port et l'adresse IP de la video qu'il souhaite 
     	visionner. Il se retrouve alors dans le salon de la video correspondant et 
