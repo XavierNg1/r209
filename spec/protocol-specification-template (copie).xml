@@ -96,33 +96,32 @@
          keywords will be used for the search engine. -->
 
     <abstract>
-
-      <t>Ce document presente la specification du protocole de communication
-		utilise au sein de l'application c2w (Chat While Watching); Ce protocole
-		permettra a tous les utilisateurs du meme salon (principal ou de
-		visionnement d'une video) de s'echanger des messages.</t>
-
+      <t>This document presents a protocol specification for the binary
+		 version of the C2W - Chat While Watching - protocol. The aim 
+		of this protocol is to allow a client to chat on each types of 
+		room of the application. There are two (2)
+		 types of room : The main room and the movie room associated 
+		with a movie. The client will be able to
+		send and receive messages in each of a chat rooms one at a time.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t>Dans le cadre de l'application c2w : Chat While Watching, ce 
-		document decrit la specification du protocole de communication 
-		utilise pour la mise en place de ladite application.
-		Cette application permet a un utilisateur, apres s'etre connecte,
-		d'acceder a des certains nombres de videos, de pouvoir les regarder 
-		d'une part et, d'autre part, de pouvoir echanger des messages avec les 
-		utilisateurs se trouvant dans le meme salon.</t>
+      <t>The purpose of the C2W protocol is to allow client with 
+		other clients to chat on each specific types of
+		room of the application: the main room or one the watching room. 
+		Each client MUST know the IP address or the name and the corresponding
+		port number of the server.</t>
 
-	  <t>Le serveur communiquera avec les utilisateurs aussi bien en utilisant
-		le protocole de transport TCP que le protocole UDP.</t>
+	  <t>We will specify in the later section of the document, the 
+		different formats of the messages that will be sent.</t>
 
-	  <t>Dans la suite du document nous spécifierons le fonctionnement
-		du systeme, les types de messages envoyés, le format des differents 
-		messages et les differents examples de scenarii pouvant arriver dans 
-		l'execution du protocole.</t>
+	  <t>Clients can use UDP or TCP to exchange messages with the server.
+		The server MUST use the same layer four used by the client.</t>
 
+	  <t>Examples will be shown later in this document in order
+		 to understand better the protocol.</t>
 
 		<section title="Requirements Language">
 		    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -131,10 +130,6 @@
       	</section>
 
     </section>
-
-	<section title="">
-
-	</section>
 
     <section title="Packet format">
     <t>
