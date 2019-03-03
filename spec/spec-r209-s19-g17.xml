@@ -143,7 +143,8 @@
 		utilisateurs se trouvant dans le meme salon.</t>
 
 	  <t>Le serveur communiquera avec les utilisateurs aussi bien en utilisant
-		le protocole de transport TCP que le protocole UDP.</t>
+		le protocole de transport TCP que le protocole UDP. Les messages seront 
+    envoyes sous le format binaire.</t>
 
 	  <t>Dans la suite du document nous spécifierons le fonctionnement
 		du protocole, les types de messages envoyés, le format des differents 
@@ -162,7 +163,19 @@
 		sans caracteres speciaux, et leur taille devra etre compris entre 4 et 
 		32 caracteres.</t>
 
-		<t></t>
+		<t>Il est a noter que le nom d'utilisateur peut etre refuse pour d'autres 
+    raisons: il peut etre deja utilise par un autre client connecte ou il peut 
+    faire partie de la liste des noms utilisateur bannis car juges offensant.</t>
+
+    <t>Deux cas sont a analyser, le cas ou le serveur etablie la connexion et le
+    cas ou il la refuse</t>
+
+    <t>Premier cas: La connexion est etablie</t>
+
+    <t>Il y a etablissement de connexion si et seulement si trois (3) conditions
+    sont respectees:</t>
+
+    
 
 	</section>
 
