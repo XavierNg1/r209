@@ -23,26 +23,26 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Fonctionnement  . . . . . . . . . . . . . . . . . . . . . . .   2
-   3.  Packet format . . . . . . . . . . . . . . . . . . . . . . . .   2
-   4.  Example scenario  . . . . . . . . . . . . . . . . . . . . . .   3
-     4.1.  Scenario 1: title . . . . . . . . . . . . . . . . . . . .   3
-   5.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Packet format . . . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Example scenario  . . . . . . . . . . . . . . . . . . . . . .   4
+     4.1.  Scenario 1: title . . . . . . . . . . . . . . . . . . . .   4
+   5.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .   4
    6.  xml2rfc Features  . . . . . . . . . . . . . . . . . . . . . .   4
    7.  Simple List . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   8.  Figures . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   9.  Subsections and Tables  . . . . . . . . . . . . . . . . . . .   4
+   8.  Figures . . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   9.  Subsections and Tables  . . . . . . . . . . . . . . . . . . .   5
      9.1.  A Subsection  . . . . . . . . . . . . . . . . . . . . . .   5
      9.2.  Tables  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-   10. More about Lists  . . . . . . . . . . . . . . . . . . . . . .   5
+   10. More about Lists  . . . . . . . . . . . . . . . . . . . . . .   6
      10.1.  Numbering Lists across Lists and Sections  . . . . . . .   6
-     10.2.  Where the List Numbering Continues . . . . . . . . . . .   6
-   11. Example of Code or MIB Module To Be Extracted . . . . . . . .   6
-   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .   8
-     13.2.  Informative References . . . . . . . . . . . . . . . . .   8
-   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .   8
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
+     10.2.  Where the List Numbering Continues . . . . . . . . . . .   7
+   11. Example of Code or MIB Module To Be Extracted . . . . . . . .   7
+   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   8
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .   9
+     13.2.  Informative References . . . . . . . . . . . . . . . . .   9
+   Appendix A.  Additional Stuff . . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
 
 
 
@@ -69,7 +69,8 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 1]
    le meme salon.
 
    Le serveur communiquera avec les utilisateurs aussi bien en utilisant
-   le protocole de transport TCP que le protocole UDP.
+   le protocole de transport TCP que le protocole UDP.  Les messages
+   seront envoyes sous le format binaire.
 
    Dans la suite du document nous specifierons le fonctionnement du
    protocole, les types de messages envoyes, le format des differents
@@ -86,23 +87,22 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 1]
    alphanumeriques, sans caracteres speciaux, et leur taille devra etre
    compris entre 4 et 32 caracteres.
 
-3.  Packet format
+   Il est a noter que le nom d'utilisateur peut etre refuse pour
+   d'autres raisons: il peut etre deja utilise par un autre client
+   connecte ou il peut faire partie de la liste des noms utilisateur
+   bannis car juges offensant.
 
-   Describe the packet format and the headers.  For example, if you have
-   a binary header, you can use a figure like the following example
-   (where we have used the generic name "Field" for most of the fields,
-   you should use the names corresponding to your solution):
+   Deux cas sont a analyser, le cas ou le serveur etablie la connexion
+   et le cas ou il la refuse
 
+   Premier cas: La connexion est etablie
 
+   Il y a etablissement de connexion si et seulement si deux (2)
+   conditions sont respectees:
 
-
-
-
-
-
-
-
-
+   Le serveur n'est pas sature : Leur serveur est sature si il atteint
+   le nombre maximal d'utilisateurs qu'il peut supporter. si ce n'est
+   pas le cas la connexion peut etre etablie.
 
 
 
@@ -112,6 +112,36 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 1]
 KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
 
                             Abbreviated Title              February 2019
+
+
+   Le nom d'utilisateur est correct: Il respecte les conditions de
+   taille, il est alphanumerique sans caracteres speciaux, il ne fait
+   partie ni des pseudos existants ni des pseudos bannis.
+
+   Une fois ces conditions satisfaites, le client est connecte.  Il
+   accede au salon principal et recoit la liste de tous les utilisateurs
+   connectes et la liste des videos disponibles.  La liste des
+   utilisateurs recue par les autres utilisateurs est aussi actualisee.
+   Pour changer de salon, le client envoie au serveur le nom, le port et
+   l'adresse IP de la video qu'il souhaite visionner.  Il se retrouve
+   alors dans le salon de la video correspondant et recoit en meme temps
+   la liste des utilisateurs regardant la meme video.  Ces derniers sont
+   informes eux aussi de la venue d'un nouvel utilisateur.  Le client
+   peut decider de quitter le salon principal ou un salon de visionnage
+   a tout moment, en envoyant les messages correspondants.
+
+   Deuxieme cas : La connexion est refusee
+
+   La connexion echoue si l'une des deux conditions enoncees
+   precedemment n'est pas respectee.  Le client recoit alors un message
+   d'erreur et est invite a ressaisir ses acces.
+
+3.  Packet format
+
+   Describe the packet format and the headers.  For example, if you have
+   a binary header, you can use a figure like the following example
+   (where we have used the generic name "Field" for most of the fields,
+   you should use the names corresponding to your solution):
 
 
         0                   1                   2                   3
@@ -129,6 +159,16 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
                                  Figure 1
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
+
+                            Abbreviated Title              February 2019
+
 
 4.  Example scenario
 
@@ -158,18 +198,6 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
 
    Your conclusion goes here.
 
-
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
-
-                            Abbreviated Title              February 2019
-
-
 6.  xml2rfc Features
 
    In this sample file, the following sections show how to use some of
@@ -190,6 +218,13 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
    o  Second bullet
 
    You can write text here as well.
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
+
+                            Abbreviated Title              February 2019
+
 
 8.  Figures
 
@@ -214,18 +249,6 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
 
 9.  Subsections and Tables
 
-
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
-
-                            Abbreviated Title              February 2019
-
-
 9.1.  A Subsection
 
    By default 3 levels of nesting show in table of contents but that can
@@ -249,6 +272,15 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
                       which is a very simple example.
 
                        Table 1: A Very Simple Table
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
+
+                            Abbreviated Title              February 2019
+
 
 10.  More about Lists
 
@@ -275,13 +307,6 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
       The quick, brown fox jumped over the lazy dog and lived to fool
       many another hunter in the great wood in the west.
 
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
-
-                            Abbreviated Title              February 2019
-
-
 10.1.  Numbering Lists across Lists and Sections
 
    Numbering items continuously although they are in separate <list>
@@ -305,6 +330,13 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
    R5  #5
 
    R6  #6
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
+
+                            Abbreviated Title              February 2019
+
 
 10.2.  Where the List Numbering Continues
 
@@ -333,7 +365,31 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 7]
 
                             Abbreviated Title              February 2019
 
@@ -389,7 +445,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 7]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 8]
 
                             Abbreviated Title              February 2019
 
@@ -445,4 +501,4 @@ Authors' Addresses
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 8]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 9]
