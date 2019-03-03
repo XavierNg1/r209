@@ -51,21 +51,48 @@
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
 
-	<author fullname="Claude KADJO MAMI - Eric Xavier N'GUESSAN" initials="C.K.M."
+	<author fullname="Claude KADJO MAMI" initials="C.K.M."
             surname="KADJO MAMI">
       <organization>Telecom Bretagne</organization>
 
       <address>
         <postal>
-          <street></street>
+          <street>655, Avenue du Technopole</street>
 
           <!-- Reorder these if your country does things differently -->
 
           <city>Brest</city>
 
-          <region></region>
+          <region>Bretagne</region>
 
-          <code></code>
+          <code>29280</code>
+
+          <country>France</country>
+        </postal>
+
+
+
+        <email>claude-yrvine-axel.kadjo-mami@imt-atlantique.net</email>
+
+        <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+
+	<author fullname = "Eric Xavier N'GUESSAN" initials = "E.X.N"
+			surname="N'GUESSAN">
+		<organization>Telecom Bretagne</organization>
+
+      <address>
+        <postal>
+          <street>655, Avenue du Technopole</street>
+
+          <!-- Reorder these if your country does things differently -->
+
+          <city>Brest</city>
+
+          <region>Bretagne</region>
+
+          <code>29280</code>
 
           <country>France</country>
         </postal>
@@ -76,7 +103,7 @@
 
         <!-- uri and facsimile elements may also be added -->
       </address>
-    </author>
+	</author>
 
     <date month="February" year="2019" />
 
@@ -99,7 +126,7 @@
 
       <t>Ce document presente la specification du protocole de communication
 		utilise au sein de l'application c2w (Chat While Watching); Ce protocole
-		permettra a tous les utilisateurs du meme salon (principal ou de
+		permettra a tous les utilisateurs du meme type de salon (principal ou de
 		visionnement d'une video) de s'echanger des messages.</t>
 
     </abstract>
@@ -119,20 +146,23 @@
 		le protocole de transport TCP que le protocole UDP.</t>
 
 	  <t>Dans la suite du document nous spécifierons le fonctionnement
-		du systeme, les types de messages envoyés, le format des differents 
+		du protocole, les types de messages envoyés, le format des differents 
 		messages et les differents examples de scenarii pouvant arriver dans 
 		l'execution du protocole.</t>
 
-
-		<section title="Requirements Language">
-		    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-		    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-		    document are to be interpreted as described in RFC 2119.</t>
-      	</section>
-
     </section>
 
-	<section title="">
+	<section title="Fonctionnement">
+
+		<t>On suppose prealablement qu'un client possede necessairement un
+		couple (adresse IP, port), distinct de tous les autres utilisateurs. 
+		Pour pouvoir utiliser l'application c2w, le client doit se connecter au
+		serveur en entrant son pseudo choisi et le nom (ou l'adresse IP) du 
+		serveur. Les noms d'utilisateurs seront en caracteres alphanumeriques,
+		sans caracteres speciaux, et leur taille devra etre compris entre 4 et 
+		32 caracteres.</t>
+
+		<t></t>
 
 	</section>
 
