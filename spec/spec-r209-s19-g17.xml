@@ -153,17 +153,17 @@
 
     </section>
 
-	<section title="Fonctionnement">
+	  <section title="Fonctionnement">
 
-		<t>On suppose prealablement qu'un client possede necessairement un
-		couple (adresse IP, port), distinct de tous les autres utilisateurs. 
-		Pour pouvoir utiliser l'application c2w, le client doit se connecter au
-		serveur en entrant son pseudo choisi et le nom (ou l'adresse IP) du 
-		serveur. Les noms d'utilisateurs seront en caracteres alphanumeriques,
-		sans caracteres speciaux, et leur taille devra etre compris entre 4 et 
-		32 caracteres.</t>
+    <t>On suppose prealablement qu'un client possede necessairement un
+    couple (adresse IP, port), distinct de tous les autres utilisateurs. 
+    Pour pouvoir utiliser l'application c2w, le client doit se connecter au
+    serveur en entrant son pseudo choisi et le nom (ou l'adresse IP) du 
+    serveur. Les noms d'utilisateurs seront en caracteres alphanumeriques,
+    sans caracteres speciaux, et leur taille devra etre compris entre 4 et 
+    32 caracteres.</t>
 
-		<t>Il est a noter que le nom d'utilisateur peut etre refuse pour d'autres 
+    <t>Il est a noter que le nom d'utilisateur peut etre refuse pour d'autres 
     raisons: il peut etre deja utilise par un autre client connecte ou il peut 
     faire partie de la liste des noms utilisateur bannis car juges offensant.</t>
 
@@ -199,34 +199,42 @@
     <t>La connexion echoue si l'une des deux conditions enoncees precedemment
     n'est pas respectee. Le client recoit alors un message d'erreur et est 
     invite a ressaisir ses acces.</t>
-	</section>
 
-    <section title="Packet format">
-    <t>
-    Describe the packet format and the headers. For example, if you have a binary header,
-     you can use a figure like the following example (where we have used the generic
-     name "Field" for most of the fields, you should use the names corresponding to your solution):
-    </t>
-
-    <t>
-    <figure align="center" anchor="sample_pkt">
-    <artwork>
-
-     0                   1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |    Field 1  |   Field 2   |      Field 3      |   Field 4     |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |           Field 5             |                               |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-    |                                                               |
-    .                                                               .
-    .                       Message Data                            .
-    .                                                               .
-    |                                                               |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        </artwork></figure></t>
     </section>
+
+    <section title="Format des messages">
+
+    <t>Dans cette partie, nous décrirons l'ensemble des types de messages 
+    envoyes au sein de notre protocole de communication.</t>
+
+      <section title="Type des messages">
+        <t>Le tableau ci-dessous definit les differents types de messages envoyes
+        dans le systeme, leur emetteur et leur destinataire.</t>
+
+
+
+        </section>
+
+
+      <t>
+      <figure align="center" anchor="sample_pkt">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    Field 1  |   Field 2   |      Field 3      |   Field 4     |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |           Field 5             |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+      |                                                               |
+      .                                                               .
+      .                       Message Data                            .
+      .                                                               .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+          </artwork></figure></t>
+      </section>
 
     <section title="Example scenario">
     <section title="Scenario 1: title">
