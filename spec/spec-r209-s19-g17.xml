@@ -201,7 +201,8 @@
     	invite a ressaisir ses acces.</t>
 	</section>
 
-    <section title="Packet format">
+   
+    <section title="Type de Paquet">
     <t>
     Describe the packet format and the headers. For example, if you have a binary header,
      you can use a figure like the following example (where we have used the generic
@@ -209,27 +210,579 @@
     </t>
 
     <t>
-    <figure align="center" anchor="sample_pkt">
+    <figure align="center" anchor="type_paquet">
     <artwork>
 
-     0                   1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |    Field 1  |   Field 2   |      Field 3      |   Field 4     |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |           Field 5             |                               |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-    |                                                               |
-    .                                                               .
-    .                       Message Data                            .
-    .                                                               .
-    |                                                               |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        </artwork></figure></t>
+    +------+--------------------------+-------------------------------+
+    | code |       TypeDePaquet       |      Sens de Transmission     |
+    +------+--------------------------+-------------------------------+
+    | 0000 |       Acquitement        |     Client &lt;-----&gt; Server     |
+    | 0001 |   Demande de connexion   |     Client x-----&gt; Server     |
+    | 0010 |   Erreur de connexion    |     Client &lt;-----x Server     |
+    | 0011 |     Connexion Reussie    |     Client &lt;-----x Server     |
+    | 0100 |  Envoie liste des films  |     Client &lt;-----x Server     |
+    | 0101 |  Envoie liste de users   |     Client &lt;-----x Server     |
+    | 0110 | Avertissemnt Inactivité  |     Client &lt;-----x Server     |
+    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Server     |
+    | 1000 |    Demande acces film    |     Client x-----&gt; Server     |
+    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Server     |
+    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Server     |
+    | 1011 |   Quitter la Main room   |     Client x-----&gt; Server     |
+    | 1100 | Quitter un salon de film |     Client x-----&gt; Server     |
+    | 1101 |  Message de deconnexion  |     Client &lt;-----x Server     |
+    |______|__________________________|_______________________________|
+
+  
+  </artwork></figure></t>
+  <t>Sens de Transmission
+  </t>
+  <t><list style="numbers">
+  <t>
+  Client x-----&gt; Server:</t>
+  <t>
+  Client &lt;-----x Server: </t>
+  <t>
+  Client &lt;-----&gt; Server: </t>
+  </list></t>
+
+   
+
     </section>
 
-    <section title="Example scenario">
-    <section title="Scenario 1: title">
+
+    <section title="Format des Paquets">
+    <t>
+    Describe the packet format and the headers. For example, if you have a binary header,
+     you can use a figure like the following example (where we have used the generic
+     name "Field" for most of the fields, you should use the names corresponding to your solution):
+    </t>
+
+      <t>
+      <figure align="center" anchor="ack1">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      
+      </artwork></figure></t>
+      
+      <t> Liste des champs :</t>
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="SequenceAttendue (12 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Temps (32 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Username (256 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="MessageErreur (1024 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Adresse IP (32 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="NumPort (16 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="NomFilm (256 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Salle (4 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="AvertissementInactivite (1024 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="AvertissementSPAM (1024 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Message (Taille variable)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="NotificationDeconnexion (1024 bits)"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Cause d'envoie du paquet :"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+
+<t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Consequence du paquet :"><vspace blankLines="1" />
+          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+      
+
+
+      <section title="Acquitement"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="ack">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Erreur de séquence"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="seq_error">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    SequenceAttendue   |
+      +-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Demande de connexion"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+      <t>
+      <figure align="center" anchor="demande_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                            UserName                           .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+      
+      </section>
+
+
+      <section title="Erreur de connexion"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="Erreur_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                        MessageErreur                          .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Connexion Reussie"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="succed_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   |
+      +-+-+-+-+-+-+-+
+      
+      </artwork></figure></t>
+      
+      </section>
+      
+      
+      <section title="Envoie liste des films"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="list_films">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |             NumPort          |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             NumPort           |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      .                                                               .
+      .                                                               .
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+      
+      </section>
+
+       <section title="Envoie Liste des users"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="send_user">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   | Salle |                                         |
+      +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   | Salle |                                         |
+      +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      .                                                               .
+      .                                                               .
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      
+      
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Avertissement Inactivité"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="warning_inact">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                     AvertissementInactivité                   .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      
+      
+      </artwork></figure></t>
+      
+      </section>
+
+       <section title="Avertissement SPAM"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="warning_spam">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                       AvertissementSPAM                       .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      
+      
+      </artwork></figure></t>
+      
+      </section>     
+
+      <section title="Demande Accès film"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="acess_movie">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Salle |                                                       |
+      +-+-+-+-+                    NomFilm                            .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            
+      
+      </artwork></figure></t>
+      
+      </section>
+
+
+      <section title="Envoie Message de Chat"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="send_msg">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   | Salle |                                         |
+      +-+-+-+-+-+-+-+-+-+-+-+      Message                            .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+          
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Quitter la MainRoom"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="quit_MR">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Quitter un film"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="quit_movie">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Salle |
+      +-+-+-+-+      
+      </artwork></figure></t>
+      
+      </section>
+
+      <section title="Message de deconnexion"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="msg_deco">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                    NotificationDeconnexion                    .                             
+      |                                                               |                             
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      
+      
+      </artwork></figure></t>
+      </section>
+    </section>
+
+    <section title="Fiabilité">
+
+    </section>
+
+    <section title="Exemple de scenario">
+    <section title="Scenario 1: Regarder un film">
     <t>
     Description of the scenario and then the corresponding messages:
     </t>
@@ -257,6 +810,158 @@ You can also use a figure like this:
     </artwork></figure></t>
 
     </section><!--End of example 1-->
+
+
+    <section title="Scenario 2: Chat dans une salle">
+    <t>
+    Description of the scenario and then the corresponding messages:
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+MSG 1 from toto to titi
+
+etc
+
+You can also use a figure like this:
+
+     Alice                                            Bob
+        |                                               |
+        |             Message 1 (Request)               |
+        |----------------------------------------------&gt;|
+        |            (details of the message)           |
+        |                                               |
+        |                                               |
+        |               Message 2 (Response)            |
+        |&lt;----------------------------------------------|
+        |                   (Details)                   |
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario 3: User Inactif Dans la main Room">
+    <t>
+    Description of the scenario and then the corresponding messages:
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+MSG 1 from toto to titi
+
+etc
+
+You can also use a figure like this:
+
+     Alice                                            Bob
+        |                                               |
+        |             Message 1 (Request)               |
+        |----------------------------------------------&gt;|
+        |            (details of the message)           |
+        |                                               |
+        |                                               |
+        |               Message 2 (Response)            |
+        |&lt;----------------------------------------------|
+        |                   (Details)                   |
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario 4: Envoie de SPAM">
+    <t>
+    Description of the scenario and then the corresponding messages:
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+MSG 1 from toto to titi
+
+etc
+
+You can also use a figure like this:
+
+     Alice                                            Bob
+        |                                               |
+        |             Message 1 (Request)               |
+        |----------------------------------------------&gt;|
+        |            (details of the message)           |
+        |                                               |
+        |                                               |
+        |               Message 2 (Response)            |
+        |&lt;----------------------------------------------|
+        |                   (Details)                   |
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario 5: Quitter l'application">
+    <t>
+    Description of the scenario and then the corresponding messages:
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+MSG 1 from toto to titi
+
+etc
+
+You can also use a figure like this:
+
+     Alice                                            Bob
+        |                                               |
+        |             Message 1 (Request)               |
+        |----------------------------------------------&gt;|
+        |            (details of the message)           |
+        |                                               |
+        |                                               |
+        |               Message 2 (Response)            |
+        |&lt;----------------------------------------------|
+        |                   (Details)                   |
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+     <section title="Scenario 6: Erreur de Séquence">
+    <t>
+    Description of the scenario and then the corresponding messages:
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+MSG 1 from toto to titi
+
+etc
+
+You can also use a figure like this:
+
+     Alice                                            Bob
+        |                                               |
+        |             Message 1 (Request)               |
+        |----------------------------------------------&gt;|
+        |            (details of the message)           |
+        |                                               |
+        |                                               |
+        |               Message 2 (Response)            |
+        |&lt;----------------------------------------------|
+        |                   (Details)                   |
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+    
+    
+
     </section><!--End of examples-->
 
     <section title="Conclusion">
@@ -265,207 +970,11 @@ You can also use a figure like this:
         </t>
     </section>
 
-    <section title="xml2rfc Features">
-      <t>In this sample file, the following sections show how to use some of the
-      features of supported by xml2rfc.  This is a non-exhaustive list.  It is up
-      to each group to decide which of these features (if any) to use in the
-      protocol specification.</t>
-
-      <t> This document is a modified version of the Internet-Draft template by
-      Elwyn Davies, available on the IETF
-      <xref target="IDSample"> website</xref>. </t>
-    </section>
-
-    <section anchor="simple_list" title="Simple List">
-      <t>List styles: 'empty', 'symbols', 'letters', 'numbers', 'hanging',
-      'format'.</t>
-
-      <t><list style="symbols">
-          <t>First bullet</t>
-
-          <t>Second bullet</t>
-        </list> You can write text here as well.</t>
-    </section>
-
-    <section title="Figures">
-      <t>Figures should not exceed 69 characters wide to allow for the indent
-      of sections.</t>
-
-      <figure align="center" anchor="xml_happy">
-        <preamble>Preamble text - can be omitted or empty.</preamble>
-
-        <artwork align="left"><![CDATA[
-+-----------------------+
-| Use XML, be Happy :-) |
-|_______________________|
-            ]]></artwork>
-
-        <postamble>Cross-references allowed in pre- and postamble. <xref
-        target="min_ref" />.</postamble>
-      </figure>
-
-      <t>The CDATA means you don't need to escape meta-characters (especially
-      &lt;(&amp;lt;) and &amp;(&amp;amp;)) but is not essential.
-      Figures may also have a title attribute but it won't be displayed unless
-      there is also an anchor. White space, both horizontal and vertical, is
-      significant in figures even if you don't use CDATA.</t>
-    </section>
-
-    <!-- This PI places the pagebreak correctly (before the section title) in the text output. -->
-
+   
     <?rfc needLines="8" ?>
 
-    <section title="Subsections and Tables">
-      <section title="A Subsection">
-        <t>By default 3 levels of nesting show in table of contents but that
-        can be adjusted with the value of the "tocdepth" processing
-        instruction.</t>
-      </section>
-
-      <section title="Tables">
-        <t>.. are very similar to figures:</t>
-
-        <texttable anchor="table_example" title="A Very Simple Table">
-          <preamble>Tables use ttcol to define column headers and widths.
-          Every cell then has a "c" element for its content.</preamble>
-
-          <ttcol align="center">ttcol #1</ttcol>
-
-          <ttcol align="center">ttcol #2</ttcol>
-
-          <c>c #1</c>
-
-          <c>c #2</c>
-
-          <c>c #3</c>
-
-          <c>c #4</c>
-
-          <c>c #5</c>
-
-          <c>c #6</c>
-
-          <postamble>which is a very simple example.</postamble>
-        </texttable>
-      </section>
-    </section>
-
-    <section anchor="nested_lists" title="More about Lists">
-      <t>Lists with 'hanging labels': the list item is indented the amount of
-      the hangIndent: <list hangIndent="8" style="hanging">
-          <t hangText="short">With a label shorter than the hangIndent.</t>
-
-          <t hangText="fantastically long label">With a label longer than the
-          hangIndent.</t>
-
-          <t hangText="vspace_trick"><vspace blankLines="0" />Forces the new
-          item to start on a new line.</t>
-        </list></t>
-
-      <!-- It would be nice to see the next piece (12 lines) all on one page. -->
-
-      <?rfc needLines="12" ?>
-
-      <t>Simulating more than one paragraph in a list item using
-      &lt;vspace&gt;: <list style="letters">
-          <t>First, a short item.</t>
-
-          <t>Second, a longer list item.<vspace blankLines="1" /> And
-          something that looks like a separate pararaph..</t>
-        </list></t>
-
-      <t>Simple indented paragraph using the "empty" style: <list
-          hangIndent="10" style="empty">
-          <t>The quick, brown fox jumped over the lazy dog and lived to fool
-          many another hunter in the great wood in the west.</t>
-        </list></t>
-
-      <section title="Numbering Lists across Lists and Sections">
-        <t>Numbering items continuously although they are in separate
-        &lt;list&gt; elements, maybe in separate sections using the "format"
-        style and a "counter" variable.</t>
-
-        <t>First list: <list counter="reqs" hangIndent="4" style="format R%d">
-            <t>#1</t>
-
-            <t>#2</t>
-
-            <t>#3</t>
-          </list> Specify the indent explicitly so that all the items line up
-        nicely.</t>
-
-        <t>Second list: <list counter="reqs" hangIndent="4" style="format R%d">
-            <t>#4</t>
-
-            <t>#5</t>
-
-            <t>#6</t>
-          </list></t>
-      </section>
-
-      <section title="Where the List Numbering Continues">
-        <t>List continues here.</t>
-
-        <t>Third list: <list counter="reqs" hangIndent="4" style="format R%d">
-            <t>#7</t>
-
-            <t>#8</t>
-
-            <t>#9</t>
-
-            <t>#10</t>
-          </list> The end of the list.</t>
-      </section>
-    </section>
-
-    <section anchor="codeExample"
-             title="Example of Code or MIB Module To Be Extracted">
-      <figure>
-        <preamble>The &lt;artwork&gt; element has a number of extra attributes
-        that can be used to substitute a more aesthetically pleasing rendition
-        into HTML output while continuing to use the ASCII art version in the
-        text and nroff outputs (see the xml2rfc README for details). It also
-        has a "type" attribute. This is currently ignored except in the case
-        'type="abnf"'. In this case the "artwork" is expected to contain a
-        piece of valid Augmented Backus-Naur Format (ABNF) grammar. This will
-        be syntax checked by xml2rfc and any errors will cause a fatal error
-        if the "strict" processing instruction is set to "yes". The ABNF will
-        also be colorized in HTML output to highlight the syntactic
-        components. Checking of additional "types" may be provided in future
-        versions of xml2rfc.</preamble>
-
-        <artwork><![CDATA[
-
-/**** an example C program */
-
-#include <stdio.h>
-
-void
-main(int argc, char *argv[])
-{
-    int i;
-
-    printf("program arguments are:\n");
-    for (i = 0; i < argc; i++) {
-        printf("%d: \"%s\"\n", i, argv[i]);
-    }
-
-    exit(0);
-} /* main */
-
-/* end of file */
-
-            ]]></artwork>
-      </figure>
-    </section>
-
-    <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>This template was derived from an initial version written by Pekka
-      Savola and contributed by him to the xml2rfc project.</t>
-
-      <t>This document is part of a plan to make xml2rfc indispensable <xref
-      target="DOMINATION"></xref>.</t>
-    </section>
+    
+    
 
   </middle>
 
@@ -485,62 +994,7 @@ main(int argc, char *argv[])
      with a value containing a set of directories to search.  These can be either in the local
      filing system or remote ones accessed by http (http://domain/dir/... ).-->
 
-    <references title="Normative References">
-      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-
-      <reference anchor="min_ref">
-        <!-- the following is the minimum to make xml2rfc happy -->
-
-        <front>
-          <title>Minimal Reference</title>
-
-          <author initials="authInitials" surname="authSurName">
-            <organization></organization>
-          </author>
-
-          <date year="2006" />
-        </front>
-      </reference>
-    </references>
-
-    <references title="Informative References">
-      <!-- Here we use entities that we defined at the beginning. -->
-      <!-- A reference written by by an organization not a person. -->
-
-      <reference anchor="DOMINATION"
-                 target="http://www.example.com/dominator.html">
-        <front>
-          <title>Ultimate Plan for Taking Over the World</title>
-
-          <author>
-            <organization>Mad Dominators, Inc.</organization>
-          </author>
-
-          <date year="1984" />
-        </front>
-      </reference>
-
-      <reference anchor="IDSample"
-       target="http://tools.ietf.org/tools/templates/draft-davies-template-bare.txt">
-
-
-        <front>
-          <title>Internet Draft Sample</title>
-
-          <author initials="E. D." surname="Davies">
-            <organization></organization>
-          </author>
-
-          <date year="2006" />
-        </front>
-      </reference>
-    </references>
-
-
-    <section anchor="app-additional" title="Additional Stuff">
-      <t>This becomes an Appendix.</t>
-    </section>
-
+   
 
     <!-- Change Log
 
