@@ -393,8 +393,8 @@
 <link href="#rfc.section.3.14" rel="Chapter" title="3.14 Message de deconnexion">
 <link href="#rfc.section.4" rel="Chapter" title="4 Fiabilit&#233;">
 <link href="#rfc.section.5" rel="Chapter" title="5 Exemple de scenario">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Scenario sans erreur 1: Regarder un film">
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Scenario sans erreur 2: Chat dans une salle">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Scenario 1 (sans erreur): Regarder un film">
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Scenario 2(sans erreur): Chat dans une salle">
 <link href="#rfc.section.5.3" rel="Chapter" title="5.3 Scenario 3: Utilisateur inactif Dans la salle principale">
 <link href="#rfc.section.5.4" rel="Chapter" title="5.4 Scenario sans erreur 4: Envoie de SPAM">
 <link href="#rfc.section.5.5" rel="Chapter" title="5.5 Scenario avec erreur : Quitter l'application">
@@ -488,9 +488,9 @@
 </li>
 <li>5.   <a href="#rfc.section.5">Exemple de scenario</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">Scenario sans erreur 1: Regarder un film</a>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Scenario 1 (sans erreur): Regarder un film</a>
 </li>
-<li>5.2.   <a href="#rfc.section.5.2">Scenario sans erreur 2: Chat dans une salle</a>
+<li>5.2.   <a href="#rfc.section.5.2">Scenario 2(sans erreur): Chat dans une salle</a>
 </li>
 <li>5.3.   <a href="#rfc.section.5.3">Scenario 3: Utilisateur inactif Dans la salle principale</a>
 </li>
@@ -1043,14 +1043,14 @@
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> Exemple de scenario</h1>
 <h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> Scenario sans erreur 1: Regarder un film</h1>
+<a href="#rfc.section.5.1">5.1.</a> Scenario 1 (sans erreur): Regarder un film</h1>
 <p id="rfc.section.5.1.p.1">Dans ce scenario, nous allons expliciter la suite de messages envoyee entre un client et le serveur lorsque l'utilisateur veut regarder un film sur la plateforme. Nous irons de la connexion au service jusqu'a l'acces au film.  </p>
 <pre>
 
 
-                                          (salle               (salle 
-                                        principale)              001)
-Client A                Serveur           Client B             Client C          
+                                         (salle=0000)      (salle!=0000) 
+                                           MainRoom            MovieRoom
+Client A                Serveur            Client B             Client C          
   |                       |                   |                    |
   |      Demande de       |                   |                    |                     
   |      connexion        |                   |                    |
@@ -1135,7 +1135,7 @@ Client A                Serveur           Client B             Client C
     </pre>
 <p></p>
 <h1 id="rfc.section.5.2">
-<a href="#rfc.section.5.2">5.2.</a> Scenario sans erreur 2: Chat dans une salle</h1>
+<a href="#rfc.section.5.2">5.2.</a> Scenario 2(sans erreur): Chat dans une salle</h1>
 <p id="rfc.section.5.2.p.1">Ce scenario decrit la suite de message envoyes dans le cas d'un envoi de messages dans une meme salle.  </p>
 <pre>
 
@@ -1177,12 +1177,9 @@ Client A                Serveur           Client B             Client C
 <a href="#rfc.section.5.3">5.3.</a> Scenario 3: Utilisateur inactif Dans la salle principale</h1>
 <p id="rfc.section.5.3.p.1">Ce scenario decrit la suite de messages envoyes dans le cas ou un utilisateur est inactif dans la salle principale.  </p>
 <pre>
-MSG 1 from toto to titi
 
-etc
-
-You can also use a figure like this:
-
+                                                       (salle=0000) 
+                                                          MainRoom 
 Client A                                Serveur           Client B
   | =====  Processus de connexion  =====   |                 |
   | =====     (cf. Scenario 1)     =====   |                 |
@@ -1217,6 +1214,7 @@ Client A                                Serveur           Client B
 <a href="#rfc.section.5.4">5.4.</a> Scenario sans erreur 4: Envoie de SPAM</h1>
 <p id="rfc.section.5.4.p.1">Ce scenario decrit l'ensemble des messages echanges lorsque l'utilisateur envoie des messages a repetition dans le chat dans le but de nuire (SPAM). Le serveur va donc le deconnecter.  </p>
 <pre>
+    
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
