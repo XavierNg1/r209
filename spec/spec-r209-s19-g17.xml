@@ -211,11 +211,11 @@
 	</section>
 
    
-    <section title="Formats des paquets">
+    <section title="Types de paquet">
     <t>
-    Describe the packet format and the headers. For example, if you have a binary header,
-     you can use a figure like the following example (where we have used the generic
-     name "Field" for most of the fields, you should use the names corresponding to your solution):
+    Ce tableau enumere l'ensemble des paquets qui seront utilises au sein de 
+    notre systeme. Leur description se fera plus loin dans ce document, quand
+    ils seront precises dans les formats de paquets.
     </t>
 
     <t>
@@ -457,7 +457,7 @@
       </t>
 
       
-
+    </section>
 
       <section title="acquittement"> 
                 <t>By default 3 levels of nesting show in table of contents but that
@@ -791,9 +791,159 @@
     </section>
 
     <section title="Exemple de scenario">
-    <section title="Scenario 1: Regarder un film">
+    <section title="Scenario sans erreur 1: Regarder un film">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Dans ce scenario, nous allons expliciter la suite de messages 
+    envoyee entre un client et le serveur lorsque l'utilisateur veut
+    regarder un film sur la plateforme. Nous irons de la connexion au
+    service jusqu'a l'acces au film.
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+
+
+                                          (salle               (salle 
+                                        principale)              001)
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Demande de       |                   |                    |                     
+  |      connexion        |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client demande   |                   |                    |
+  |  l'acces au service)  |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |  (Le serveur confirme |                   |                    |   
+  |   avoir recu)         |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Connexion reussie    |                   |                    |
+  |&lt;-------------- -------|                   |                    |
+  | (Le serveur connecte  |                   |                    |
+  |       le client)      |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |   Envoi liste des     |                   |                    |
+  |        films          |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |     Envoi liste   |                    |
+  |   Envoi liste des     |  des utilisateurs |                    |
+  |     utilisateurs      |------------------&gt;|                    |
+  |&lt;----------------------|(le serveur actua- |                    |
+  |                       |lise la liste des  |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Demande acces film   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Envoi liste        |                   |                    |
+  | des utilisateurs      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |     (Utilisateurs     |                   |                    |
+  | visionnant le meme    |                   |                    |
+  |   film [salle @001])  |  Envoi liste des  |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |------------------&gt;|                    |
+  |                       | (le serveur actua-|                    |
+  |                       | lise la liste des |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       | Envoi liste des   |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |                       |                   |                    |
+
+
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario sans erreur 2: Chat dans une salle">
+    <t>
+    Ce scenario decrit la suite de message envoyes dans le cas d'un 
+    envoi de messages dans une meme salle.
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    | 
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario 3: Utilisateur inactif Dans la salle principale">
+    <t>
+    Ce scenario decrit la suite de messages envoyes dans le cas ou un
+    utilisateur est inactif dans la salle principale.
     </t>
 
     <t>
@@ -805,177 +955,223 @@ etc
 
 You can also use a figure like this:
 
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
+Client A                                Serveur           Client B
+  | =====  Processus de connexion  =====   |                 |
+  | =====     (cf. Scenario 1)     =====   |                 |
+  | ==   (Temps d'inaction = 0 mn)   ==    |                 |
+  .                                        .                 .
+  .                                        .                 .
+  | ==   (Temps d'inaction = 14 mn)   ==   |                 |
+  |                                        |                 |
+  |       Avertissement Inactivite         |                 |
+  |&lt;---------------------------------------|                 |
+  |  (Le serveur previent l'utilisateur)   |                 |
+  |                                        |                 |
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  .                                        .                 .
+  | ==   (Temps d'inaction = 15 mn)   ==   |                 |
+  |                                        |                 |
+  |        Message de deconnexion          |                 |
+  |&lt;---------------------------------------|                 |
+  |                                        | Envoi liste des |
+  |                                        |  utilisateurs   |
+  |                                        |----------------&gt;|
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  |                                        |                 |
+  |                                        |   Acquittement  | 
+  |                                        |&lt;----------------|
+  |                                        |                 |
     </artwork></figure></t>
 
     </section><!--End of example 1-->
 
 
-    <section title="Scenario 2: Chat dans une salle">
+    <section title="Scenario sans erreur 4: Envoie de SPAM">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Ce scenario decrit l'ensemble des messages echanges lorsque 
+    l'utilisateur envoie des messages a repetition dans le chat dans le
+    but de nuire (SPAM). Le serveur va donc le deconnecter.
     </t>
 
     <t>
     <figure>
     <artwork>
-MSG 1 from toto to titi
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  .                       .                   .                    .
+  .                       .                   .                    .
+  .                       .                   .                    .
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |   Avertissement SPAM  |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |      Message de       |                   |                    |
+  |     deconnexion       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  | ("Vous allez etre     |                   |                    |
+  |   deconnecte pour     |                   |                    |
+  |       SPAM")          |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
 
-etc
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </artwork></figure></t>
 
     </section><!--End of example 1-->
 
 
-    <section title="Scenario 3: User Inactif Dans la main Room">
+    <section title="Scenario avec erreur : Quitter l'application">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Dans ce scenario, nous allons simuler la suite de messages envoyes 
+    lorsque l'utilisateur veut quitter l'application. Cependant, nous 
+    ajouterons quelques erreurs qui peuvent arriver dans notre systeme
+    et nous montrerons comment nous comptons les gerer.
     </t>
 
     <t>
     <figure>
     <artwork>
-MSG 1 from toto to titi
 
-etc
+Client A                                       Serveur
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |-----------------------x                       |
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  attend 2 secondes et renvoie le meme message |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Acquittement                    |
+  |                   x---------------------------|
+  |     L'acquittement n'a pas atteint le         |
+  |                   client)                     |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film  (Seq = 6)     |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  encore une fois attend 2 secondes et         |
+  |            renvoie le meme message            |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Erreur de sequence              |
+  |&lt;----------------------------------------------|
+  |  (Le serveur signale au client qu'il a deja   |
+  |   recu cette sequence, lui signalant ainsi    | 
+  |      la reception du message precedent.      
+  |    Le numero de sequence attendu etant        |
+  |                le numero 7)                   |
+  |                                               |
+  |                                               |
+  |              Acquittement   (Seq = 7)         |
+  |----------------------------------------------&gt;|
+  |                                               |
+  |         ==== Deconnexion du client ====       |
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </artwork></figure></t>
 
+    </section>
     </section><!--End of example 1-->
-
-
-    <section title="Scenario 4: Envoie de SPAM">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-
-
-    <section title="Scenario 5: Quitter l'application">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-
-     <section title="Scenario 6: Erreur de Séquence">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-    
-    
-
-    </section><!--End of examples-->
 
     <section title="Conclusion">
         <t>
-            Your conclusion goes here.
+          Chat While Watching est une application offrant aux utilisateurs un 
+        service de chat lorsque ceux-ci selectionnent le film qu'ils
+        veulent regarder ou encore pendant le visionnage. En suivant le 
+        protocole enonce dans ce document, nous pensons que l'application
+        peut garantir ce service de chat tout en gardant un certain confort
+        et une bonne fiabilite.
         </t>
     </section>
 
