@@ -25,30 +25,30 @@ Table of Contents
    2.  Fonctionnement  . . . . . . . . . . . . . . . . . . . . . . .   2
    3.  Types de paquet . . . . . . . . . . . . . . . . . . . . . . .   3
    4.  Format des Paquets  . . . . . . . . . . . . . . . . . . . . .   4
-     4.1.  acquittement  . . . . . . . . . . . . . . . . . . . . . .   6
-     4.2.  Erreur de sequence  . . . . . . . . . . . . . . . . . . .   7
+     4.1.  Acquitement . . . . . . . . . . . . . . . . . . . . . . .   5
+     4.2.  Erreur de sequence  . . . . . . . . . . . . . . . . . . .   6
      4.3.  Demande de connexion  . . . . . . . . . . . . . . . . . .   7
      4.4.  Erreur de connexion . . . . . . . . . . . . . . . . . . .   8
-     4.5.  Connexion Reussie . . . . . . . . . . . . . . . . . . . .   8
-     4.6.  Envoie liste des films  . . . . . . . . . . . . . . . . .   8
-     4.7.  Envoie Liste des users  . . . . . . . . . . . . . . . . .   9
-     4.8.  Avertissement Inactivite  . . . . . . . . . . . . . . . .  10
-     4.9.  Avertissement SPAM  . . . . . . . . . . . . . . . . . . .  10
-     4.10. Demande Acces film  . . . . . . . . . . . . . . . . . . .  11
-     4.11. Envoie Message de Chat  . . . . . . . . . . . . . . . . .  11
-     4.12. Quitter la MainRoom . . . . . . . . . . . . . . . . . . .  12
-     4.13. Quitter un film . . . . . . . . . . . . . . . . . . . . .  12
-     4.14. Message de deconnexion  . . . . . . . . . . . . . . . . .  13
-   5.  Fiabilite . . . . . . . . . . . . . . . . . . . . . . . . . .  13
-   6.  Exemple de scenario . . . . . . . . . . . . . . . . . . . . .  13
-     6.1.  Scenario sans erreur 1: Regarder un film  . . . . . . . .  13
-     6.2.  Scenario sans erreur 2: Chat dans une salle . . . . . . .  15
-     6.3.  Scenario 3: Utilisateur inactif Dans la salle principale   16
-     6.4.  Scenario sans erreur 4: Envoie de SPAM  . . . . . . . . .  17
-     6.5.  Scenario avec erreur : Quitter l'application  . . . . . .  20
-     6.6.  Scenario 6: Erreur de Sequence  . . . . . . . . . . . . .  22
-   7.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  22
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
+     4.5.  Connexion Reussie . . . . . . . . . . . . . . . . . . . .   9
+     4.6.  Envoie liste des films  . . . . . . . . . . . . . . . . .   9
+     4.7.  Envoie Liste des users  . . . . . . . . . . . . . . . . .  11
+     4.8.  Avertissement Inactivite  . . . . . . . . . . . . . . . .  12
+     4.9.  Avertissement SPAM  . . . . . . . . . . . . . . . . . . .  13
+     4.10. Demande Acces film  . . . . . . . . . . . . . . . . . . .  14
+     4.11. Envoie Message de Chat  . . . . . . . . . . . . . . . . .  14
+     4.12. Quitter la MainRoom . . . . . . . . . . . . . . . . . . .  15
+     4.13. Quitter un film . . . . . . . . . . . . . . . . . . . . .  15
+     4.14. Message de deconnexion  . . . . . . . . . . . . . . . . .  16
+   5.  Fiabilite . . . . . . . . . . . . . . . . . . . . . . . . . .  16
+   6.  Exemple de scenario . . . . . . . . . . . . . . . . . . . . .  17
+     6.1.  Scenario sans erreur 1: Regarder un film  . . . . . . . .  17
+     6.2.  Scenario sans erreur 2: Chat dans une salle . . . . . . .  19
+     6.3.  Scenario 3: Utilisateur inactif Dans la salle principale   20
+     6.4.  Scenario sans erreur 4: Envoie de SPAM  . . . . . . . . .  21
+     6.5.  Scenario avec erreur : Quitter l'application  . . . . . .  24
+   7.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  26
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  26
+
 
 
 
@@ -195,18 +195,35 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
 
    Sens de Transmission
 
-   1.  Client x-----> Serveur:
+   1.  Client x-----> Server: Indique une communication du client vers
+       le server
 
-   2.  Client <-----x Serveur:
+   2.  Client <-----x Server: Indique une communication du server vers
+       le client
 
-   3.  Client <-----> Serveur:
+   3.  Client <-----> Server: Indique la possibilite d'avoir le cas 1.
+       ou 2.
 
 4.  Format des Paquets
 
-   Describe the packet format and the headers.  For example, if you have
-   a binary header, you can use a figure like the following example
-   (where we have used the generic name "Field" for most of the fields,
-   you should use the names corresponding to your solution):
+   Dans la suite nous allons decrire les differents type de paquet
+   presente ci-dessus.  Nous presenterons la cause de ces differrents
+   "evenements", et les consequence immediates sur le systeme.  La
+   totalite des paquets partagent au minimun les 3 champs presente sur
+   la figure 2.  Nous eviterons alors les repetitions dans la suite.
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
+
+                            Abbreviated Title              February 2019
 
 
        0                   1                   2                   3
@@ -218,16 +235,6 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
 
                                  Figure 2
 
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
-
-                            Abbreviated Title              February 2019
-
-
-   Liste des champs :
-
    Code (4 bits)
 
            Code sur 4 bits il permet d'identifier les 14 differents
@@ -235,107 +242,19 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 4]
 
    Sequence (12 bits)
 
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
 
    Taille (16 bits)
 
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
 
-   SequenceAttendue (12 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Temps (32 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Username (256 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   MessageErreur (1024 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   IdUser (7 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Adresse IP (32 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   NumPort (16 bits)
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
-
-                            Abbreviated Title              February 2019
-
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   NomFilm (256 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Salle (4 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   AvertissementInactivite (1024 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   AvertissementSPAM (1024 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Message (Taille variable)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   NotificationDeconnexion (1024 bits)
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Cause d'envoie du paquet :
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-   Consequence du paquet :
-
-           Permet d'identifier le type de paquet recu.  Code sur 4 bits
-           il permet de d'envoyer 16 types de paquets differents.
-
-4.1.  acquittement
+4.1.  Acquitement
 
    By default 3 levels of nesting show in table of contents but that can
    be adjusted with the value of the "tocdepth" processing instruction.
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
-
-                            Abbreviated Title              February 2019
 
 
        0                   1                   2                   3
@@ -347,10 +266,35 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
 
                                  Figure 3
 
+   Code (4 bits)
+
+           Code = 0000 informant le client qu'il s'agit d'un
+           acquitement.
+
+   Sequence (12 bits)
+
+           Le munero de se
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 5]
+
+                            Abbreviated Title              February 2019
+
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
 4.2.  Erreur de sequence
 
-   By default 3 levels of nesting show in table of contents but that can
-   be adjusted with the value of the "tocdepth" processing instruction.
+   Ce message est envoye lorsqu'il y a contradiction entre la sequence
+   attendue par le recepteur et celle recue.  Dans notre systeme, chaque
+   paquet est identifie de maniere unique par son numero de sequence.
+   Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence,
+   il detecte la redondance de message et soumet a l'emetteur cette
+   erreur.
 
 
        0                   1                   2                   3
@@ -358,11 +302,41 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        | Code  |        Sequence       |            Taille             |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |    SequenceAttendue   |
-       +-+-+-+-+-+-+-+-+-+-+-+-+
 
 
                                  Figure 4
+
+   Code (4 bits)
+
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
+
+   Sequence (12 bits)
+
+           Ce champ represente le numero du paquet envoye.  Il permet de
+           l'identifier de maniere unique dans le systeme.  A chaque
+           nouvel envoi, l'emetteur incremente sa valeur de 1.
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   SequenceAttendue (12 bits)
+
+           Permet d'identifier le type de paquet recu.  Code sur 4 bits
+           il permet de d'envoyer 16 types de paquets differents.
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
+
+                            Abbreviated Title              February 2019
+
 
 4.3.  Demande de connexion
 
@@ -384,8 +358,34 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 6]
 
                                  Figure 5
 
+   Code (4 bits)
 
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
 
+   Sequence (12 bits)
+
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   Temps (32 bits)
+
+           Temps envoye par le client a chaque interaction volantaire
+           avec le server: Demande de connection, envoie de message Chat
+           , Quitter un film, Demande Acces film.  Ce temps nous permet
+           de mesurer le temps d'inactivite d'un client.  Comme dit plus
+           haut un client inactif pendant 15 min se fera systematiquent
+           deconnecter lorsqu'il est dans la Main Room, les clients dans
+           les salles de film n'etant pas concerner.  Cela devrait
+           permettre l'acces au service a d'autre client.
+
+   Username (256 bits)
 
 
 
@@ -393,6 +393,10 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 7]
 
                             Abbreviated Title              February 2019
 
+
+           Ce champs contient le Username du client.  Tout les
+           caracteres UTF-8 sont acceptes.  Le Username du client est au
+           maximun 256 bits une fois le UserName sous forme binaire.
 
 4.4.  Erreur de connexion
 
@@ -412,6 +416,40 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 7]
 
                                  Figure 6
 
+   Code (4 bits)
+
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
+
+   Sequence (12 bits)
+
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   MessageErreur (1024 bits)
+
+           Ce champ contient un message a afficher lors d'une erreur de
+           connexion.  Le contenu du message permettra a l'utilisateur
+           de savoir avec exactitude La cause l'erreur.  Le message est
+           encode en UTF-8.  Suivant l'erreur sur le username le client
+           saura que sont username est deja utilise , trop long ou n'est
+           pas accepte (Hitler, etc)
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 8]
+
+                            Abbreviated Title              February 2019
+
+
 4.5.  Connexion Reussie
 
    By default 3 levels of nesting show in table of contents but that can
@@ -423,76 +461,38 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 7]
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        | Code  |        Sequence       |            Taille             |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |                             Temps                             |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        |    IdUser   |
        +-+-+-+-+-+-+-+
 
-
                                  Figure 7
+
+   Code (4 bits)
+
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
+
+   Sequence (12 bits)
+
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   IdUser (7 bits)
+
+           Ce champ contient entre 0 et 127.  IdUser est attribue a
+           chaque client lors de sa connexion et doit permertre son
+           identification client sans l'utilisation de son username afin
+           de reduire la taille des paquets de communication.
 
 4.6.  Envoie liste des films
 
    By default 3 levels of nesting show in table of contents but that can
    be adjusted with the value of the "tocdepth" processing instruction.
-
-
-
-
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 8]
-
-                            Abbreviated Title              February 2019
-
-
-       0                   1                   2                   3
-       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       | Code  |        Sequence       |            Taille             |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |                           AdresseIP                           |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        |             NumPort          |                               |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-       |                            NomFilm                            |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |                           AdresseIP                           |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |             NumPort           |                               |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-       |                            NomFilm                            |
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       .                                                               .
-       .                                                               .
-       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
-                                 Figure 8
-
-4.7.  Envoie Liste des users
-
-   By default 3 levels of nesting show in table of contents but that can
-   be adjusted with the value of the "tocdepth" processing instruction.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -511,26 +511,167 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 9]
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        | Code  |        Sequence       |            Taille             |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |    IdUser   | Salle |                                         |
-       +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .
-       |                                                               |
+       |                           AdresseIP                           |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |    IdUser   | Salle |                                         |
-       +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .
-       |                                                               |
+       |             NumPort           |                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+       |                            NomFilm                            |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |                           AdresseIP                           |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |             NumPort           |                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+       |                            NomFilm                            |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
        .                                                               .
        .                                                               .
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+                                 Figure 8
+
+   Code (4 bits)
+
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
+
+   Sequence (12 bits)
+
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
+
+   Taille (16 bits)
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   Adresse IP (32 bits)
+
+           Permet d'identifier le type de paquet recu.  Code sur 4 bits
+           il permet de d'envoyer 16 types de paquets differents.
+
+   NumPort (16 bits)
+
+           Permet d'identifier le type de paquet recu.  Code sur 4 bits
+           il permet de d'envoyer 16 types de paquets differents.
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 10]
+
+                            Abbreviated Title              February 2019
+
+
+   NomFilm (256 bits)
+
+           Ce champ contient Le nom d'un film.  Tous les carateres UTF-8
+           doivent etre accepter et le message codes sur 256 bits Le
+           message doit s'afficher parmis les messages de chat mais etre
+           vu Le champ Salle etant code sur 4 bits l'application doit
+           dispose d'au maximun 15 films
+
+4.7.  Envoie Liste des users
+
+   By default 3 levels of nesting show in table of contents but that can
+   be adjusted with the value of the "tocdepth" processing instruction.
+
+
+       0                   1                   2                   3
+       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       | Code  |        Sequence       |            Taille             |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |    IdUser   | Salle |                                         |
+       +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .
+       |                                                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       |    IdUser   | Salle |                                         |
+       +-+-+-+-+-+-+-+-+-+-+-+      UserName                           .
+       |                                                               |
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+       .                                                               .
+       .                                                               .
+       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
                                  Figure 9
+
+   Code (4 bits)
+
+           Code sur 4 bits il permet d'identifier les 14 differents
+           types de paquets.
+
+   Sequence (12 bits)
+
+           Numero de Permet d'identifier le type de paquet recu.  Code
+           sur 4 bits il permet de d'envoyer 16 types de paquets
+           differents.
+
+   Taille (16 bits)
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 11]
+
+                            Abbreviated Title              February 2019
+
+
+           C'est la taille en bit de l'ensemble du message (c'est a dire
+           de tous les champs du paquet reunis).
+
+   IdUser (7 bits)
+
+           Ce champ contient entre 0 et 127.  IdUser est attribue a
+           chaque client lors de sa connexion et doit permertre son
+           identification client sans l'utilisation de son username afin
+           de reduire la taille des paquets de communication.
+
+   Salle (4 bits)
+
+           Ce champ code sur 4 bits contient le numero d'une Salle.
+           0000 peut etre le numero pour designer la Main Room.  Chaque
+           Films est aussi represente par sa salle (numero de salle
+           :xxxx) Le champ salle doit permetre de localiser un client a
+           tout moment.  En d'autre terme chaque client est lier a une
+           salle qui permet au server de connaitre les desitinataires
+           des messages envoye: MainRoom (Salle=0000) une salle de film
+           (Salle !=0000)
+
+   Username (256 bits)
+           Ce champs contient le Username d'un client.  Tout les
+           caracteres UTF-8 sont acceptes.  Le Username du client est
+           code sur 256 bits et doit respecter certaines contraintes
+           lors de la connexion d'un client.
+
+           1.  Le username doit pouvoir etre code sur 256 bits
+
+           2.  Le Username choisit ne doit pas etre deja utilise
+
+           3.  Le username ne doit pas figure parmis une liste de
+               username juges offenssant Exemple : Hitler, Merde,...
 
 4.8.  Avertissement Inactivite
 
    By default 3 levels of nesting show in table of contents but that can
    be adjusted with the value of the "tocdepth" processing instruction.
+
+
+
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 12]
+
+                            Abbreviated Title              February 2019
 
 
        0                   1                   2                   3
@@ -548,18 +689,19 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 9]
 
                                  Figure 10
 
+   AvertissementInactivite (1024 bits)
+
+           Ce champ contient un message avertissement le client qu'il
+           sera deconnecte dans 1 minute parce qu'il est inactif dans la
+           MainRoom.  Tous les carateres UTF-8 doivent etre accepter et
+           le message codes sur 1024 bits Le message doit s'afficher
+           parmis les messages de chat mais etre vu uniquement par le
+           client concerne.
+
 4.9.  Avertissement SPAM
 
    By default 3 levels of nesting show in table of contents but that can
    be adjusted with the value of the "tocdepth" processing instruction.
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 10]
-
-                            Abbreviated Title              February 2019
 
 
        0                   1                   2                   3
@@ -573,9 +715,24 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 10]
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
-
-
                                  Figure 11
+
+   AvertissementSPAM (1024 bits)
+
+           Ce champ contient un message avertissement le client qu'il
+           sera deconnecte dans 1 minute pour envoi repete de message (2
+           messages par seconde).  Tous les carateres UTF-8 doivent etre
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 13]
+
+                            Abbreviated Title              February 2019
+
+
+           accepter et le message codes sur 1024 bits Le message doit
+           s'afficher parmis les messages de chat mais etre vu
+           uniquement par le client concerne
 
 4.10.  Demande Acces film
 
@@ -599,6 +756,23 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 10]
 
                                  Figure 12
 
+   Salle (4 bits)
+
+           Ce champ code sur 4 bits contient le numero de salle de la
+           Main Room.  En d'autre terme de la localisation du client au
+           momment de la demande d'acces, soit Salle=0000 Tout comme
+           pour l'envoi d'un message de Chat, ce numero de salle doit
+           etre utiliser pour l'envoie de la liste des users actualise
+           au clients situes dans la Main Room (salle 0000).
+
+   NomFilm (256 bits)
+
+           Ce champ contient Le nom d'un film.  Tous les carateres UTF-8
+           doivent etre accepter et le message codes sur 256 bits Le
+           message doit s'afficher parmis les messages de chat mais etre
+           vu Le champ Salle etant code sur 4 bits l'application doit
+           dispose d'au maximun 15 films.
+
 4.11.  Envoie Message de Chat
 
    By default 3 levels of nesting show in table of contents but that can
@@ -607,13 +781,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 10]
 
 
 
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 11]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 14]
 
                             Abbreviated Title              February 2019
 
@@ -632,6 +800,14 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 11]
 
 
                                  Figure 13
+
+   Message (Taille variable)
+
+           Ce champ contient un message de chat envoye par un client en
+           destination des clients presents dans la meme salle que lui.
+           Tous les carateres UTF-8 doivent etre accepter et le taille
+           du message doit etre variable.  Le message doit s'afficher
+           uniquement chez les clients de cette salle.
 
 4.12.  Quitter la MainRoom
 
@@ -654,6 +830,18 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 11]
    be adjusted with the value of the "tocdepth" processing instruction.
 
 
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 15]
+
+                            Abbreviated Title              February 2019
+
+
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -663,16 +851,6 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 11]
        +-+-+-+-+
 
                                  Figure 15
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 12]
-
-                            Abbreviated Title              February 2019
-
 
 4.14.  Message de deconnexion
 
@@ -690,12 +868,56 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 12]
        |                                                               |
        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-
-
-
                                  Figure 16
 
+   NotificationDeconnexion (1024 bits)
+
+           Ce champ contient un message avertissement le client qu'il
+           sera deconnecte dans 1 minute pour envoi repete de message (2
+           messages par seconde).  Tous les carateres UTF-8 doivent etre
+           accepter et le message codes sur 1024 bits Le message doit
+           s'afficher parmis les messages de chat mais etre vu
+           uniquement par le client concerne
+
 5.  Fiabilite
+
+   La fiabilite du protocole est assuree par deux principaux elements :
+   Le numero de sequence, l'acquittement et les messages d'erreur.
+
+   Le type de message acquittement: Ce type de message permet de
+   s'assurer que les utilisateurs ou le serveur ait bien recu le
+   message.  Les deux entites attendent de recevoir ce message avant une
+   autre emission du meme message.  En effet, en cas de non reception du
+   message d'acquittement, l'emetteur considere que le recepteur n'a pas
+   recu le message et le renvoie.  De cette maniere, nous limitons le
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 16]
+
+                            Abbreviated Title              February 2019
+
+
+   nombre de renvoi de message dans le systeme.  Il est a noter qu'en
+   outre, pour ne pas surcharger le serveur, les clients attendront
+   toutes les secondes pour envoyer un message au serveur.
+
+   Le numero de sequence : Chaque message de notre service est associe a
+   un numero de sequence, qui permet de l'identifier de maniere unique.
+   De cette maniere, nous pouvons determiner quel paquet a ete recu.
+   Prenons un exemple.  Supposons que le client A veut communiquer avec
+   le serveur.  Il lui envoie le paquet de sequence 5, le serveur le
+   recoit et lui envoie un acquittement.  Malheureusement, le client ne
+   le recoit pas.  Le client renvoie donc le paquet de sequence 5 au
+   serveur.  Le serveur ayant deja recu ce paquet, signale une erreur au
+   client en lui envoyant un paquet "Erreur de sequence".  Le client A
+   sait donc que le paquet de l'acquittement a ete egare.  Cela
+   s'averera tres utile dans le cas de la transmission sous le protocole
+   UDP
+
+   Messages d'erreur : Les messages d'erreur envoyes lors de l'execution
+   des taches du serveur permettront de reconnaitre les erreurs
+   produites afin de les corriger.
 
 6.  Exemple de scenario
 
@@ -722,16 +944,16 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 12]
    |                       |                   |                    |
    |    Acquittement       |                   |                    |
    |<----------------------|                   |                    |
+   |  (Le serveur confirme |                   |                    |
+   |   avoir recu)         |                   |                    |
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 13]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 17]
 
                             Abbreviated Title              February 2019
 
 
-   |  (Le serveur confirme |                   |                    |
-   |   avoir recu)         |                   |                    |
    |                       |                   |                    |
    |                       |                   |                    |
    |                       |                   |                    |
@@ -778,16 +1000,16 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 13]
    | des utilisateurs      |                   |                    |
    |<----------------------|                   |                    |
    |     (Utilisateurs     |                   |                    |
+   | visionnant le meme    |                   |                    |
+   |   film [salle @001])  |  Envoi liste des  |                    |
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 14]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 18]
 
                             Abbreviated Title              February 2019
 
 
-   | visionnant le meme    |                   |                    |
-   |   film [salle @001])  |  Envoi liste des  |                    |
    |                       |    utilisateurs   |                    |
    |                       |------------------>|                    |
    |                       | (le serveur actua-|                    |
@@ -837,7 +1059,9 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 14]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 15]
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 19]
 
                             Abbreviated Title              February 2019
 
@@ -893,7 +1117,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 15]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 16]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
 
                             Abbreviated Title              February 2019
 
@@ -949,7 +1173,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 16]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 17]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 21]
 
                             Abbreviated Title              February 2019
 
@@ -1005,7 +1229,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 17]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 18]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 22]
 
                             Abbreviated Title              February 2019
 
@@ -1061,7 +1285,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 18]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 19]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 23]
 
                             Abbreviated Title              February 2019
 
@@ -1117,7 +1341,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 19]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 24]
 
                             Abbreviated Title              February 2019
 
@@ -1126,21 +1350,16 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
      |                                               |
      |                                               |
      |                                               |
-     |            Quitter un salon de film           |
+     |       Quitter un salon de film (Seq = 6)      |
      |-----------------------x                       |
      |                                               |
      |                                               |
      |                                               |
-     |            Quitter un salon de film           |
+     |       Quitter un salon de film (Seq = 6)      |
      |---------------------------------------------->|
      | (Le client, n'ayant pas recu l'acquittement   |
      |  attend 2 secondes et renvoie le meme message |
      | avec le meme numero de sequence au serveur)   |
-     |                                               |
-     |                                               |
-     |            Quitter un salon de film           |
-     |---------------------------------------------->|
-     |                                               |
      |                                               |
      |                                               |
      |               Acquittement                    |
@@ -1149,10 +1368,11 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
      |                   client)                     |
      |                                               |
      |                                               |
-     |            Quitter un salon de film           |
+     |       Quitter un salon de film  (Seq = 6)     |
      |---------------------------------------------->|
      | (Le client, n'ayant pas recu l'acquittement   |
-     |  attend 2 secondes et renvoie le meme message |
+     |  encore une fois attend 2 secondes et         |
+     |            renvoie le meme message            |
      | avec le meme numero de sequence au serveur)   |
      |                                               |
      |                                               |
@@ -1160,10 +1380,12 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
      |<----------------------------------------------|
      |  (Le serveur signale au client qu'il a deja   |
      |   recu cette sequence, lui signalant ainsi    |
-     |      la reception du message precedent)       |
+     |      la reception du message precedent.
+     |    Le numero de sequence attendu etant        |
+     |                le numero 7)                   |
      |                                               |
      |                                               |
-     |                  Acquittement                 |
+     |              Acquittement   (Seq = 7)         |
      |---------------------------------------------->|
      |                                               |
      |         ==== Deconnexion du client ====       |
@@ -1173,36 +1395,21 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 20]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 21]
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 25]
 
                             Abbreviated Title              February 2019
 
 
-6.6.  Scenario 6: Erreur de Sequence
-
-   Description of the scenario and then the corresponding messages:
-
-   MSG 1 from toto to titi
-
-   etc
-
-   You can also use a figure like this:
-
-        Alice                                            Bob
-           |                                               |
-           |             Demande deconnexion               |
-           |---------------------------------------------->|
-           |            (details of the message)           |
-           |                                               |
-           |                                               |
-           |               Message 2 (Response)            |
-           |<----------------------------------------------|
-           |                   (Details)                   |
-
-
 7.  Conclusion
 
-   Your conclusion goes here.
+   Chat While Watching est une application offrant aux utilisateurs un
+   service de chat lorsque ceux-ci selectionnent le film qu'ils veulent
+   regarder ou encore pendant le visionnage.  En suivant le protocole
+   enonce dans ce document, nous pensons que l'application peut garantir
+   ce service de chat tout en gardant un certain confort et une bonne
+   fiabilite.
 
 Authors' Addresses
 
@@ -1229,4 +1436,21 @@ Authors' Addresses
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 22]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+KADJO MAMI & N'GUESSAN  Expires September 1, 2019              [Page 26]

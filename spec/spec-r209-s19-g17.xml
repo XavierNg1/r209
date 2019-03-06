@@ -352,9 +352,13 @@
       </section>
 
       <section title="Erreur de séquence"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>
+                Ce message est envoye lorsqu'il y a contradiction entre la sequence
+                attendue par le recepteur et celle recue. Dans notre systeme, chaque
+                paquet est identifie de maniere unique par son numero de sequence. 
+                Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence, il
+                detecte la redondance de message et soumet a l'emetteur cette erreur.
+                </t>
          <t>
       <figure align="center" anchor="seq_error">
       <artwork>
@@ -378,8 +382,9 @@
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champ represente le numero du paquet envoye. Il permet de 
+          l'identifier de maniere unique dans le systeme. A chaque nouvel
+          envoi, l'emetteur incremente sa valeur de 1.
           </t>
         </list>
       </t>
@@ -479,49 +484,6 @@ Cela devrait permettre l'acces au service à d'autre client.
         </list>
       </t>
 
-<<<<<<< HEAD
-      
-    </section>
-
-      <section title="acquittement"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="ack">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
-      
-      </section>
-
-      <section title="Erreur de séquence"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="seq_error">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |    SequenceAttendue   |
-      +-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
-      
-      </section>
-=======
->>>>>>> 8978f140ad619ded0599e7a34a3d8a7264d9b560
 
       
       </section>
@@ -1087,6 +1049,44 @@ Cela devrait permettre l'acces au service à d'autre client.
 
     <section title="Fiabilité">
 
+      <t>
+      La fiabilite du protocole est assuree par deux principaux
+      elements : Le numero de sequence, l'acquittement et les messages
+      d'erreur.
+      </t>
+
+      <t>
+      Le type de message acquittement: Ce type de message permet de s'assurer
+      que les utilisateurs ou le serveur ait bien recu le message. Les deux 
+      entites attendent de recevoir ce message avant une autre emission du 
+      meme message. En effet, en cas de non reception du message 
+      d'acquittement, l'emetteur considere que le recepteur n'a pas recu le 
+      message et le renvoie. De cette maniere, nous limitons le nombre de 
+      renvoi de message dans le systeme. Il est a noter qu'en outre, pour ne
+      pas surcharger le serveur, les clients attendront toutes les secondes pour
+      envoyer un message au serveur.
+      </t>
+
+      <t>
+      Le numero de sequence : Chaque message de notre service est associe a un
+      numero de sequence, qui permet de l'identifier de maniere unique. De 
+      cette maniere, nous pouvons determiner quel paquet a ete recu. Prenons
+      un exemple. Supposons que le client A veut communiquer avec le serveur. 
+      Il lui envoie le paquet de sequence 5, le serveur le recoit et lui 
+      envoie un acquittement. Malheureusement, le client ne le recoit pas. Le
+      client renvoie donc le paquet de sequence 5 au serveur. Le serveur
+      ayant deja recu ce paquet, signale une erreur au client en lui envoyant
+      un paquet "Erreur de sequence". Le client A sait donc que le paquet
+      de l'acquittement a ete egare. Cela s'averera tres utile dans le cas de
+      la transmission sous le protocole UDP
+      </t>
+
+      <t>
+      Messages d'erreur : Les messages d'erreur envoyes lors de l'execution
+      des taches du serveur permettront de reconnaitre les erreurs produites
+      afin de les corriger. 
+      </t>
+
     </section>
 
     <section title="Exemple de scenario">
@@ -1102,7 +1102,6 @@ Cela devrait permettre l'acces au service à d'autre client.
     <figure>
     <artwork>
 
-<<<<<<< HEAD
 
                                           (salle               (salle 
                                         principale)              001)
@@ -1187,92 +1186,6 @@ Client A                Serveur           Client B             Client C
   |                       |                   |                    |
 
 
-=======
-
-                                          (salle               (salle 
-                                        principale)              001)
-Client A                Serveur           Client B             Client C          
-  |                       |                   |                    |
-  |      Demande de       |                   |                    |                     
-  |      connexion        |                   |                    |
-  |----------------------&gt;|                   |                    |
-  |  (Le client demande   |                   |                    |
-  |  l'acces au service)  |                   |                    |   
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |    Acquittement       |                   |                    |
-  |&lt;----------------------|                   |                    |
-  |  (Le serveur confirme |                   |                    |   
-  |   avoir recu)         |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |  Connexion reussie    |                   |                    |
-  |&lt;-------------- -------|                   |                    |
-  | (Le serveur connecte  |                   |                    |
-  |       le client)      |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |   Envoi liste des     |                   |                    |
-  |        films          |                   |                    |
-  |&lt;----------------------|                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |    Acquittement       |                   |                    |
-  |----------------------&gt;|                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |     Envoi liste   |                    |
-  |   Envoi liste des     |  des utilisateurs |                    |
-  |     utilisateurs      |------------------&gt;|                    |
-  |&lt;----------------------|(le serveur actua- |                    |
-  |                       |lise la liste des  |                    |
-  |                       | clients connectes)|                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |    Acquittement       |                   |                    |
-  |----------------------&gt;|                   |                    |
-  |                       |   Acquittement    |                    |
-  |                       |&lt;------------------|                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |  Demande acces film   |                   |                    |
-  |----------------------&gt;|                   |                    |
-  |                       |                   |                    |
-  |                       |                   |                    |
-  |    Acquittement       |                   |                    |
-  |&lt;----------------------|                   |                    |
-  |                       |                   |                    |
-  |    Envoi liste        |                   |                    |
-  | des utilisateurs      |                   |                    |
-  |&lt;----------------------|                   |                    |
-  |     (Utilisateurs     |                   |                    |
-  | visionnant le meme    |                   |                    |
-  |   film [salle @001])  |  Envoi liste des  |                    |
-  |                       |    utilisateurs   |                    |
-  |                       |------------------&gt;|                    |
-  |                       | (le serveur actua-|                    |
-  |                       | lise la liste des |                    |
-  |                       | clients connectes)|                    |
-  |                       |                   |                    |
-  |                       | Envoi liste des   |                    |
-  |                       |    utilisateurs   |                    |
-  |                       |---------------------------------------&gt;|
-  |    Acquittement       |                   |                    |
-  |----------------------&gt;|                   |                    |
-  |                       |   Acquittement    |                    |
-  |                       |&lt;------------------|                    |
-  |                       |                   |                    |
-  |                       |                   |  Acquittement      |
-  |                       |                   |&lt;-------------------|
-  |                       |                   |                    |
-
-
->>>>>>> 8978f140ad619ded0599e7a34a3d8a7264d9b560
 
     </artwork></figure></t>
 
