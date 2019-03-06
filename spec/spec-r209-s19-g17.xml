@@ -238,11 +238,11 @@
   </t>
   <t><list style="numbers">
   <t>
-  Client x-----&gt; Server:</t>
+  Client x-----&gt; Server: Indique une communication du client vers le server</t>
   <t>
-  Client &lt;-----x Server: </t>
+  Client &lt;-----x Server: Indique une communication du server vers le client</t>
   <t>
-  Client &lt;-----&gt; Server: </t>
+  Client &lt;-----&gt; Server: Indique la possibilité d'avoir le cas 1. ou 2. </t>
   </list></t>
 
    
@@ -252,9 +252,10 @@
 
     <section title="Format des Paquets">
     <t>
-    Describe the packet format and the headers. For example, if you have a binary header,
-     you can use a figure like the following example (where we have used the generic
-     name "Field" for most of the fields, you should use the names corresponding to your solution):
+    Dans la suite nous allons decrire les differents type de paquet presenté ci-dessus. Nous présenterons 
+    la cause de ces differrents "événements", et les conséquence immédiates sur le système.
+    La totalité des paquets partagent au minimun les 3 champs présenté sur la figure 2. Nous eviterons alors 
+    les répétitions dans la suite.
     </t>
 
       <t>
@@ -267,9 +268,9 @@
       | Code  |        Sequence       |            Taille             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       
-      </artwork></figure></t>
-      
-      <t> Liste des champs :</t>
+      </artwork></figure></t>            
+
+
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Code (4 bits)"><vspace blankLines="1" />
@@ -281,7 +282,7 @@
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
           il permet de d'envoyer 16 types de paquets différents. 
           </t>
         </list>
@@ -290,12 +291,98 @@
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
+    
+
+      <section title="Acquitement"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="ack">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </artwork></figure></t>
+
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Code = 0000 informant le client qu'il s'agit d'un acquitement. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Le munéro de sé
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
+      
+      </section>
+
+      <section title="Erreur de séquence"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="seq_error">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </artwork></figure></t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
           il permet de d'envoyer 16 types de paquets différents. 
           </t>
         </list>
       </t>
 
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
 
       <t> 
           <list hangIndent="8" style="hanging">
@@ -305,46 +392,264 @@
           </t>
         </list>
       </t>
+      
+      </section>
+
+      <section title="Demande de connexion"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+      <t>
+      <figure align="center" anchor="demande_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                            UserName                           .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+
+       <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
 
       <t> 
           <list hangIndent="8" style="hanging">
-          <t hangText="Temps (32 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
           il permet de d'envoyer 16 types de paquets différents. 
           </t>
         </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
+
+
+      <t> 
+<list hangIndent="8" style="hanging">
+<t hangText="Temps (32 bits)"><vspace blankLines="1" />
+Temps envoyé par le client à chaque interaction volantaire 
+avec le server: Demande de connection, envoie de message Chat ,
+Quitter un film, Demande Acces film.
+Ce temps nous permet de mesurer le temps d'inactivité d'un client.
+Comme dit plus haut un client inactif pendant 15 min se fera 
+systematiquent deconnecter lorsqu'il est dans la Main Room, 
+les clients dans les salles de film n'etant pas concerner.
+Cela devrait permettre l'acces au service à d'autre client.
+</t>
+</list>
       </t>
 
 
 <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Username (256 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champs contient le Username du client. Tout les caracteres
+          UTF-8 sont acceptés.
+          Le Username du client est au maximun 256 bits une fois
+          le UserName sous forme binaire. 
           </t>
         </list>
       </t>
 
 
-<t> 
+      
+      </section>
+
+
+      <section title="Erreur de connexion"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="Erreur_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                        MessageErreur                          .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+        
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
+
+      <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="MessageErreur (1024 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          Ce champ contient un message à afficher lors d'une erreur de connexion.
+          Le contenu du message permettra à l'utilisateur de savoir avec exactitude
+          La cause l'erreur. Le message est encodé en UTF-8. 
+          Suivant l'erreur sur le username le client saura que sont username est deja utilisé
+          , trop long ou n'est pas accepté (Hitler, etc)
+          </t>
+        </list>
+      </t>
+
+      </section>
+
+      <section title="Connexion Reussie"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="succed_co">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   |
+      +-+-+-+-+-+-+-+
+       </artwork></figure></t>
+      
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
           il permet de d'envoyer 16 types de paquets différents. 
           </t>
         </list>
       </t>
 
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
 
-<t> 
+      <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          Ce champ contient  entre 0 et 127. 
+          IdUser est attribué à chaque client lors de sa connexion
+          et doit permertre son identification client sans l'utilisation
+          de son username afin de reduire la taille des paquets de communication.  
+          </t>
+        </list>
+      </t>
+
+
+     
+      
+      </section>
+      
+      
+      <section title="Envoie liste des films"> 
+                <t>By default 3 levels of nesting show in table of contents but that
+          can be adjusted with the value of the "tocdepth" processing
+          instruction.</t>
+         <t>
+      <figure align="center" anchor="list_films">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             NumPort           |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             NumPort           |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      .                                                               .
+      .                                                               .
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+      
+      
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
           il permet de d'envoyer 16 types de paquets différents. 
           </t>
         </list>
       </t>
 
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
 
 <t> 
           <list hangIndent="8" style="hanging">
@@ -371,221 +676,17 @@
 <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="NomFilm (256 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Salle (4 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="AvertissementInactivite (1024 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="AvertissementSPAM (1024 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Message (Taille variable)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="NotificationDeconnexion (1024 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champ contient Le nom d'un film. Tous les caratères UTF-8 
+       doivent etre accepter et le message codes sur 256 bits 
+      Le message doit s'afficher parmis les messages de chat mais etre vu 
+      Le champ Salle etant code sur 4 bits l'application
+      doit dispose d'au maximun 15 films   
           </t>
         </list>
       </t>
 
 
 
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Cause d'envoie du paquet :"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-
-<t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Consequence du paquet :"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-      
-
-
-      <section title="Acquitement"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="ack">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
-      
-      </section>
-
-      <section title="Erreur de séquence"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="seq_error">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |    SequenceAttendue   |
-      +-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
-      
-      </section>
-
-      <section title="Demande de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-      <t>
-      <figure align="center" anchor="demande_co">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                             Temps                             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                               |
-      .                            UserName                           .
-      |                                                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </artwork></figure></t>
-      
-      </section>
-
-
-      <section title="Erreur de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="Erreur_co">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                               |
-      .                        MessageErreur                          .
-      |                                                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </artwork></figure></t>
-      
-      </section>
-
-      <section title="Connexion Reussie"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="succed_co">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                             Temps                             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |    IdUser   |
-      +-+-+-+-+-+-+-+
-      
-      </artwork></figure></t>
-      
-      </section>
-      
-      
-      <section title="Envoie liste des films"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="list_films">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                           AdresseIP                           |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |             NumPort          |                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-      |                            NomFilm                            |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                           AdresseIP                           |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             NumPort           |                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-      |                            NomFilm                            |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      .                                                               .
-      .                                                               .
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </artwork></figure></t>
-      
       </section>
 
        <section title="Envoie Liste des users"> 
@@ -612,9 +713,83 @@
       .                                                               .
       .                                                               .
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      
-      
+          
       </artwork></figure></t>
+
+       <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Code (4 bits)"><vspace blankLines="1" />
+           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
+          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
+          il permet de d'envoyer 16 types de paquets différents. 
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
+          C'est la taille en bit de l'ensemble du message (c'est à dire
+          de tous les champs du paquet reunis). 
+          </t>
+        </list>
+      </t>
+      
+
+
+       <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
+          Ce champ contient  entre 0 et 127. 
+          IdUser est attribué à chaque client lors de sa connexion
+          et doit permertre son identification client sans l'utilisation
+          de son username afin de reduire la taille des paquets de communication.  
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Salle (4 bits)"><vspace blankLines="1" />
+         Ce champ code sur 4 bits contient le numero d'une Salle.
+         0000 peut etre le numero pour designer la Main Room.
+         Chaque Films est aussi representé par sa salle (numero de salle :xxxx)
+         Le champ salle doit permetre de localiser un client à tout moment.
+         En d'autre terme chaque client est lier à une salle qui permet au server de connaitre
+         les desitinataires des messages envoyé: 
+         MainRoom (Salle=0000) une salle de film (Salle !=0000)   
+          </t>
+        </list>
+      </t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Username (256 bits)"><vspace blankLines="0" />
+          Ce champs contient le Username d'un client. Tout les caracteres
+          UTF-8 sont acceptés.
+          Le Username du client est codé sur 256 bits et doit respecter 
+          certaines contraintes lors de la connexion d'un client.
+          <list style="numbers">
+          <t>
+          Le username doit pouvoir etre code sur 256 bits</t>
+          <t>
+          Le Username choisit ne doit pas etre deja utilisé</t>
+          <t>
+          Le username ne doit pas figuré parmis une liste de username jugés offenssant 
+          Exemple : Hitler, Merde,...</t>
+          </list>          
+          </t>        
+                  
+         
+        </list>
+      </t>
       
       </section>
 
@@ -637,8 +812,21 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      
       
-      
+            
       </artwork></figure></t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="AvertissementInactivite (1024 bits)"><vspace blankLines="1" />
+        Ce champ contient un message avertissement le client 
+        qu'il sera deconnecté dans 1 minute parce qu'il
+        est inactif dans la MainRoom. Tous les caratères UTF-8 doivent 
+        etre accepter et le message codes sur 1024 bits 
+        Le message doit s'afficher parmis les messages de chat mais etre vu 
+        uniquement par le client concerne. 
+        </t>
+        </list>
+      </t>
       
       </section>
 
@@ -660,9 +848,21 @@
       |                                                               |                             
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      
-      
-      
       </artwork></figure></t>
+
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="AvertissementSPAM (1024 bits)"><vspace blankLines="1" />
+        Ce champ contient un message avertissement le client 
+        qu'il sera deconnecté dans 1 minute pour envoi repete de message 
+       (2 messages par seconde). Tous les caratères UTF-8 
+       doivent etre accepter et le message codes sur 1024 bits 
+      Le message doit s'afficher parmis les messages de chat mais etre vu 
+      uniquement par le client concerne  
+          </t>
+        </list>
+      </t>
       
       </section>     
 
@@ -688,6 +888,32 @@
             
       
       </artwork></figure></t>
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Salle (4 bits)"><vspace blankLines="1" />
+         Ce champ code sur 4 bits contient le numero de salle de la Main Room.
+         En d'autre terme de la localisation du client au momment de la demande d'acces,
+         soit Salle=0000
+         Tout comme pour l'envoi d'un message de Chat,
+         ce numero de salle doit etre utiliser pour l'envoie de la liste des users actualisé 
+         au clients situes dans la Main Room (salle 0000).
+     </t>
+        </list>
+      </t>
+
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="NomFilm (256 bits)"><vspace blankLines="1" />
+          Ce champ contient Le nom d'un film. Tous les caratères UTF-8 
+       doivent etre accepter et le message codes sur 256 bits 
+      Le message doit s'afficher parmis les messages de chat mais etre vu 
+      Le champ Salle etant code sur 4 bits l'application
+      doit dispose d'au maximun 15 films.   
+          </t>
+        </list>
+      </t>
       
       </section>
 
@@ -713,6 +939,22 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
           
       </artwork></figure></t>
+
+
+
+      <t> 
+          <list hangIndent="8" style="hanging">
+          <t hangText="Message (Taille variable)"><vspace blankLines="1" />
+          Ce champ contient un message de chat envoye par un client
+          en destination des clients présents dans la meme salle que lui. 
+          Tous les caratères UTF-8 
+          doivent etre accepter et le taille du message doit etre variable.
+          Le message doit s'afficher uniquement chez les clients de cette salle.   
+          </t>
+        </list>
+      </t>
+
+ 
       
       </section>
 
@@ -750,6 +992,7 @@
       | Salle |
       +-+-+-+-+      
       </artwork></figure></t>
+
       
       </section>
 
@@ -769,11 +1012,24 @@
       |                                                               |
       .                    NotificationDeconnexion                    .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       </artwork></figure></t>
+
+        <t>
+        <list hangIndent="8" style="hanging">
+          <t hangText="NotificationDeconnexion (1024 bits)"><vspace blankLines="1" />
+          Ce champ contient un message avertissement le client 
+        qu'il sera deconnecté dans 1 minute pour envoi repete de message 
+       (2 messages par seconde). Tous les caratères UTF-8 
+       doivent etre accepter et le message codes sur 1024 bits 
+      Le message doit s'afficher parmis les messages de chat mais etre vu 
+      uniquement par le client concerne  
+          </t>
+        </list>
+      </t>
+
+      
+
       </section>
     </section>
 
@@ -782,9 +1038,159 @@
     </section>
 
     <section title="Exemple de scenario">
-    <section title="Scenario 1: Regarder un film">
+    <section title="Scenario sans erreur 1: Regarder un film">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Dans ce scenario, nous allons expliciter la suite de messages 
+    envoyee entre un client et le serveur lorsque l'utilisateur veut
+    regarder un film sur la plateforme. Nous irons de la connexion au
+    service jusqu'a l'acces au film.
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+
+
+                                          (salle               (salle 
+                                        principale)              001)
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Demande de       |                   |                    |                     
+  |      connexion        |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client demande   |                   |                    |
+  |  l'acces au service)  |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |  (Le serveur confirme |                   |                    |   
+  |   avoir recu)         |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Connexion reussie    |                   |                    |
+  |&lt;-------------- -------|                   |                    |
+  | (Le serveur connecte  |                   |                    |
+  |       le client)      |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |   Envoi liste des     |                   |                    |
+  |        films          |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |     Envoi liste   |                    |
+  |   Envoi liste des     |  des utilisateurs |                    |
+  |     utilisateurs      |------------------&gt;|                    |
+  |&lt;----------------------|(le serveur actua- |                    |
+  |                       |lise la liste des  |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Demande acces film   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Envoi liste        |                   |                    |
+  | des utilisateurs      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |     (Utilisateurs     |                   |                    |
+  | visionnant le meme    |                   |                    |
+  |   film [salle @001])  |  Envoi liste des  |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |------------------&gt;|                    |
+  |                       | (le serveur actua-|                    |
+  |                       | lise la liste des |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       | Envoi liste des   |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |                       |                   |                    |
+
+
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario sans erreur 2: Chat dans une salle">
+    <t>
+    Ce scenario decrit la suite de message envoyes dans le cas d'un 
+    envoi de messages dans une meme salle.
+    </t>
+
+    <t>
+    <figure>
+    <artwork>
+
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    | 
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+
+    </artwork></figure></t>
+
+    </section><!--End of example 1-->
+
+
+    <section title="Scenario 3: Utilisateur inactif Dans la salle principale">
+    <t>
+    Ce scenario decrit la suite de messages envoyes dans le cas ou un
+    utilisateur est inactif dans la salle principale.
     </t>
 
     <t>
@@ -796,180 +1202,225 @@ etc
 
 You can also use a figure like this:
 
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
+Client A                                Serveur           Client B
+  | =====  Processus de connexion  =====   |                 |
+  | =====     (cf. Scenario 1)     =====   |                 |
+  | ==   (Temps d'inaction = 0 mn)   ==    |                 |
+  .                                        .                 .
+  .                                        .                 .
+  | ==   (Temps d'inaction = 14 mn)   ==   |                 |
+  |                                        |                 |
+  |       Avertissement Inactivite         |                 |
+  |&lt;---------------------------------------|                 |
+  |  (Le serveur previent l'utilisateur)   |                 |
+  |                                        |                 |
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  .                                        .                 .
+  | ==   (Temps d'inaction = 15 mn)   ==   |                 |
+  |                                        |                 |
+  |        Message de deconnexion          |                 |
+  |&lt;---------------------------------------|                 |
+  |                                        | Envoi liste des |
+  |                                        |  utilisateurs   |
+  |                                        |----------------&gt;|
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  |                                        |                 |
+  |                                        |   Acquittement  | 
+  |                                        |&lt;----------------|
+  |                                        |                 |
     </artwork></figure></t>
 
     </section><!--End of example 1-->
 
 
-    <section title="Scenario 2: Chat dans une salle">
+    <section title="Scenario sans erreur 4: Envoie de SPAM">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Ce scenario decrit l'ensemble des messages echanges lorsque 
+    l'utilisateur envoie des messages a repetition dans le chat dans le
+    but de nuire (SPAM). Le serveur va donc le deconnecter.
     </t>
 
     <t>
     <figure>
     <artwork>
-MSG 1 from toto to titi
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  .                       .                   .                    .
+  .                       .                   .                    .
+  .                       .                   .                    .
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |   Avertissement SPAM  |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |      Message de       |                   |                    |
+  |     deconnexion       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  | ("Vous allez etre     |                   |                    |
+  |   deconnecte pour     |                   |                    |
+  |       SPAM")          |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
 
-etc
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </artwork></figure></t>
 
     </section><!--End of example 1-->
 
 
-    <section title="Scenario 3: User Inactif Dans la main Room">
+    <section title="Scenario avec erreur : Quitter l'application">
     <t>
-    Description of the scenario and then the corresponding messages:
+    Dans ce scenario, nous allons simuler la suite de messages envoyes 
+    lorsque l'utilisateur veut quitter l'application. Cependant, nous 
+    ajouterons quelques erreurs qui peuvent arriver dans notre systeme
+    et nous montrerons comment nous comptons les gerer.
     </t>
 
     <t>
     <figure>
     <artwork>
-MSG 1 from toto to titi
 
-etc
+Client A                                       Serveur
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |-----------------------x                       |
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  attend 2 secondes et renvoie le meme message |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Acquittement                    |
+  |                   x---------------------------|
+  |     L'acquittement n'a pas atteint le         |
+  |                   client)                     |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film  (Seq = 6)     |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  encore une fois attend 2 secondes et         |
+  |            renvoie le meme message            |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Erreur de sequence              |
+  |&lt;----------------------------------------------|
+  |  (Le serveur signale au client qu'il a deja   |
+  |   recu cette sequence, lui signalant ainsi    | 
+  |      la reception du message precedent.      
+  |    Le numero de sequence attendu etant        |
+  |                le numero 7)                   |
+  |                                               |
+  |                                               |
+  |              Acquittement   (Seq = 7)         |
+  |----------------------------------------------&gt;|
+  |                                               |
+  |         ==== Deconnexion du client ====       |
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </artwork></figure></t>
 
+    </section>
     </section><!--End of example 1-->
-
-
-    <section title="Scenario 4: Envoie de SPAM">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-
-
-    <section title="Scenario 5: Quitter l'application">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-
-     <section title="Scenario 6: Erreur de Séquence">
-    <t>
-    Description of the scenario and then the corresponding messages:
-    </t>
-
-    <t>
-    <figure>
-    <artwork>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </artwork></figure></t>
-
-    </section><!--End of example 1-->
-    
-    
-
-    </section><!--End of examples-->
 
     <section title="Conclusion">
         <t>
-            Your conclusion goes here.
+          Chat While Watching est une application offrant aux utilisateurs un 
+        service de chat lorsque ceux-ci selectionnent le film qu'ils
+        veulent regarder ou encore pendant le visionnage. En suivant le 
+        protocole enonce dans ce document, nous pensons que l'application
+        peut garantir ce service de chat tout en gardant un certain confort
+        et une bonne fiabilite.
         </t>
     </section>
-
    
     <?rfc needLines="8" ?>
 

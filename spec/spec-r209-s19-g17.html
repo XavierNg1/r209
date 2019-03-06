@@ -394,12 +394,11 @@
 <link href="#rfc.section.4.14" rel="Chapter" title="4.14 Message de deconnexion">
 <link href="#rfc.section.5" rel="Chapter" title="5 Fiabilit&#233;">
 <link href="#rfc.section.6" rel="Chapter" title="6 Exemple de scenario">
-<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Scenario 1: Regarder un film">
-<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Scenario 2: Chat dans une salle">
-<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Scenario 3: User Inactif Dans la main Room">
-<link href="#rfc.section.6.4" rel="Chapter" title="6.4 Scenario 4: Envoie de SPAM">
-<link href="#rfc.section.6.5" rel="Chapter" title="6.5 Scenario 5: Quitter l'application">
-<link href="#rfc.section.6.6" rel="Chapter" title="6.6 Scenario 6: Erreur de S&#233;quence">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 Scenario sans erreur 1: Regarder un film">
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Scenario sans erreur 2: Chat dans une salle">
+<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Scenario 3: Utilisateur inactif Dans la salle principale">
+<link href="#rfc.section.6.4" rel="Chapter" title="6.4 Scenario sans erreur 4: Envoie de SPAM">
+<link href="#rfc.section.6.5" rel="Chapter" title="6.5 Scenario avec erreur : Quitter l'application">
 <link href="#rfc.section.7" rel="Chapter" title="7 Conclusion">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -492,17 +491,15 @@
 </li>
 <li>6.   <a href="#rfc.section.6">Exemple de scenario</a>
 </li>
-<ul><li>6.1.   <a href="#rfc.section.6.1">Scenario 1: Regarder un film</a>
+<ul><li>6.1.   <a href="#rfc.section.6.1">Scenario sans erreur 1: Regarder un film</a>
 </li>
-<li>6.2.   <a href="#rfc.section.6.2">Scenario 2: Chat dans une salle</a>
+<li>6.2.   <a href="#rfc.section.6.2">Scenario sans erreur 2: Chat dans une salle</a>
 </li>
-<li>6.3.   <a href="#rfc.section.6.3">Scenario 3: User Inactif Dans la main Room</a>
+<li>6.3.   <a href="#rfc.section.6.3">Scenario 3: Utilisateur inactif Dans la salle principale</a>
 </li>
-<li>6.4.   <a href="#rfc.section.6.4">Scenario 4: Envoie de SPAM</a>
+<li>6.4.   <a href="#rfc.section.6.4">Scenario sans erreur 4: Envoie de SPAM</a>
 </li>
-<li>6.5.   <a href="#rfc.section.6.5">Scenario 5: Quitter l'application</a>
-</li>
-<li>6.6.   <a href="#rfc.section.6.6">Scenario 6: Erreur de S&#233;quence</a>
+<li>6.5.   <a href="#rfc.section.6.5">Scenario avec erreur : Quitter l'application</a>
 </li>
 </ul><li>7.   <a href="#rfc.section.7">Conclusion</a>
 </li>
@@ -563,13 +560,13 @@
 <p></p>
 
 <ol>
-<li>Client x-----&gt; Server:</li>
-<li>Client &lt;-----x Server: </li>
-<li>Client &lt;-----&gt; Server: </li>
+<li>Client x-----&gt; Server: Indique une communication du client vers le server</li>
+<li>Client &lt;-----x Server: Indique une communication du server vers le client</li>
+<li>Client &lt;-----&gt; Server: Indique la possibilit&#233; d'avoir le cas 1. ou 2. </li>
 </ol>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> Format des Paquets</h1>
-<p id="rfc.section.4.p.1">Describe the packet format and the headers. For example, if you have a binary header, you can use a figure like the following example (where we have used the generic name "Field" for most of the fields, you should use the names corresponding to your solution): </p>
+<p id="rfc.section.4.p.1">Dans la suite nous allons decrire les differents type de paquet present&#233; ci-dessus. Nous pr&#233;senterons la cause de ces differrents "&#233;v&#233;nements", et les cons&#233;quence imm&#233;diates sur le syst&#232;me.  La totalit&#233; des paquets partagent au minimun les 3 champs pr&#233;sent&#233; sur la figure 2. Nous eviterons alors les r&#233;p&#233;titions dans la suite.  </p>
 <div id="rfc.figure.2"></div>
 <div id="ack1"></div>
 <pre>
@@ -583,13 +580,12 @@
       </pre>
 <p class="figure">Figure 2</p>
 <p></p>
-<p id="rfc.section.4.p.3">Liste des champs :</p>
 <p></p>
 
 <dl>
 <dt>Code (4 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
 </dl>
 
 <p> </p>
@@ -598,7 +594,7 @@
 <dl>
 <dt>Sequence (12 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
 </dl>
 
 <p> </p>
@@ -607,7 +603,93 @@
 <dl>
 <dt>Taille (16 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.1">
+<a href="#rfc.section.4.1">4.1.</a> Acquitement</h1>
+<p id="rfc.section.4.1.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.3"></div>
+<div id="ack"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </pre>
+<p class="figure">Figure 3</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Code = 0000 informant le client qu'il s'agit d'un acquitement.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Le mun&#233;ro de s&#233; </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> Erreur de s&#233;quence</h1>
+<p id="rfc.section.4.2.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.4"></div>
+<div id="seq_error"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     
+      </pre>
+<p class="figure">Figure 4</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
 </dl>
 
 <p> </p>
@@ -620,12 +702,60 @@
 </dl>
 
 <p> </p>
+<h1 id="rfc.section.4.3">
+<a href="#rfc.section.4.3">4.3.</a> Demande de connexion</h1>
+<p id="rfc.section.4.3.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.5"></div>
+<div id="demande_co"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                            UserName                           .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </pre>
+<p class="figure">Figure 5</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
+</dl>
+
+<p> </p>
 <p></p>
 
 <dl>
 <dt>Temps (32 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Temps envoy&#233; par le client &#224; chaque interaction volantaire avec le server: Demande de connection, envoie de message Chat , Quitter un film, Demande Acces film.  Ce temps nous permet de mesurer le temps d'inactivit&#233; d'un client.  Comme dit plus haut un client inactif pendant 15 min se fera systematiquent deconnecter lorsqu'il est dans la Main Room, les clients dans les salles de film n'etant pas concerner.  Cela devrait permettre l'acces au service &#224; d'autre client.  </dd>
 </dl>
 
 <p> </p>
@@ -634,7 +764,53 @@
 <dl>
 <dt>Username (256 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Ce champs contient le Username du client. Tout les caracteres UTF-8 sont accept&#233;s.  Le Username du client est au maximun 256 bits une fois le UserName sous forme binaire.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.4">
+<a href="#rfc.section.4.4">4.4.</a> Erreur de connexion</h1>
+<p id="rfc.section.4.4.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.6"></div>
+<div id="Erreur_co"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                                                               |
+      .                        MessageErreur                          .
+      |                                                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </pre>
+<p class="figure">Figure 6</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
 </dl>
 
 <p> </p>
@@ -643,7 +819,51 @@
 <dl>
 <dt>MessageErreur (1024 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Ce champ contient un message &#224; afficher lors d'une erreur de connexion.  Le contenu du message permettra &#224; l'utilisateur de savoir avec exactitude La cause l'erreur. Le message est encod&#233; en UTF-8.  Suivant l'erreur sur le username le client saura que sont username est deja utilis&#233; , trop long ou n'est pas accept&#233; (Hitler, etc) </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.5">
+<a href="#rfc.section.4.5">4.5.</a> Connexion Reussie</h1>
+<p id="rfc.section.4.5.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.7"></div>
+<div id="succed_co"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |    IdUser   |
+      +-+-+-+-+-+-+-+
+       </pre>
+<p class="figure">Figure 7</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
 </dl>
 
 <p> </p>
@@ -652,7 +872,64 @@
 <dl>
 <dt>IdUser (7 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Ce champ contient  entre 0 et 127.  IdUser est attribu&#233; &#224; chaque client lors de sa connexion et doit permertre son identification client sans l'utilisation de son username afin de reduire la taille des paquets de communication.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4.6">
+<a href="#rfc.section.4.6">4.6.</a> Envoie liste des films</h1>
+<p id="rfc.section.4.6.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<div id="rfc.figure.8"></div>
+<div id="list_films"></div>
+<pre>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             NumPort           |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                           AdresseIP                           |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |             NumPort           |                               |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
+      |                            NomFilm                            |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      .                                                               .
+      .                                                               .
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </pre>
+<p class="figure">Figure 8</p>
+<p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
 </dl>
 
 <p> </p>
@@ -679,197 +956,10 @@
 <dl>
 <dt>NomFilm (256 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+<br><br> Ce champ contient Le nom d'un film. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 256 bits Le message doit s'afficher parmis les messages de chat mais etre vu Le champ Salle etant code sur 4 bits l'application doit dispose d'au maximun 15 films </dd>
 </dl>
 
 <p> </p>
-<p></p>
-
-<dl>
-<dt>Salle (4 bits)</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>AvertissementInactivite (1024 bits)</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>AvertissementSPAM (1024 bits)</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>Message (Taille variable)</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>NotificationDeconnexion (1024 bits)</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>Cause d'envoie du paquet :</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<p></p>
-
-<dl>
-<dt>Consequence du paquet :</dt>
-<dd style="margin-left: 8">
-<br><br> Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
-</dl>
-
-<p> </p>
-<h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> Acquitement</h1>
-<p id="rfc.section.4.1.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.3"></div>
-<div id="ack"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </pre>
-<p class="figure">Figure 3</p>
-<p></p>
-<h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> Erreur de s&#233;quence</h1>
-<p id="rfc.section.4.2.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.4"></div>
-<div id="seq_error"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |    SequenceAttendue   |
-      +-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </pre>
-<p class="figure">Figure 4</p>
-<p></p>
-<h1 id="rfc.section.4.3">
-<a href="#rfc.section.4.3">4.3.</a> Demande de connexion</h1>
-<p id="rfc.section.4.3.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.5"></div>
-<div id="demande_co"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                             Temps                             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                               |
-      .                            UserName                           .
-      |                                                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </pre>
-<p class="figure">Figure 5</p>
-<p></p>
-<h1 id="rfc.section.4.4">
-<a href="#rfc.section.4.4">4.4.</a> Erreur de connexion</h1>
-<p id="rfc.section.4.4.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.6"></div>
-<div id="Erreur_co"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                               |
-      .                        MessageErreur                          .
-      |                                                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </pre>
-<p class="figure">Figure 6</p>
-<p></p>
-<h1 id="rfc.section.4.5">
-<a href="#rfc.section.4.5">4.5.</a> Connexion Reussie</h1>
-<p id="rfc.section.4.5.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.7"></div>
-<div id="succed_co"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                             Temps                             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |    IdUser   |
-      +-+-+-+-+-+-+-+
-      
-      </pre>
-<p class="figure">Figure 7</p>
-<p></p>
-<h1 id="rfc.section.4.6">
-<a href="#rfc.section.4.6">4.6.</a> Envoie liste des films</h1>
-<p id="rfc.section.4.6.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
-<div id="rfc.figure.8"></div>
-<div id="list_films"></div>
-<pre>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                           AdresseIP                           |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-       |             NumPort          |                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-      |                            NomFilm                            |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                           AdresseIP                           |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |             NumPort           |                               |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +
-      |                            NomFilm                            |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      .                                                               .
-      .                                                               .
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      </pre>
-<p class="figure">Figure 8</p>
-<p></p>
 <h1 id="rfc.section.4.7">
 <a href="#rfc.section.4.7">4.7.</a> Envoie Liste des users</h1>
 <p id="rfc.section.4.7.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -893,11 +983,70 @@
       .                                                               .
       .                                                               .
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      
-      
+          
       </pre>
 <p class="figure">Figure 9</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>Code (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Cod&#233; sur 4 bits il permet d'identifier les 14 diff&#233;rents types de paquets.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Sequence (12 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Numero de Permet d'identifier le type de paquet recu. Cod&#233; sur 4 bits il permet de d'envoyer 16 types de paquets diff&#233;rents.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Taille (16 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> C'est la taille en bit de l'ensemble du message (c'est &#224; dire de tous les champs du paquet reunis).  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>IdUser (7 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient  entre 0 et 127.  IdUser est attribu&#233; &#224; chaque client lors de sa connexion et doit permertre son identification client sans l'utilisation de son username afin de reduire la taille des paquets de communication.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Salle (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ code sur 4 bits contient le numero d'une Salle.  0000 peut etre le numero pour designer la Main Room.  Chaque Films est aussi represent&#233; par sa salle (numero de salle :xxxx) Le champ salle doit permetre de localiser un client &#224; tout moment.  En d'autre terme chaque client est lier &#224; une salle qui permet au server de connaitre les desitinataires des messages envoy&#233;: MainRoom (Salle=0000) une salle de film (Salle !=0000) </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Username (256 bits)</dt>
+<dd style="margin-left: 8">
+<br> Ce champs contient le Username d'un client. Tout les caracteres UTF-8 sont accept&#233;s.  Le Username du client est cod&#233; sur 256 bits et doit respecter certaines contraintes lors de la connexion d'un client.  <ol>
+<li>Le username doit pouvoir etre code sur 256 bits</li>
+<li>Le Username choisit ne doit pas etre deja utilis&#233;</li>
+<li>Le username ne doit pas figur&#233; parmis une liste de username jug&#233;s offenssant Exemple : Hitler, Merde,...</li>
+</ol>
+<p> </p>
+</dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.4.8">
 <a href="#rfc.section.4.8">4.8.</a> Avertissement Inactivit&#233;</h1>
 <p id="rfc.section.4.8.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -916,10 +1065,19 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      
       
-      
+            
       </pre>
 <p class="figure">Figure 10</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>AvertissementInactivite (1024 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans 1 minute parce qu'il est inactif dans la MainRoom. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne.  </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.4.9">
 <a href="#rfc.section.4.9">4.9.</a> Avertissement SPAM</h1>
 <p id="rfc.section.4.9.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -937,11 +1095,18 @@
       |                                                               |                             
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      
-      
-      
       </pre>
 <p class="figure">Figure 11</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>AvertissementSPAM (1024 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans 1 minute pour envoi repete de message (2 messages par seconde). Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.4.10">
 <a href="#rfc.section.4.10">4.10.</a> Demande Acc&#232;s film</h1>
 <p id="rfc.section.4.10.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -965,6 +1130,24 @@
       </pre>
 <p class="figure">Figure 12</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>Salle (4 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ code sur 4 bits contient le numero de salle de la Main Room.  En d'autre terme de la localisation du client au momment de la demande d'acces, soit Salle=0000 Tout comme pour l'envoi d'un message de Chat, ce numero de salle doit etre utiliser pour l'envoie de la liste des users actualis&#233; au clients situes dans la Main Room (salle 0000).  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>NomFilm (256 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient Le nom d'un film. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 256 bits Le message doit s'afficher parmis les messages de chat mais etre vu Le champ Salle etant code sur 4 bits l'application doit dispose d'au maximun 15 films.  </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.4.11">
 <a href="#rfc.section.4.11">4.11.</a> Envoie Message de Chat</h1>
 <p id="rfc.section.4.11.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -987,6 +1170,15 @@
       </pre>
 <p class="figure">Figure 13</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>Message (Taille variable)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient un message de chat envoye par un client en destination des clients pr&#233;sents dans la meme salle que lui.  Tous les carat&#232;res UTF-8 doivent etre accepter et le taille du message doit etre variable.  Le message doit s'afficher uniquement chez les clients de cette salle.  </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.4.12">
 <a href="#rfc.section.4.12">4.12.</a> Quitter la MainRoom</h1>
 <p id="rfc.section.4.12.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
@@ -1035,66 +1227,157 @@
       |                                                               |
       .                    NotificationDeconnexion                    .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       </pre>
 <p class="figure">Figure 16</p>
 <p></p>
+<p></p>
+
+<dl>
+<dt>NotificationDeconnexion (1024 bits)</dt>
+<dd style="margin-left: 8">
+<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans 1 minute pour envoi repete de message (2 messages par seconde). Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne </dd>
+</dl>
+
+<p> </p>
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> Fiabilit&#233;</h1>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> Exemple de scenario</h1>
 <h1 id="rfc.section.6.1">
-<a href="#rfc.section.6.1">6.1.</a> Scenario 1: Regarder un film</h1>
-<p id="rfc.section.6.1.p.1">Description of the scenario and then the corresponding messages: </p>
+<a href="#rfc.section.6.1">6.1.</a> Scenario sans erreur 1: Regarder un film</h1>
+<p id="rfc.section.6.1.p.1">Dans ce scenario, nous allons expliciter la suite de messages envoyee entre un client et le serveur lorsque l'utilisateur veut regarder un film sur la plateforme. Nous irons de la connexion au service jusqu'a l'acces au film.  </p>
 <pre>
-MSG 1 from toto to titi
 
-etc
 
-You can also use a figure like this:
+                                          (salle               (salle 
+                                        principale)              001)
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Demande de       |                   |                    |                     
+  |      connexion        |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client demande   |                   |                    |
+  |  l'acces au service)  |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |  (Le serveur confirme |                   |                    |   
+  |   avoir recu)         |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Connexion reussie    |                   |                    |
+  |&lt;-------------- -------|                   |                    |
+  | (Le serveur connecte  |                   |                    |
+  |       le client)      |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |   Envoi liste des     |                   |                    |
+  |        films          |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |     Envoi liste   |                    |
+  |   Envoi liste des     |  des utilisateurs |                    |
+  |     utilisateurs      |------------------&gt;|                    |
+  |&lt;----------------------|(le serveur actua- |                    |
+  |                       |lise la liste des  |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |  Demande acces film   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Envoi liste        |                   |                    |
+  | des utilisateurs      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |     (Utilisateurs     |                   |                    |
+  | visionnant le meme    |                   |                    |
+  |   film [salle @001])  |  Envoi liste des  |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |------------------&gt;|                    |
+  |                       | (le serveur actua-|                    |
+  |                       | lise la liste des |                    |
+  |                       | clients connectes)|                    |
+  |                       |                   |                    |
+  |                       | Envoi liste des   |                    |
+  |                       |    utilisateurs   |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |                       |                   |                    |
 
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
+
 
     </pre>
 <p></p>
 <h1 id="rfc.section.6.2">
-<a href="#rfc.section.6.2">6.2.</a> Scenario 2: Chat dans une salle</h1>
-<p id="rfc.section.6.2.p.1">Description of the scenario and then the corresponding messages: </p>
+<a href="#rfc.section.6.2">6.2.</a> Scenario sans erreur 2: Chat dans une salle</h1>
+<p id="rfc.section.6.2.p.1">Ce scenario decrit la suite de message envoyes dans le cas d'un envoi de messages dans une meme salle.  </p>
 <pre>
-MSG 1 from toto to titi
 
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    | 
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "salut!"   |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
 
     </pre>
 <p></p>
 <h1 id="rfc.section.6.3">
-<a href="#rfc.section.6.3">6.3.</a> Scenario 3: User Inactif Dans la main Room</h1>
-<p id="rfc.section.6.3.p.1">Description of the scenario and then the corresponding messages: </p>
+<a href="#rfc.section.6.3">6.3.</a> Scenario 3: Utilisateur inactif Dans la salle principale</h1>
+<p id="rfc.section.6.3.p.1">Ce scenario decrit la suite de messages envoyes dans le cas ou un utilisateur est inactif dans la salle principale.  </p>
 <pre>
 MSG 1 from toto to titi
 
@@ -1102,91 +1385,196 @@ etc
 
 You can also use a figure like this:
 
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
+Client A                                Serveur           Client B
+  | =====  Processus de connexion  =====   |                 |
+  | =====     (cf. Scenario 1)     =====   |                 |
+  | ==   (Temps d'inaction = 0 mn)   ==    |                 |
+  .                                        .                 .
+  .                                        .                 .
+  | ==   (Temps d'inaction = 14 mn)   ==   |                 |
+  |                                        |                 |
+  |       Avertissement Inactivite         |                 |
+  |&lt;---------------------------------------|                 |
+  |  (Le serveur previent l'utilisateur)   |                 |
+  |                                        |                 |
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  .                                        .                 .
+  | ==   (Temps d'inaction = 15 mn)   ==   |                 |
+  |                                        |                 |
+  |        Message de deconnexion          |                 |
+  |&lt;---------------------------------------|                 |
+  |                                        | Envoi liste des |
+  |                                        |  utilisateurs   |
+  |                                        |----------------&gt;|
+  |             Acquittement               |                 |
+  |---------------------------------------&gt;|                 |
+  |                                        |                 |
+  |                                        |   Acquittement  | 
+  |                                        |&lt;----------------|
+  |                                        |                 |
     </pre>
 <p></p>
 <h1 id="rfc.section.6.4">
-<a href="#rfc.section.6.4">6.4.</a> Scenario 4: Envoie de SPAM</h1>
-<p id="rfc.section.6.4.p.1">Description of the scenario and then the corresponding messages: </p>
+<a href="#rfc.section.6.4">6.4.</a> Scenario sans erreur 4: Envoie de SPAM</h1>
+<p id="rfc.section.6.4.p.1">Ce scenario decrit l'ensemble des messages echanges lorsque l'utilisateur envoie des messages a repetition dans le chat dans le but de nuire (SPAM). Le serveur va donc le deconnecter.  </p>
 <pre>
-MSG 1 from toto to titi
+Client A                Serveur           Client B             Client C          
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |   
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "SPAM!" |                    |
+  |                       |---------------------------------------&gt;|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM"     |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  .                       .                   .                    .
+  .                       .                   .                    .
+  .                       .                   .                    .
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |   Avertissement SPAM  |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |                     
+  |  message : "SPAM!"    |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |                   |                    |
+  |     Acquittement      |                   |                    |
+  |&lt;----------------------|                   |                    |
+  |                       |                   |                    |
+  |      Message de       |                   |                    |
+  |     deconnexion       |                   |                    |
+  |&lt;----------------------|                   |                    |
+  | ("Vous allez etre     |                   |                    |
+  |   deconnecte pour     |                   |                    |
+  |       SPAM")          |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |------------------&gt;|                    |
+  |                       |                   |                    |
+  |                       |  Envoi liste des  |                    |
+  |                       |   utilisateurs    |                    |
+  |                       |---------------------------------------&gt;|
+  |    Acquittement       |                   |                    |
+  |----------------------&gt;|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |&lt;------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |&lt;-------------------|
 
-etc
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </pre>
 <p></p>
 <h1 id="rfc.section.6.5">
-<a href="#rfc.section.6.5">6.5.</a> Scenario 5: Quitter l'application</h1>
-<p id="rfc.section.6.5.p.1">Description of the scenario and then the corresponding messages: </p>
+<a href="#rfc.section.6.5">6.5.</a> Scenario avec erreur : Quitter l'application</h1>
+<p id="rfc.section.6.5.p.1">Dans ce scenario, nous allons simuler la suite de messages envoyes lorsque l'utilisateur veut quitter l'application. Cependant, nous ajouterons quelques erreurs qui peuvent arriver dans notre systeme et nous montrerons comment nous comptons les gerer.  </p>
 <pre>
-MSG 1 from toto to titi
 
-etc
+Client A                                       Serveur
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |-----------------------x                       |
+  |                                               |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film (Seq = 6)      |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  attend 2 secondes et renvoie le meme message |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Acquittement                    |
+  |                   x---------------------------|
+  |     L'acquittement n'a pas atteint le         |
+  |                   client)                     |
+  |                                               |
+  |                                               |
+  |       Quitter un salon de film  (Seq = 6)     |
+  |----------------------------------------------&gt;|
+  | (Le client, n'ayant pas recu l'acquittement   |
+  |  encore une fois attend 2 secondes et         |
+  |            renvoie le meme message            |
+  | avec le meme numero de sequence au serveur)   |
+  |                                               |
+  |                                               |
+  |               Erreur de sequence              |
+  |&lt;----------------------------------------------|
+  |  (Le serveur signale au client qu'il a deja   |
+  |   recu cette sequence, lui signalant ainsi    | 
+  |      la reception du message precedent.      
+  |    Le numero de sequence attendu etant        |
+  |                le numero 7)                   |
+  |                                               |
+  |                                               |
+  |              Acquittement   (Seq = 7)         |
+  |----------------------------------------------&gt;|
+  |                                               |
+  |         ==== Deconnexion du client ====       |
 
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
-
-    </pre>
-<p></p>
-<h1 id="rfc.section.6.6">
-<a href="#rfc.section.6.6">6.6.</a> Scenario 6: Erreur de S&#233;quence</h1>
-<p id="rfc.section.6.6.p.1">Description of the scenario and then the corresponding messages: </p>
-<pre>
-MSG 1 from toto to titi
-
-etc
-
-You can also use a figure like this:
-
-     Alice                                            Bob
-        |                                               |
-        |             Message 1 (Request)               |
-        |----------------------------------------------&gt;|
-        |            (details of the message)           |
-        |                                               |
-        |                                               |
-        |               Message 2 (Response)            |
-        |&lt;----------------------------------------------|
-        |                   (Details)                   |
 
     </pre>
 <p></p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> Conclusion</h1>
-<p id="rfc.section.7.p.1">Your conclusion goes here.  </p>
+<p id="rfc.section.7.p.1">Chat While Watching est une application offrant aux utilisateurs un service de chat lorsque ceux-ci selectionnent le film qu'ils veulent regarder ou encore pendant le visionnage. En suivant le protocole enonce dans ce document, nous pensons que l'application peut garantir ce service de chat tout en gardant un certain confort et une bonne fiabilite.  </p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
   <address class="vcard">
