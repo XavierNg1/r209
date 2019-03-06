@@ -212,11 +212,11 @@
 	</section>
 
    
-    <section title="Formats des paquets">
+    <section title="Types de paquet">
     <t>
-    Describe the packet format and the headers. For example, if you have a binary header,
-     you can use a figure like the following example (where we have used the generic
-     name "Field" for most of the fields, you should use the names corresponding to your solution):
+    Ce tableau enumere l'ensemble des paquets qui seront utilises au sein de 
+    notre systeme. Leur description se fera plus loin dans ce document, quand
+    ils seront precises dans les formats de paquets.
     </t>
 
     <t>
@@ -351,7 +351,13 @@
       </section>
 
       <section title="Erreur de séquence"> 
-                <t>Ce paquet est transmis soit par le server oub le client pour informer le second acteur de la communication </t>
+                <t>
+                Ce message est envoye lorsqu'il y a contradiction entre la sequence
+                attendue par le recepteur et celle recue. Dans notre systeme, chaque
+                paquet est identifie de maniere unique par son numero de sequence. 
+                Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence, il
+                detecte la redondance de message et soumet a l'emetteur cette erreur.
+                </t>
          <t>
       <figure align="center" anchor="seq_error">
       <artwork>
@@ -374,8 +380,9 @@
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champ represente le numero du paquet envoye. Il permet de 
+          l'identifier de maniere unique dans le systeme. A chaque nouvel
+          envoi, l'emetteur incremente sa valeur de 1.
           </t>
         </list>
       </t>
@@ -1028,6 +1035,44 @@ Cela devrait permettre l'acces au service à d'autre client.
     </section>
 
     <section title="Fiabilité">
+
+      <t>
+      La fiabilite du protocole est assuree par deux principaux
+      elements : Le numero de sequence, l'acquittement et les messages
+      d'erreur.
+      </t>
+
+      <t>
+      Le type de message acquittement: Ce type de message permet de s'assurer
+      que les utilisateurs ou le serveur ait bien recu le message. Les deux 
+      entites attendent de recevoir ce message avant une autre emission du 
+      meme message. En effet, en cas de non reception du message 
+      d'acquittement, l'emetteur considere que le recepteur n'a pas recu le 
+      message et le renvoie. De cette maniere, nous limitons le nombre de 
+      renvoi de message dans le systeme. Il est a noter qu'en outre, pour ne
+      pas surcharger le serveur, les clients attendront toutes les secondes pour
+      envoyer un message au serveur.
+      </t>
+
+      <t>
+      Le numero de sequence : Chaque message de notre service est associe a un
+      numero de sequence, qui permet de l'identifier de maniere unique. De 
+      cette maniere, nous pouvons determiner quel paquet a ete recu. Prenons
+      un exemple. Supposons que le client A veut communiquer avec le serveur. 
+      Il lui envoie le paquet de sequence 5, le serveur le recoit et lui 
+      envoie un acquittement. Malheureusement, le client ne le recoit pas. Le
+      client renvoie donc le paquet de sequence 5 au serveur. Le serveur
+      ayant deja recu ce paquet, signale une erreur au client en lui envoyant
+      un paquet "Erreur de sequence". Le client A sait donc que le paquet
+      de l'acquittement a ete egare. Cela s'averera tres utile dans le cas de
+      la transmission sous le protocole UDP
+      </t>
+
+      <t>
+      Messages d'erreur : Les messages d'erreur envoyes lors de l'execution
+      des taches du serveur permettront de reconnaitre les erreurs produites
+      afin de les corriger. 
+      </t>
 
     </section>
 
