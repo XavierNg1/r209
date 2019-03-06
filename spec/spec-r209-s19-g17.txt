@@ -23,7 +23,7 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Fonctionnement  . . . . . . . . . . . . . . . . . . . . . . .   2
-   3.  Type de Paquet  . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Formats des paquets . . . . . . . . . . . . . . . . . . . . .   3
    4.  Format des Paquets  . . . . . . . . . . . . . . . . . . . . .   4
      4.1.  Acquitement . . . . . . . . . . . . . . . . . . . . . . .   5
      4.2.  Erreur de sequence  . . . . . . . . . . . . . . . . . . .   6
@@ -119,17 +119,25 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
    partie ni des pseudos existants ni des pseudos bannis.
 
    Une fois ces conditions satisfaites, le client est connecte.  Il
-   accede au salon principal et recoit la liste de tous les utilisateurs
-   connectes (pseudos, presence) et la liste des videos disponibles
-   (nom, adresse IP, port).  La liste des utilisateurs recue par les
-   autres utilisateurs est aussi actualisee.  Pour changer de salon, le
-   client envoie au serveur le nom, le port et l'adresse IP de la video
-   qu'il souhaite visionner.  Il se retrouve alors dans le salon de la
-   video correspondant et recoit en meme temps la liste des utilisateurs
-   regardant la meme video.  Ces derniers sont informes eux aussi de la
-   venue d'un nouvel utilisateur.  Le client peut decider de quitter le
-   salon principal ou un salon de visionnage a tout moment, en envoyant
-   les messages correspondants.
+   accede au salon principal et recoit la liste des videos disponibles
+   la liste de tous les utilisateurs connectes.  L'application precisera
+   en outre si l'utilisateur est present dans la salle principale ou
+   s'il est entrain de visionner une video.  La liste des utilisateurs
+   recue par les autres utilisateurs est aussi actualisee.
+   L'utilisateur pourra dialoguer avec les autres clients present dans
+   son salon.  Pour changer de salon, le client envoie au serveur le
+   nom, le port et l'adresse IP de la video qu'il souhaite visionner.
+   Il se retrouve alors dans le salon de la video correspondant et
+   recoit en meme temps la liste des utilisateurs regardant la meme
+   video.  Ces derniers sont informes eux aussi de la venue d'un nouvel
+   utilisateur.  Le client peut decider de quitter le salon principal ou
+   un salon de visionnage a tout moment, en envoyant les messages
+   correspondants.
+
+   Il convient par ailleurs de preciser que le serveur se reserve le
+   droit de deconnecter l'utilisateur dans deux (2) cas : En cas de
+   longue periode d'inactivite dans la salle principale ou en cas de
+   spam (envois repetitifs du meme message dans le chat).
 
    Deuxieme cas : La connexion est refusee
 
@@ -137,7 +145,7 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
    precedemment n'est pas respectee.  Le client recoit alors un message
    d'erreur et est invite a ressaisir ses acces.
 
-3.  Type de Paquet
+3.  Formats des paquets
 
    Describe the packet format and the headers.  For example, if you have
    a binary header, you can use a figure like the following example
@@ -157,37 +165,29 @@ KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 2]
 
 
 
-
-
-
-
-
-
-
-
 KADJO MAMI & N'GUESSAN  Expires September 1, 2019               [Page 3]
 
                             Abbreviated Title              February 2019
 
 
-     +------+--------------------------+-------------------------------+
-     | code |       TypeDePaquet       |      Sens de Transmission     |
-     +------+--------------------------+-------------------------------+
-     | 0000 |       Acquitement        |     Client <-----> Server     |
-     | 0001 |   Demande de connexion   |     Client x-----> Server     |
-     | 0010 |   Erreur de connexion    |     Client <-----x Server     |
-     | 0011 |     Connexion Reussie    |     Client <-----x Server     |
-     | 0100 |  Envoie liste des films  |     Client <-----x Server     |
-     | 0101 |  Envoie liste de users   |     Client <-----x Server     |
-     | 0110 | Avertissemnt Inactivite  |     Client <-----x Server     |
-     | 0111 |    Avertissemnt SPAM     |     Client <-----x Server     |
-     | 1000 |    Demande acces film    |     Client x-----> Server     |
-     | 1001 |    Erreur de sequence    |     Client <-----> Server     |
-     | 1010 |  Envoie message de Chat  |     Client <-----> Server     |
-     | 1011 |   Quitter la Main room   |     Client x-----> Server     |
-     | 1100 | Quitter un salon de film |     Client x-----> Server     |
-     | 1101 |  Message de deconnexion  |     Client <-----x Server     |
-     |______|__________________________|_______________________________|
+    +------+--------------------------+-------------------------------+
+    | code |       TypeDePaquet       |      Sens de Transmission     |
+    +------+--------------------------+-------------------------------+
+    | 0000 |       acquittement       |     Client <-----> Serveur     |
+    | 0001 |   Demande de connexion   |     Client x-----> Serveur    |
+    | 0010 |   Erreur de connexion    |     Client <-----x Serveur    |
+    | 0011 |     Connexion Reussie    |     Client <-----x Serveur    |
+    | 0100 |  Envoie liste des films  |     Client <-----x Serveur    |
+    | 0101 |  Envoie liste de users   |     Client <-----x Serveur    |
+    | 0110 | Avertissemnt Inactivite  |     Client <-----x Serveur    |
+    | 0111 |    Avertissemnt SPAM     |     Client <-----x Serveur    |
+    | 1000 |    Demande acces film    |     Client x-----> Serveur    |
+    | 1001 |    Erreur de sequence    |     Client <-----> Serveur    |
+    | 1010 |  Envoie message de Chat  |     Client <-----> Serveur    |
+    | 1011 |   Quitter la Main room   |     Client x-----> Serveur    |
+    | 1100 | Quitter un salon de film |     Client x-----> Serveur    |
+    | 1101 |  Message de deconnexion  |     Client <-----x Serveur    |
+    |______|__________________________|_______________________________|
 
 
 

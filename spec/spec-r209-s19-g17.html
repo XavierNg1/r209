@@ -376,7 +376,7 @@
   <link href="#rfc.toc" rel="Contents">
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.2" rel="Chapter" title="2 Fonctionnement">
-<link href="#rfc.section.3" rel="Chapter" title="3 Type de Paquet">
+<link href="#rfc.section.3" rel="Chapter" title="3 Formats des paquets">
 <link href="#rfc.section.4" rel="Chapter" title="4 Format des Paquets">
 <link href="#rfc.section.4.1" rel="Chapter" title="4.1 Acquitement">
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Erreur de s&#233;quence">
@@ -455,7 +455,7 @@
 </li>
 <li>2.   <a href="#rfc.section.2">Fonctionnement</a>
 </li>
-<li>3.   <a href="#rfc.section.3">Type de Paquet</a>
+<li>3.   <a href="#rfc.section.3">Formats des paquets</a>
 </li>
 <li>4.   <a href="#rfc.section.4">Format des Paquets</a>
 </li>
@@ -523,11 +523,12 @@
 <p id="rfc.section.2.p.5">Il y a etablissement de connexion si et seulement si deux (2) conditions sont respectees:</p>
 <p id="rfc.section.2.p.6">Le serveur n'est pas sature : Leur serveur est sature si il atteint le nombre maximal d'utilisateurs qu'il peut supporter en l'occurence 128. si ce n'est pas le cas la connexion peut etre etablie.</p>
 <p id="rfc.section.2.p.7">Le nom d'utilisateur est correct: Il respecte les conditions de taille, il est alphanumerique sans caracteres speciaux, il ne fait partie ni des pseudos existants ni des pseudos bannis.</p>
-<p id="rfc.section.2.p.8">Une fois ces conditions satisfaites, le client est connecte. Il accede au salon principal et recoit la liste de tous les utilisateurs connectes (pseudos, presence) et la liste des videos disponibles (nom, adresse IP, port). La liste des utilisateurs recue par les autres utilisateurs est aussi actualisee. Pour changer de salon, le client envoie au serveur le nom, le port et l'adresse IP de la video qu'il souhaite visionner. Il se retrouve alors dans le salon de la video correspondant et recoit en meme temps la liste des utilisateurs regardant la meme video. Ces derniers sont informes eux aussi de la venue d'un nouvel utilisateur. Le client peut decider de quitter le salon principal ou un salon de visionnage a tout moment, en envoyant les messages correspondants.</p>
-<p id="rfc.section.2.p.9">Deuxieme cas : La connexion est refusee</p>
-<p id="rfc.section.2.p.10">La connexion echoue si l'une des deux conditions enoncees precedemment n'est pas respectee. Le client recoit alors un message d'erreur et est invite a ressaisir ses acces.</p>
+<p id="rfc.section.2.p.8">Une fois ces conditions satisfaites, le client est connecte. Il accede au salon principal et recoit la liste des videos disponibles la liste de tous les utilisateurs connectes. L'application precisera en outre si l'utilisateur est present dans la salle principale ou s'il est entrain de visionner une video. La liste des utilisateurs recue par les autres utilisateurs est aussi actualisee. L'utilisateur pourra dialoguer avec les autres clients present dans son salon. Pour changer de salon, le client envoie au serveur le nom, le port et l'adresse IP de la video qu'il souhaite visionner. Il se retrouve alors dans le salon de la video correspondant et recoit en meme temps la liste des utilisateurs regardant la meme video. Ces derniers sont informes eux aussi de la venue d'un nouvel utilisateur. Le client peut decider de quitter le salon principal ou un salon de visionnage a tout moment, en envoyant les messages correspondants.</p>
+<p id="rfc.section.2.p.9">Il convient par ailleurs de preciser que le serveur se reserve le droit de deconnecter l'utilisateur dans deux (2) cas : En cas de longue periode d'inactivite dans la salle principale ou en cas de spam (envois repetitifs du meme message dans le chat).</p>
+<p id="rfc.section.2.p.10">Deuxieme cas : La connexion est refusee</p>
+<p id="rfc.section.2.p.11">La connexion echoue si l'une des deux conditions enoncees precedemment n'est pas respectee. Le client recoit alors un message d'erreur et est invite a ressaisir ses acces.</p>
 <h1 id="rfc.section.3">
-<a href="#rfc.section.3">3.</a> Type de Paquet</h1>
+<a href="#rfc.section.3">3.</a> Formats des paquets</h1>
 <p id="rfc.section.3.p.1">Describe the packet format and the headers. For example, if you have a binary header, you can use a figure like the following example (where we have used the generic name "Field" for most of the fields, you should use the names corresponding to your solution): </p>
 <div id="rfc.figure.1"></div>
 <div id="type_paquet"></div>
@@ -536,20 +537,20 @@
     +------+--------------------------+-------------------------------+
     | code |       TypeDePaquet       |      Sens de Transmission     |
     +------+--------------------------+-------------------------------+
-    | 0000 |       Acquitement        |     Client &lt;-----&gt; Server     |
-    | 0001 |   Demande de connexion   |     Client x-----&gt; Server     |
-    | 0010 |   Erreur de connexion    |     Client &lt;-----x Server     |
-    | 0011 |     Connexion Reussie    |     Client &lt;-----x Server     |
-    | 0100 |  Envoie liste des films  |     Client &lt;-----x Server     |
-    | 0101 |  Envoie liste de users   |     Client &lt;-----x Server     |
-    | 0110 | Avertissemnt Inactivit&#233;  |     Client &lt;-----x Server     |
-    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Server     |
-    | 1000 |    Demande acces film    |     Client x-----&gt; Server     |
-    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Server     |
-    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Server     |
-    | 1011 |   Quitter la Main room   |     Client x-----&gt; Server     |
-    | 1100 | Quitter un salon de film |     Client x-----&gt; Server     |
-    | 1101 |  Message de deconnexion  |     Client &lt;-----x Server     |
+    | 0000 |       acquittement       |     Client &lt;-----&gt; Serveur     |
+    | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur    |
+    | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur    |
+    | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur    |
+    | 0100 |  Envoie liste des films  |     Client &lt;-----x Serveur    |
+    | 0101 |  Envoie liste de users   |     Client &lt;-----x Serveur    |
+    | 0110 | Avertissemnt Inactivit&#233;  |     Client &lt;-----x Serveur    |
+    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur    |
+    | 1000 |    Demande acces film    |     Client x-----&gt; Serveur    |
+    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur    |
+    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Serveur    |
+    | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur    |
+    | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur    |
+    | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur    |
     |______|__________________________|_______________________________|
 
   

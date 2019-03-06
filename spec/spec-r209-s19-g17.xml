@@ -46,7 +46,8 @@
     <!-- The abbreviated title is used in the page header - it is only necessary if the
          full title is longer than 39 characters -->
 
-    <title abbrev="Abbreviated Title">Group 17: c2w protocol specification proposal (Binary Version)
+    <title abbrev="Abbreviated Title">Group 17: Proposition de specification de protocole :
+    Application c2w
     </title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
@@ -225,20 +226,20 @@
     +------+--------------------------+-------------------------------+
     | code |       TypeDePaquet       |      Sens de Transmission     |
     +------+--------------------------+-------------------------------+
-    | 0000 |       acquittement        |     Client &lt;-----&gt; Serveur     |
-    | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur     |
-    | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur     |
-    | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur     |
-    | 0100 |  Envoie liste des films  |     Client &lt;-----x Serveur     |
-    | 0101 |  Envoie liste de users   |     Client &lt;-----x Serveur     |
-    | 0110 | Avertissemnt Inactivité  |     Client &lt;-----x Serveur     |
-    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur     |
-    | 1000 |    Demande acces film    |     Client x-----&gt; Serveur     |
-    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur     |
-    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Serveur     |
-    | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur     |
-    | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur     |
-    | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur     |
+    | 0000 |       acquittement       |     Client &lt;-----&gt; Serveur     |
+    | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur    |
+    | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur    |
+    | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur    |
+    | 0100 |  Envoie liste des films  |     Client &lt;-----x Serveur    |
+    | 0101 |  Envoie liste de users   |     Client &lt;-----x Serveur    |
+    | 0110 | Avertissemnt Inactivité  |     Client &lt;-----x Serveur    |
+    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur    |
+    | 1000 |    Demande acces film    |     Client x-----&gt; Serveur    |
+    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur    |
+    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Serveur    |
+    | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur    |
+    | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur    |
+    | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur    |
     |______|__________________________|_______________________________|
 
   
@@ -275,8 +276,7 @@
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+      
       </artwork></figure></t>            
 
 
@@ -301,16 +301,16 @@
           <list hangIndent="8" style="hanging">
           <t hangText="Taille (16 bits)"><vspace blankLines="1" />
           C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+          de tous les champs du paquet reunis).
           </t>
         </list>
       </t>
     
 
       <section title="Acquitement"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t> Ce paquet est transmis par le server ou le client pour informer 
+                le second acteur de la transmission de la reception d'un paquet 
+                </t>
          <t>
       <figure align="center" anchor="ack">
       <artwork>
@@ -320,7 +320,6 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
       </artwork></figure></t>
 
 
@@ -352,9 +351,7 @@
       </section>
 
       <section title="Erreur de séquence"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis soit par le server oub le client pour informer le second acteur de la communication </t>
          <t>
       <figure align="center" anchor="seq_error">
       <artwork>
@@ -363,8 +360,7 @@
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+   
       </artwork></figure></t>
 
       <t> 
@@ -393,21 +389,11 @@
         </list>
       </t>
 
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="SequenceAttendue (12 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-      
+     
       </section>
 
       <section title="Demande de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est le premier envoyé par le client au server pour la demande de connexion.</t>
       <t>
       <figure align="center" anchor="demande_co">
       <artwork>
@@ -428,7 +414,7 @@
        <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+           Code = 0000 informant le client qu'il s'agit d'une demande de connexion.  
           </t>
         </list>
       </t>
@@ -470,12 +456,23 @@ Cela devrait permettre l'acces au service à d'autre client.
 
 <t> 
           <list hangIndent="8" style="hanging">
-          <t hangText="Username (256 bits)"><vspace blankLines="1" />
-          Ce champs contient le Username du client. Tout les caracteres
+          <t hangText="Username (256 bits)"><vspace blankLines="0" />
+          Ce champs contient le Username du demandeur de connexion. Tout les caracteres
           UTF-8 sont acceptés.
-          Le Username du client est au maximun 256 bits une fois
-          le UserName sous forme binaire. 
-          </t>
+          Le Username du client est codé sur 256 bits et doit respecter 
+          certaines contraintes lors de la connexion d'un client.
+          <list style="numbers">
+          <t>
+          Le username doit pouvoir etre code sur 256 bits</t>
+          <t>
+          Le Username choisit ne doit pas etre deja utilisé</t>
+          <t>
+          Le username ne doit pas figuré parmis une liste de username jugés offenssant 
+          Exemple : Hitler, Merde,...</t>
+          </list>          
+          </t>        
+                  
+         
         </list>
       </t>
 
@@ -485,9 +482,7 @@ Cela devrait permettre l'acces au service à d'autre client.
 
 
       <section title="Erreur de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Paquet envoyé au demandeur de connexion lorsque son username est invalide.</t>
          <t>
       <figure align="center" anchor="Erreur_co">
       <artwork>
@@ -536,7 +531,7 @@ Cela devrait permettre l'acces au service à d'autre client.
           Le contenu du message permettra à l'utilisateur de savoir avec exactitude
           La cause l'erreur. Le message est encodé en UTF-8. 
           Suivant l'erreur sur le username le client saura que sont username est deja utilisé
-          , trop long ou n'est pas accepté (Hitler, etc)
+          , trop long ou n'est pas accepté.
           </t>
         </list>
       </t>
@@ -589,16 +584,14 @@ Cela devrait permettre l'acces au service à d'autre client.
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
-          Ce champ contient  entre 0 et 127. 
+          Ce champ contient li'identifiant d'un user connecté. Il est compris dans l'intervalle
+          [0000000-1111111]
           IdUser est attribué à chaque client lors de sa connexion
-          et doit permertre son identification client sans l'utilisation
+          et doit permettre son identification sans l'utilisation
           de son username afin de reduire la taille des paquets de communication.  
           </t>
         </list>
       </t>
-
-
-     
       
       </section>
       
@@ -721,8 +714,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       .                                                               .
       .                                                               .
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-          
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+          
       </artwork></figure></t>
 
        <t> 
@@ -818,10 +810,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       |                                                               |
       .                     AvertissementInactivité                   .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      
-            
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       </artwork></figure></t>
 
       <t> 
@@ -855,8 +844,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       |                                                               |
       .                       AvertissementSPAM                       .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+     
       </artwork></figure></t>
 
 
@@ -893,9 +881,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       | Salle |                                                       |
       +-+-+-+-+                    NomFilm                            .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+          
       </artwork></figure></t>
 
       <t> 
@@ -945,8 +931,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       |    IdUser   | Salle |                                         |
       +-+-+-+-+-+-+-+-+-+-+-+      Message                            .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-          
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+   
       </artwork></figure></t>
 
 
