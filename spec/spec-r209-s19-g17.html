@@ -393,11 +393,11 @@
 <link href="#rfc.section.3.14" rel="Chapter" title="3.14 Message de deconnexion">
 <link href="#rfc.section.4" rel="Chapter" title="4 Fiabilit&#233;">
 <link href="#rfc.section.5" rel="Chapter" title="5 Exemple de scenario">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Scenario 1 (sans erreur): Regarder un film">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Scenario 1(sans erreur): Regarder un film">
 <link href="#rfc.section.5.2" rel="Chapter" title="5.2 Scenario 2(sans erreur): Chat dans une salle">
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Scenario 3: Utilisateur inactif Dans la salle principale">
-<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Scenario sans erreur 4: Envoie de SPAM">
-<link href="#rfc.section.5.5" rel="Chapter" title="5.5 Scenario avec erreur : Quitter l'application">
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Scenario 3(sans erreur): Utilisateur inactif Dans la salle principale">
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 Scenario 4(sans erreur): Envoie de SPAM">
+<link href="#rfc.section.5.5" rel="Chapter" title="5.5 Scenario 5(avec erreur) : Quitter l'application">
 <link href="#rfc.section.6" rel="Chapter" title="6 Conclusion">
 <link href="#rfc.authors" rel="Chapter">
 
@@ -408,8 +408,8 @@
   <meta name="dct.creator" content="KADJO MAMI, C. and E. N'GUESSAN" />
   <meta name="dct.identifier" content="urn:ietf:id:Application c2w" />
   <meta name="dct.issued" scheme="ISO8601" content="2019-03-06" />
-  <meta name="dct.abstract" content="Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs du meme type de salon (principal ou de visionnement d'une video) de s'echanger des messages." />
-  <meta name="description" content="Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs du meme type de salon (principal ou de visionnement d'une video) de s'echanger des messages." />
+  <meta name="dct.abstract" content="Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs d'une meme salle (principal ou dee film) de s'echanger des messages." />
+  <meta name="description" content="Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs d'une meme salle (principal ou dee film) de s'echanger des messages." />
 
 </head>
 
@@ -443,7 +443,7 @@
   <span class="filename">Application c2w</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs du meme type de salon (principal ou de visionnement d'une video) de s'echanger des messages.</p>
+<p>Ce document presente la specification du protocole de communication utilise au sein de l'application c2w (Chat While Watching); Ce protocole permettra a tous les utilisateurs d'une meme salle (principal ou dee film) de s'echanger des messages.</p>
 
   
   <hr class="noprint" />
@@ -488,15 +488,15 @@
 </li>
 <li>5.   <a href="#rfc.section.5">Exemple de scenario</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">Scenario 1 (sans erreur): Regarder un film</a>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Scenario 1(sans erreur): Regarder un film</a>
 </li>
 <li>5.2.   <a href="#rfc.section.5.2">Scenario 2(sans erreur): Chat dans une salle</a>
 </li>
-<li>5.3.   <a href="#rfc.section.5.3">Scenario 3: Utilisateur inactif Dans la salle principale</a>
+<li>5.3.   <a href="#rfc.section.5.3">Scenario 3(sans erreur): Utilisateur inactif Dans la salle principale</a>
 </li>
-<li>5.4.   <a href="#rfc.section.5.4">Scenario sans erreur 4: Envoie de SPAM</a>
+<li>5.4.   <a href="#rfc.section.5.4">Scenario 4(sans erreur): Envoie de SPAM</a>
 </li>
-<li>5.5.   <a href="#rfc.section.5.5">Scenario avec erreur : Quitter l'application</a>
+<li>5.5.   <a href="#rfc.section.5.5">Scenario 5(avec erreur) : Quitter l'application</a>
 </li>
 </ul><li>6.   <a href="#rfc.section.6">Conclusion</a>
 </li>
@@ -513,7 +513,7 @@
 <p id="rfc.section.1.p.3">Dans la suite du document nous sp&#233;cifierons le fonctionnement du protocole, les types de messages envoy&#233;s, le format des differents messages et donnerons differents exemples de scenarii pouvant arriver dans l'execution du protocole.</p>
 <h1 id="rfc.section.2">
 <a href="#rfc.section.2">2.</a> Types de paquet</h1>
-<p id="rfc.section.2.p.1">Ce tableau enumere l'ensemble des paquets qui seront utilises au sein de notre systeme. Leur description se fera plus loin dans ce document, quand ils seront precises dans les formats de paquets.  </p>
+<p id="rfc.section.2.p.1">Ce tableau enumere l'ensemble des paquets qui seront utilises au sein de notre systeme.  Leur description se fera dans la suite du document quand ils seront precises leurs formats de paquets.  </p>
 <div id="rfc.figure.1"></div>
 <div id="type_paquet"></div>
 <pre>
@@ -521,17 +521,17 @@
     +------+--------------------------+-------------------------------+
     | code |       TypeDePaquet       |      Sens de Transmission     |
     +------+--------------------------+-------------------------------+
-    | 0000 |       acquittement       |     Client &lt;-----&gt; Serveur    |
+    | 0000 |       Acquittement       |     Client &lt;-----&gt; Serveur    |
     | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur    |
     | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur    |
     | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur    |
-    | 0100 |  Envoie liste des films  |     Client &lt;-----x Serveur    |
-    | 0101 |  Envoie liste de users   |     Client &lt;-----x Serveur    |
+    | 0100 |  Envoi liste des films   |     Client &lt;-----x Serveur    |
+    | 0101 |  Envoi liste de users    |     Client &lt;-----x Serveur    |
     | 0110 | Avertissemnt Inactivit&#233;  |     Client &lt;-----x Serveur    |
     | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur    |
     | 1000 |    Demande acces film    |     Client x-----&gt; Serveur    |
     | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur    |
-    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Serveur    |
+    | 1010 |  Envoi message de Chat   |     Client &lt;-----&gt; Serveur    |
     | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur    |
     | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur    |
     | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur    |
@@ -547,11 +547,11 @@
 <ol>
 <li>Client x-----&gt; Server: Indique une communication du client vers le server</li>
 <li>Client &lt;-----x Server: Indique une communication du server vers le client</li>
-<li>Client &lt;-----&gt; Server: Indique la possibilit&#233; d'avoir le cas 1. ou 2. </li>
+<li>Client &lt;-----&gt; Server: Indique la possibilit&#233; d'avoir le cas 1. et 2. </li>
 </ol>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> Format des Paquets</h1>
-<p id="rfc.section.3.p.1">Dans la suite nous allons decrire les differents type de paquet present&#233; ci-dessus. Nous pr&#233;senterons la cause de ces differrents "&#233;v&#233;nements", et les cons&#233;quence imm&#233;diates sur le syst&#232;me.  La totalit&#233; des paquets partagent au minimun les 3 champs pr&#233;sent&#233; sur la figure 2. Nous eviterons alors les r&#233;p&#233;titions dans la suite.  </p>
+<p id="rfc.section.3.p.1">Dans la suite nous allons decrire les differents types de paquet present&#233;s ci-dessus, en pr&#233;sentant les diff&#233;rents champs qui les composents La totalit&#233; des paquets partagent au minimun les 3 champs pr&#233;sent&#233; sur la figure 2. Nous eviterons alors les r&#233;p&#233;titions dans la suite.  </p>
 <div id="rfc.figure.2"></div>
 <div id="ack1"></div>
 <pre>
@@ -593,7 +593,7 @@
 <p> </p>
 <h1 id="rfc.section.3.1">
 <a href="#rfc.section.3.1">3.1.</a> Acquitement</h1>
-<p id="rfc.section.3.1.p.1">Ce paquet est transmis par le server ou le client pour informer le second acteur de la transmission de la reception d'un paquet </p>
+<p id="rfc.section.3.1.p.1">Ce paquet est transmis par le server ou le client pour informer le second acteur de transmission de la reception d'un paquet.  </p>
 <div id="rfc.figure.3"></div>
 <div id="ack"></div>
 <pre>
@@ -606,9 +606,9 @@
       </pre>
 <p class="figure">Figure 3</p>
 <p></p>
-<p id="rfc.section.3.1.p.3">Code (4 bits) informant le client qu'il s'agit d'un acquitement. (Voir figure 1) </p>
-<p id="rfc.section.3.1.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.1.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.1.p.3">Code (4 bits): informant le client qu'il s'agit d'un acquitement. (Voir figure 1) </p>
+<p id="rfc.section.3.1.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.1.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <h1 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> Erreur de s&#233;quence</h1>
 <p id="rfc.section.3.2.p.1">Ce message est envoye lorsqu'il y a contradiction entre la sequence attendue par le recepteur et celle recue. Dans notre systeme, chaque paquet est identifie de maniere unique par son numero de sequence.  Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence, il detecte la redondance de message et soumet a l'emetteur cette erreur.  </p>
@@ -624,9 +624,9 @@
       </pre>
 <p class="figure">Figure 4</p>
 <p></p>
-<p id="rfc.section.3.2.p.3">Code (4 bits) informant le client qu'il s'agit d'une notification d'erreur de sequence. (Voir figure 1) </p>
-<p id="rfc.section.3.2.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.2.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.2.p.3">Code (4 bits): informant le client qu'il s'agit d'une notification d'erreur de sequence. (Voir figure 1) </p>
+<p id="rfc.section.3.2.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.2.p.5">Taille (16 bits):Taille totale du paquet.  </p>
 <h1 id="rfc.section.3.3">
 <a href="#rfc.section.3.3">3.3.</a> Demande de connexion</h1>
 <p id="rfc.section.3.3.p.1">Ce paquet est le premier envoy&#233; par le client au server pour la demande de connexion.</p>
@@ -648,15 +648,15 @@
       </pre>
 <p class="figure">Figure 5</p>
 <p></p>
-<p id="rfc.section.3.3.p.3">Code (4 bits) informant le server qu'il s'agit d'une demande de connexion &#224; l'application. (Voir figure 1) </p>
-<p id="rfc.section.3.3.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.3.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.3.p.3">Code (4 bits): informant le server qu'il s'agit d'une demande de connexion &#224; l'application. (Voir figure 1) </p>
+<p id="rfc.section.3.3.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.3.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
 <dt>Temps (32 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Temps envoy&#233; par le client &#224; chaque interaction volantaire avec le server: Demande de connection, envoie de message Chat , Quitter un film, Demande Acces film.  Ce temps nous permet de mesurer le temps d'inactivit&#233; d'un client.  Comme dit plus haut un client inactif pendant 15 min se fera systematiquent deconnecter lorsqu'il est dans la Main Room, les clients dans les salles de film n'etant pas concerner.  Cela devrait permettre l'acces au service &#224; d'autre client.  </dd>
+<br><br> Temps envoy&#233; par le client &#224; chaque interaction volantaire avec le server: Demande de connection, envoie de message Chat , Quitter un film, Demande Acces film.  Ce temps nous permet de mesurer le temps d'inactivit&#233; d'un client.  Comme pr&#233;snenter dans le scenarion 3 (Voir 5.3) un client inactif pendant 15 min se fera systematiquent deconnecter lorsqu'il est dans la Main Room, les clients dans les salles de film n'etant pas concerner.  Cela devrait permettre l'acces au service &#224; d'autre client.  </dd>
 </dl>
 
 <p> </p>
@@ -694,9 +694,9 @@
       </pre>
 <p class="figure">Figure 6</p>
 <p></p>
-<p id="rfc.section.3.4.p.3">Code (4 bits) informant le client qu'il s'agit d'une notification d'erreur de connexion. (Voir figure 1) </p>
-<p id="rfc.section.3.4.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.4.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.4.p.3">Code (4 bits): informant le client qu'il s'agit d'une notification d'erreur de connexion. (Voir figure 1) </p>
+<p id="rfc.section.3.4.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.4.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
@@ -723,21 +723,21 @@
        </pre>
 <p class="figure">Figure 7</p>
 <p></p>
-<p id="rfc.section.3.5.p.3">Code (4 bits) informant le client qu'il s'agit d'une notification de connexion reussie. (Voir figure 1) </p>
-<p id="rfc.section.3.5.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.5.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.5.p.3">Code (4 bits): informant le client qu'il s'agit d'une notification de connexion reussie. (Voir figure 1) </p>
+<p id="rfc.section.3.5.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.5.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
 <dt>IdUser (7 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ contient l'identifiant d'un user connect&#233;. Il est compris dans l'intervalle [0000000-1111111] IdUser est attribu&#233; &#224; chaque client lors de sa connexion et doit permettre son identification sans l'utilisation de son username afin de reduire la taille des paquets de communication.  </dd>
+<br><br> Ce champ contient l'identifiant d'un user connecte.  Code sur 7 bits un IdUser est attribue a chaque client lors de sa connexion et doit permettre son identification sans l'utilisation de son username afin de reduire la taille des paquets de communication. Le nombre maximal de User connect&#233; est 128 </dd>
 </dl>
 
 <p> </p>
 <h1 id="rfc.section.3.6">
 <a href="#rfc.section.3.6">3.6.</a> Envoie liste des films</h1>
-<p id="rfc.section.3.6.p.1">Ce paquet est transmis au client lors de sa premi&#232;re connexion sauf ajout de film pour les futures selection de film &#224; regarder.</p>
+<p id="rfc.section.3.6.p.1">Ce paquet est transmis au client lors de sa premi&#232;re connexion (sauf ajout de nouveau film) pour ses futures selection de film &#224; regarder.</p>
 <div id="rfc.figure.8"></div>
 <div id="list_films"></div>
 <pre>
@@ -765,15 +765,15 @@
       </pre>
 <p class="figure">Figure 8</p>
 <p></p>
-<p id="rfc.section.3.6.p.3">Code (4 bits) informant le client qu'il s'agit de la liste des films disposibles. (Voir figure 1) </p>
-<p id="rfc.section.3.6.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.6.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.6.p.3">Code (4 bits): informant le client qu'il s'agit de la liste des films disposibles. (Voir figure 1) </p>
+<p id="rfc.section.3.6.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.6.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
 <dt>Adresse IP (32 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ correspond &#224; l'addresse Ip du films situe dans le chams Nomfilm qui suit.  </dd>
+<br><br> Ce champ correspond &#224; l'addresse Ip du films situe dans le champ Nomfilm qui suit.  </dd>
 </dl>
 
 <p> </p>
@@ -791,13 +791,13 @@
 <dl>
 <dt>NomFilm (256 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ contient Le nom d'un film. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 256 bits.  Le champ Salle (voir 3.10) etant code sur 4 bits l'application doit dispose d'au maximun 15 films, la 16e salle &#233;tant la MainRoom </dd>
+<br><br> Ce champ contient Le nom d'un film. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 256 bits.  Le champ Salle (voir 3.10) etant code sur 4 bits l'application doit dispose d'au maximun 15 films, la 16e salle &#233;tant la MainRoom (Salle Principale) </dd>
 </dl>
 
 <p> </p>
 <h1 id="rfc.section.3.7">
 <a href="#rfc.section.3.7">3.7.</a> Envoie Liste des users</h1>
-<p id="rfc.section.3.7.p.1">Ce paquet est transmis par le server aux diffrents clients lorsqu'une personne rejoint ou quitte une salle (MainRoom ou Salle de films). Effectuant ainsi la mise &#224; jour des clients pr&#233;sents par salle</p>
+<p id="rfc.section.3.7.p.1">Ce paquet est transmis par le server aux differents clients lorsqu'une personne rejoint ou quitte une salle (MainRoom ou Salle de film). Effectuant ainsi la mise &#224; jour des clients pr&#233;sents dans chaque salle</p>
 <div id="rfc.figure.9"></div>
 <div id="send_user"></div>
 <pre>
@@ -821,20 +821,20 @@
       </pre>
 <p class="figure">Figure 9</p>
 <p></p>
-<p id="rfc.section.3.7.p.3">Code (4 bits) informant le client qu'il s'agit d'une liste de users. (Voir figure 1) </p>
-<p id="rfc.section.3.7.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.7.p.5">Taille (16 bits) Taille totale du paquet.  </p>
-<p id="rfc.section.3.7.p.6">IdUser (7 bits) l'identifiant du user dont le username se trouve dans le champ suit.  </p>
+<p id="rfc.section.3.7.p.3">Code (4 bits): informant le client qu'il s'agit d'une liste de users. (Voir figure 1) </p>
+<p id="rfc.section.3.7.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.7.p.5">Taille (16 bits): Taille totale du paquet.  </p>
+<p id="rfc.section.3.7.p.6">IdUser (7 bits): l'identifiant du user dont le u sername se trouve dans le champ qui suit.  </p>
 <p></p>
 
 <dl>
 <dt>Salle (4 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ code sur 4 bits contient le numero d'une Salle.  0000 peut etre le numero pour designer la Main Room.  Chaque Films est aussi represent&#233; par sa salle (numero de salle :xxxx) Le champ salle doit permetre de localiser un client &#224; tout moment.  En d'autre terme chaque un client est lier &#224; une salle qui permet au server de connaitre les desitinataires des messages qu'il lui envoie.  MainRoom (Salle=0000) une salle de film (Salle !=0000) </dd>
+<br><br> Ce champ code sur 4 bits contient le numero d'une Salle.  0000 peut etre le numero pour designer la Main Room.  Chaque Film est aussi represent&#233; par sa salle (numero de salle :xxxx !=0000) Le champ salle doit permetre de localiser un client &#224; tout moment.  En d'autre terme chaque un client est lier &#224; une salle qui permet au server de connaitre les destinataires des messages qu'il lui envoie.  </dd>
 </dl>
 
 <p> </p>
-<p id="rfc.section.3.7.p.8">Username (256 bits) Username d'un client se trouvant dans une salle (MainRoom ,Salle de film). (Voir 3.3) </p>
+<p id="rfc.section.3.7.p.8">Username (256 bits): Username d'un client se trouvant dans une salle (MainRoom ,Salle de film). (Voir 3.3) </p>
 <h1 id="rfc.section.3.8">
 <a href="#rfc.section.3.8">3.8.</a> Avertissement Inactivit&#233;</h1>
 <p id="rfc.section.3.8.p.1">Ce paquet est transmis &#224; un client se trouvant dans la MainRoom lorque aucune activit&#233; de sa part n'est detect&#233;es pendant un dur&#233;e de 14 min.</p>
@@ -854,21 +854,21 @@
       </pre>
 <p class="figure">Figure 10</p>
 <p></p>
-<p id="rfc.section.3.8.p.3">Code (4 bits) informant le client qu'il s'agit d'un message d'avertissemnt &#224; afficher. (Voir figure 1) </p>
-<p id="rfc.section.3.8.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.8.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.8.p.3">Code (4 bits): informant le client qu'il s'agit d'un message d'avertissemnt &#224; afficher. (Voir figure 1) </p>
+<p id="rfc.section.3.8.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.8.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
 <dt>AvertissementInactivite (1024 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans 1 minute parce qu'il est inactif dans la MainRoom. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne.  </dd>
+<br><br> Ce champ contient un message avertissant le client qu'il sera deconnect&#233; dans 1 minute parce qu'il est inactif dans la MainRoom. Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne.  </dd>
 </dl>
 
 <p> </p>
 <h1 id="rfc.section.3.9">
 <a href="#rfc.section.3.9">3.9.</a> Avertissement SPAM</h1>
-<p id="rfc.section.3.9.p.1">Ce paquet est transmis &#224; un client se trouvant dans une salle quelconque lorqu'il envoi plusieurs messages sur un delai tr&#232;s court (2 messages en 1s).  Le server identifie ces messages comme des SPAM .</p>
+<p id="rfc.section.3.9.p.1">Ce paquet est transmis &#224; un client se trouvant dans une salle quelconque lorqu'il envoi plusieurs messages sur un delai tr&#232;s court (2 messages en 1s).  Le server identifie ces messages comme des SPAM.  .</p>
 <div id="rfc.figure.11"></div>
 <div id="warning_spam"></div>
 <pre>
@@ -885,15 +885,15 @@
       </pre>
 <p class="figure">Figure 11</p>
 <p></p>
-<p id="rfc.section.3.9.p.3">Code (4 bits) informant le client qu'il s'agit d'un message d'avertissemnt &#224; afficher. (Voir figure 1) </p>
-<p id="rfc.section.3.9.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.9.p.5">Taille (16 bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.9.p.3">Code (4 bits): informant le client qu'il s'agit d'un message d'avertissemnt &#224; afficher. (Voir figure 1) </p>
+<p id="rfc.section.3.9.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.9.p.5">Taille (16 bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
 <dt>AvertissementSPAM (1024 bits)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans 1 minute pour envoi repete de message (2 messages par seconde). Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne </dd>
+<br><br> Ce champ contient un message avertissement le client qu'il sera deconnect&#233; dans au prochain avertissement pour envoi repete de message (2 messages par seconde). Tous les carat&#232;res UTF-8 doivent etre accepter et le message codes sur 1024 bits Le message doit s'afficher parmis les messages de chat mais etre vu uniquement par le client concerne.  </dd>
 </dl>
 
 <p> </p>
@@ -918,24 +918,15 @@
       </pre>
 <p class="figure">Figure 12</p>
 <p></p>
-<p id="rfc.section.3.10.p.3">Code (4 bits) informant le server qu'il s'agit d'une demande d'acc&#232;s &#224; une salle de film. (Voir figure 1) </p>
-<p id="rfc.section.3.10.p.4">Sequence (12 bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.10.p.5">Taille (16 bits) Taille totale du paquet.  </p>
-<p id="rfc.section.3.10.p.6">Temps (32 bits) indiquant au server le nouveau temps de reference pour le calcul du temps d'inactivit&#233;. (Voir 3.3) </p>
-<p id="rfc.section.3.10.p.7">Salle (4 bits) contient la salle actuel du client (MainRoom salle=0000) pour l'avertissement des user de la presente salle.  </p>
-<p></p>
-
-<dl>
-<dt>Salle (4 bits)</dt>
-<dd style="margin-left: 8">
-<br><br> Ce champ code sur 4 bits contient le numero de salle de la Main Room.  En d'autre terme de la localisation du client au momment de la demande d'acces, soit Salle=0000 Tout comme pour l'envoi d'un message de Chat, ce numero de salle doit etre utiliser pour l'envoie de la liste des users actualis&#233; au clients situes dans la Main Room (salle 0000).  </dd>
-</dl>
-
-<p> </p>
-<p id="rfc.section.3.10.p.9">NomFilm (256 bits) contient le nom du film souhait&#233; par le client. (voir 3.6) </p>
+<p id="rfc.section.3.10.p.3">Code (4 bits): informant le server qu'il s'agit d'une demande d'acc&#232;s &#224; une salle de film. (Voir figure 1) </p>
+<p id="rfc.section.3.10.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.10.p.5">Taille (16 bits): Taille totale du paquet.  </p>
+<p id="rfc.section.3.10.p.6">Temps (32 bits): indiquant au server le temps d'envoi du paquet utilise pour le calcul du temps d'inactivit&#233;.  Celle nouvelle valeur devient la valeur de reference. (Voir 3.3) </p>
+<p id="rfc.section.3.10.p.7">Salle (4 bits): contient la salle actuel du client (MainRoom salle=0000) pour l'avertissement des users de la presente salle.  </p>
+<p id="rfc.section.3.10.p.8">NomFilm (256 bits): contient le nom du film souhait&#233; par le client. (voir 3.6) </p>
 <h1 id="rfc.section.3.11">
 <a href="#rfc.section.3.11">3.11.</a> Envoie Message de Chat</h1>
-<p id="rfc.section.3.11.p.1">By default 3 levels of nesting show in table of contents but that can be adjusted with the value of the "tocdepth" processing instruction.</p>
+<p id="rfc.section.3.11.p.1">Ce paquet contient les messages courants de discussion dans les salles. Il est transmis par le client au server et retransmis par le server &#224; l'ensemble des clients concern&#233;s</p>
 <div id="rfc.figure.13"></div>
 <div id="send_msg"></div>
 <pre>
@@ -954,12 +945,18 @@
       </pre>
 <p class="figure">Figure 13</p>
 <p></p>
+<p id="rfc.section.3.11.p.3">Code (4 bits): Informant le server qu'il s'agit d'un messagde chat &#224; retransmettre.  Informant le client que c'est un message &#224; afficher (Voir figure 1) </p>
+<p id="rfc.section.3.11.p.4">Sequence (12 bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.11.p.5">Taille (16 bits): Taille totale du paquet.  </p>
+<p id="rfc.section.3.11.p.6">Temps (32 bits): indiquant au server le temps d'envoi du paquet utilise pour le calcul du temps d'inactivit&#233;.  Celle nouvelle valeur devient la valeur de reference. (Voir 3.3) </p>
+<p id="rfc.section.3.11.p.7">IdUser (7 bits): l'identifiant du user &#224; l'origine du message.  </p>
+<p id="rfc.section.3.11.p.8">Salle (4 bits): la salle du user &#224; l'origine du message.  </p>
 <p></p>
 
 <dl>
 <dt>Message (Taille variable)</dt>
 <dd style="margin-left: 8">
-<br><br> Ce champ contient un message de chat envoye par un client en destination des clients pr&#233;sents dans la meme salle que lui.  Tous les carat&#232;res UTF-8 doivent etre accepter et le taille du message doit etre variable.  Le message doit s'afficher uniquement chez les clients de cette salle.  </dd>
+<br><br> Ce champ contient un message de chat envoye par un client en destination des clients pr&#233;sents dans la meme salle que lui.  Tous les carat&#232;res UTF-8 doivent etre accepter et la taille du message doit etre variable.  Le client doit envoyer au plus un message par seconde et message s'afficher uniquement chez les clients de la salle de l'emetteur.  </dd>
 </dl>
 
 <p> </p>
@@ -979,9 +976,9 @@
       </pre>
 <p class="figure">Figure 14</p>
 <p></p>
-<p id="rfc.section.3.12.p.3">Code (4bits) informant le server que le client souhaite quitter l'application. (Voir figure 1) </p>
-<p id="rfc.section.3.12.p.4">Sequence (12bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.12.p.5">Taille (16bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.12.p.3">Code (4bits): informant le server que le client souhaite quitter l'application. (Voir figure 1) </p>
+<p id="rfc.section.3.12.p.4">Sequence (12bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.12.p.5">Taille (16bits): Taille totale du paquet.  </p>
 <h1 id="rfc.section.3.13">
 <a href="#rfc.section.3.13">3.13.</a> Quitter un film</h1>
 <p id="rfc.section.3.13.p.1">Ce paquet transmis par le client au server lui signifaint qu'il souhaite quitter la salle dans laquelle il se trouve et rejoindre la MainRoom</p>
@@ -994,15 +991,18 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Salle |
       +-+-+-+-+      
       </pre>
 <p class="figure">Figure 15</p>
 <p></p>
-<p id="rfc.section.3.13.p.3">Code (4bits) informant le server qu'il souhaite rejoindre la Main Room. (Voir figure 1) </p>
-<p id="rfc.section.3.13.p.4">Sequence (12bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.13.p.5">Taille (16bits) Taille totale du paquet.  </p>
-<p id="rfc.section.3.13.p.6">Salle (4 bits) Le client joint sa localisation au message pour que les clients de cette salle soient avertis de son depart </p>
+<p id="rfc.section.3.13.p.3">Code (4bits): informant le server qu'il souhaite rejoindre la Main Room. (Voir figure 1) </p>
+<p id="rfc.section.3.13.p.4">Sequence (12bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.13.p.5">Taille (16bits): Taille totale du paquet.  </p>
+<p id="rfc.section.3.13.p.6">Temps (32 bits): indiquant au server le temps d'envoi du paquet utilise pour le calcul du temps d'inactivite.  Celle nouvelle valeur devient la valeur de reference.  (Voir 3.3)</p>
+<p id="rfc.section.3.13.p.7">Salle (4 bits): Le client joint sa localisation au message pour que les clients de cette salle soient avertis de son depart </p>
 <h1 id="rfc.section.3.14">
 <a href="#rfc.section.3.14">3.14.</a> Message de deconnexion</h1>
 <p id="rfc.section.3.14.p.1">Ce message est transmis au client par le server lorsque ce dernier deconnecte volontairement le client de l'application Soit pour inactivit&#233; ou pour un detection de SPAM. </p>
@@ -1022,9 +1022,9 @@
       </pre>
 <p class="figure">Figure 16</p>
 <p></p>
-<p id="rfc.section.3.14.p.3">Code (4bits) informant le client qu'il s'agit d'un message &#224; afficher. (Voir figure 1) </p>
-<p id="rfc.section.3.14.p.4">Sequence (12bits) le numero de sequence du paquet.  </p>
-<p id="rfc.section.3.14.p.5">Taille (16bits) Taille totale du paquet.  </p>
+<p id="rfc.section.3.14.p.3">Code (4bits): informant le client qu'il s'agit d'un message &#224; afficher. (Voir figure 1) </p>
+<p id="rfc.section.3.14.p.4">Sequence (12bits): le numero de sequence du paquet.  </p>
+<p id="rfc.section.3.14.p.5">Taille (16bits): Taille totale du paquet.  </p>
 <p></p>
 
 <dl>
@@ -1043,7 +1043,7 @@
 <h1 id="rfc.section.5">
 <a href="#rfc.section.5">5.</a> Exemple de scenario</h1>
 <h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> Scenario 1 (sans erreur): Regarder un film</h1>
+<a href="#rfc.section.5.1">5.1.</a> Scenario 1(sans erreur): Regarder un film</h1>
 <p id="rfc.section.5.1.p.1">Dans ce scenario, nous allons expliciter la suite de messages envoyee entre un client et le serveur lorsque l'utilisateur veut regarder un film sur la plateforme. Nous irons de la connexion au service jusqu'a l'acces au film.  </p>
 <pre>
 
@@ -1139,6 +1139,9 @@ Client A                Serveur            Client B             Client C
 <p id="rfc.section.5.2.p.1">Ce scenario decrit la suite de message envoyes dans le cas d'un envoi de messages dans une meme salle.  </p>
 <pre>
 
+
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1174,11 +1177,11 @@ Client A                Serveur           Client B             Client C
     </pre>
 <p></p>
 <h1 id="rfc.section.5.3">
-<a href="#rfc.section.5.3">5.3.</a> Scenario 3: Utilisateur inactif Dans la salle principale</h1>
+<a href="#rfc.section.5.3">5.3.</a> Scenario 3(sans erreur): Utilisateur inactif Dans la salle principale</h1>
 <p id="rfc.section.5.3.p.1">Ce scenario decrit la suite de messages envoyes dans le cas ou un utilisateur est inactif dans la salle principale.  </p>
 <pre>
 
-                                                       (salle=0000) 
+                                                        (salle=0000) 
                                                           MainRoom 
 Client A                                Serveur           Client B
   | =====  Processus de connexion  =====   |                 |
@@ -1211,10 +1214,12 @@ Client A                                Serveur           Client B
     </pre>
 <p></p>
 <h1 id="rfc.section.5.4">
-<a href="#rfc.section.5.4">5.4.</a> Scenario sans erreur 4: Envoie de SPAM</h1>
+<a href="#rfc.section.5.4">5.4.</a> Scenario 4(sans erreur): Envoie de SPAM</h1>
 <p id="rfc.section.5.4.p.1">Ce scenario decrit l'ensemble des messages echanges lorsque l'utilisateur envoie des messages a repetition dans le chat dans le but de nuire (SPAM). Le serveur va donc le deconnecter.  </p>
 <pre>
     
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1317,18 +1322,14 @@ Client A                Serveur           Client B             Client C
     </pre>
 <p></p>
 <h1 id="rfc.section.5.5">
-<a href="#rfc.section.5.5">5.5.</a> Scenario avec erreur : Quitter l'application</h1>
-<p id="rfc.section.5.5.p.1">Dans ce scenario, nous allons simuler la suite de messages envoyes lorsque l'utilisateur veut quitter l'application. Cependant, nous ajouterons quelques erreurs qui peuvent arriver dans notre systeme et nous montrerons comment nous comptons les gerer.  </p>
+<a href="#rfc.section.5.5">5.5.</a> Scenario 5(avec erreur) : Quitter l'application</h1>
+<p id="rfc.section.5.5.p.1">Dans ce scenario, nous allons simuler la suite de messages envoyes lorsque l'utilisateur veut quitter l'application. Cependant, nous ajouterons quelques erreurs qui peuvent arriver dans notre systeme et nous montrerons comment nous comptons les gerer.  Sur la figure Seq designera le numero de sequence.  </p>
 <pre>
 
 Client A                                       Serveur
   |                                               |
-  |                                               |
-  |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |-----------------------x                       |
-  |                                               |
-  |                                               |
   |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |----------------------------------------------&gt;|
@@ -1336,12 +1337,10 @@ Client A                                       Serveur
   |  attend 2 secondes et renvoie le meme message |
   | avec le meme numero de sequence au serveur)   |
   |                                               |
-  |                                               |
   |               Acquittement                    |
   |                   x---------------------------|
   |     L'acquittement n'a pas atteint le         |
   |                   client)                     |
-  |                                               |
   |                                               |
   |       Quitter un salon de film  (Seq = 6)     |
   |----------------------------------------------&gt;|
@@ -1349,7 +1348,6 @@ Client A                                       Serveur
   |  encore une fois attend 2 secondes et         |
   |            renvoie le meme message            |
   | avec le meme numero de sequence au serveur)   |
-  |                                               |
   |                                               |
   |               Erreur de sequence              |
   |&lt;----------------------------------------------|
@@ -1359,10 +1357,8 @@ Client A                                       Serveur
   |    Le numero de sequence attendu etant        |
   |                le numero 7)                   |
   |                                               |
-  |                                               |
   |              Acquittement   (Seq = 7)         |
   |----------------------------------------------&gt;|
-  |                                               |
   |         ==== Deconnexion du client ====       |
 
 

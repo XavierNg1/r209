@@ -45,8 +45,8 @@ Table of Contents
            salle principale  . . . . . . . . . . . . . . . . . . . .  18
      5.4.  Scenario 4(sans erreur): Envoie de SPAM . . . . . . . . .  19
      5.5.  Scenario 5(avec erreur) : Quitter l'application . . . . .  22
-   6.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  24
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  24
+   6.  Conclusion  . . . . . . . . . . . . . . . . . . . . . . . . .  23
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  23
 
 
 
@@ -484,8 +484,8 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019               [Page 8]
 
    Taille (16 bits): Taille totale du paquet.
 
-   IdUser (7 bits): l'identifiant du user dont le username se trouve
-   dans le champ suit.
+   IdUser (7 bits): l'identifiant du user dont le u sername se trouve
+   dans le champ qui suit.
 
    Salle (4 bits)
 
@@ -742,18 +742,18 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 13]
 
                                  Figure 15
 
-   Code (4bits) informant le server qu'il souhaite rejoindre la Main
+   Code (4bits): informant le server qu'il souhaite rejoindre la Main
    Room.  (Voir figure 1)
 
-   Sequence (12bits) le numero de sequence du paquet.
+   Sequence (12bits): le numero de sequence du paquet.
 
-   Taille (16bits) Taille totale du paquet.
+   Taille (16bits): Taille totale du paquet.
 
    Temps (32 bits): indiquant au server le temps d'envoi du paquet
    utilise pour le calcul du temps d'inactivite.  Celle nouvelle valeur
    devient la valeur de reference.  (Voir 3.3)
 
-   Salle (4 bits) Le client joint sa localisation au message pour que
+   Salle (4 bits): Le client joint sa localisation au message pour que
    les clients de cette salle soient avertis de son depart
 
 3.14.  Message de deconnexion
@@ -775,7 +775,7 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 13]
 
                                  Figure 16
 
-   Code (4bits) informant le client qu'il s'agit d'un message a
+   Code (4bits): informant le client qu'il s'agit d'un message a
    afficher.  (Voir figure 1)
 
 
@@ -786,9 +786,9 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 14]
                            G17 Poposition Spec                March 2019
 
 
-   Sequence (12bits) le numero de sequence du paquet.
+   Sequence (12bits): le numero de sequence du paquet.
 
-   Taille (16bits) Taille totale du paquet.
+   Taille (16bits): Taille totale du paquet.
 
    NotificationDeconnexion (1024 bits)
 
@@ -960,37 +960,40 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 17]
    de messages dans une meme salle.
 
 
- Client A                Serveur           Client B             Client C
-   |                       |                   |                    |
-   |      Envoi de         |                   |                    |
-   |  message : "salut!"   |                   |                    |
-   |---------------------->|                   |                    |
-   |  (Le client envoie    |                   |                    |
-   | un message dans la    |                   |                    |
-   |       salle)          |                   |                    |
-   |                       |                   |                    |
-   |                       |                   |                    |
-   |                       |                   |                    |
-   |    Acquittement       |                   |                    |
-   |<----------------------|                   |                    |
-   |                       |                   |                    |
-   |                       |     Envoi de      |                    |
-   |                       | message : "salut!"|                    |
-   |                       |------------------>|                    |
-   |                       |                   |                    |
-   |                       |     Envoi de      |                    |
-   |                       | message : "salut!"|                    |
-   |                       |--------------------------------------->|
-   |      Envoi de         |                   |                    |
-   |  message : "salut!"   |                   |                    |
-   |<----------------------|                   |                    |
-   |    Acquittement       |                   |                    |
-   |---------------------->|                   |                    |
-   |                       |   Acquittement    |                    |
-   |                       |<------------------|                    |
-   |                       |                   |                    |
-   |                       |                   |  Acquittement      |
-   |                       |                   |<-------------------|
+
+(salle=1000)                            (salle=1000)        (salle=1000)
+MovieRoom                                 MainRoom            MovieRoom
+Client A                Serveur           Client B             Client C
+  |                       |                   |                    |
+  |      Envoi de         |                   |                    |
+  |  message : "salut!"   |                   |                    |
+  |---------------------->|                   |                    |
+  |  (Le client envoie    |                   |                    |
+  | un message dans la    |                   |                    |
+  |       salle)          |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |                       |                   |                    |
+  |    Acquittement       |                   |                    |
+  |<----------------------|                   |                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |------------------>|                    |
+  |                       |                   |                    |
+  |                       |     Envoi de      |                    |
+  |                       | message : "salut!"|                    |
+  |                       |--------------------------------------->|
+  |      Envoi de         |                   |                    |
+  |  message : "salut!"   |                   |                    |
+  |<----------------------|                   |                    |
+  |    Acquittement       |                   |                    |
+  |---------------------->|                   |                    |
+  |                       |   Acquittement    |                    |
+  |                       |<------------------|                    |
+  |                       |                   |                    |
+  |                       |                   |  Acquittement      |
+  |                       |                   |<-------------------|
 
 
 5.3.  Scenario 3(sans erreur): Utilisateur inactif Dans la salle
@@ -998,9 +1001,6 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 17]
 
    Ce scenario decrit la suite de messages envoyes dans le cas ou un
    utilisateur est inactif dans la salle principale.
-
-
-
 
 
 
@@ -1048,8 +1048,8 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 18]
    but de nuire (SPAM).  Le serveur va donc le deconnecter.
 
 
-                                         (salle=0001)       (salle=0001)
-                                          MovieRoom            MovieRoom
+(salle=1000)                            (salle=1000)        (salle=1000)
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C
   |                       |                   |                    |
   |      Envoi de         |                   |                    |
@@ -1187,61 +1187,10 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 21]
    designera le numero de sequence.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
-
-                           G17 Poposition Spec                March 2019
-
-
    Client A                                       Serveur
-     |                                               |
-     |                                               |
      |                                               |
      |       Quitter un salon de film (Seq = 6)      |
      |-----------------------x                       |
-     |                                               |
-     |                                               |
      |                                               |
      |       Quitter un salon de film (Seq = 6)      |
      |---------------------------------------------->|
@@ -1249,12 +1198,10 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
      |  attend 2 secondes et renvoie le meme message |
      | avec le meme numero de sequence au serveur)   |
      |                                               |
-     |                                               |
      |               Acquittement                    |
      |                   x---------------------------|
      |     L'acquittement n'a pas atteint le         |
      |                   client)                     |
-     |                                               |
      |                                               |
      |       Quitter un salon de film  (Seq = 6)     |
      |---------------------------------------------->|
@@ -1262,7 +1209,6 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
      |  encore une fois attend 2 secondes et         |
      |            renvoie le meme message            |
      | avec le meme numero de sequence au serveur)   |
-     |                                               |
      |                                               |
      |               Erreur de sequence              |
      |<----------------------------------------------|
@@ -1272,10 +1218,8 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
      |    Le numero de sequence attendu etant        |
      |                le numero 7)                   |
      |                                               |
-     |                                               |
      |              Acquittement   (Seq = 7)         |
      |---------------------------------------------->|
-     |                                               |
      |         ==== Deconnexion du client ====       |
 
 
@@ -1285,7 +1229,7 @@ KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 23]
+KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 22]
 
                            G17 Poposition Spec                March 2019
 
@@ -1341,4 +1285,4 @@ Authors' Addresses
 
 
 
-KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 24]
+KADJO MAMI & N'GUESSAN  Expires September 7, 2019              [Page 23]

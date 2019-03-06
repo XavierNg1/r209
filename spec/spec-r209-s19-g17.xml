@@ -587,7 +587,8 @@ Cela devrait permettre l'acces au service à d'autre client.
       </artwork></figure></t>
 
         <t>           
-           Code (4 bits): informant le client qu'il s'agit d'une liste de users. (Voir figure 1)
+           Code (4 bits): informant le client qu'il s'agit 
+           d'une liste de users. (Voir figure 1)
           </t>
      
      <t>           
@@ -599,7 +600,8 @@ Cela devrait permettre l'acces au service à d'autre client.
           </t>   
 
      <t>           
-           IdUser (7 bits): l'identifiant du user dont le username se trouve dans le champ suit.
+           IdUser (7 bits): l'identifiant du user dont le u
+           sername se trouve dans le champ qui suit.
           </t>
 
       <t> 
@@ -1113,6 +1115,9 @@ Client A                Serveur            Client B             Client C
     <figure>
     <artwork>
 
+
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1206,8 +1211,8 @@ Client A                                Serveur           Client B
     <figure>
     <artwork>
     
-                                         (salle=0001)       (salle=0001) 
-                                          MovieRoom            MovieRoom
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1327,12 +1332,8 @@ Client A                Serveur           Client B             Client C
 
 Client A                                       Serveur
   |                                               |
-  |                                               |
-  |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |-----------------------x                       |
-  |                                               |
-  |                                               |
   |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |----------------------------------------------&gt;|
@@ -1340,12 +1341,10 @@ Client A                                       Serveur
   |  attend 2 secondes et renvoie le meme message |
   | avec le meme numero de sequence au serveur)   |
   |                                               |
-  |                                               |
   |               Acquittement                    |
   |                   x---------------------------|
   |     L'acquittement n'a pas atteint le         |
   |                   client)                     |
-  |                                               |
   |                                               |
   |       Quitter un salon de film  (Seq = 6)     |
   |----------------------------------------------&gt;|
@@ -1353,7 +1352,6 @@ Client A                                       Serveur
   |  encore une fois attend 2 secondes et         |
   |            renvoie le meme message            |
   | avec le meme numero de sequence au serveur)   |
-  |                                               |
   |                                               |
   |               Erreur de sequence              |
   |&lt;----------------------------------------------|
@@ -1363,10 +1361,8 @@ Client A                                       Serveur
   |    Le numero de sequence attendu etant        |
   |                le numero 7)                   |
   |                                               |
-  |                                               |
   |              Acquittement   (Seq = 7)         |
   |----------------------------------------------&gt;|
-  |                                               |
   |         ==== Deconnexion du client ====       |
 
 
