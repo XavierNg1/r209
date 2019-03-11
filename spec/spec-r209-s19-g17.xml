@@ -32,9 +32,9 @@
 <!-- do not start each main section on a new page -->
 <?rfc subcompact="no" ?>
 <!-- do not display copyright and other IETF-related stuff -->
-<?rfc private="(c) GROUP XXXX, 2013" ?>
+<?rfc private="(c) GROUP 17, 2019" ?>
 
-<rfc category="info" docName="draft-ietf-xml2rfc-template-05" ipr="trust200902">
+<rfc category="info" docName="Application c2w" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
      ipr values: full3667, noModification3667, noDerivatives3667
      you can add the attributes updates="NNNN" and obsoletes="NNNN"
@@ -46,7 +46,7 @@
     <!-- The abbreviated title is used in the page header - it is only necessary if the
          full title is longer than 39 characters -->
 
-    <title abbrev="Abbreviated Title">Group 17: c2w protocol specification proposal (Binary Version)
+    <title abbrev="G17 Poposition Spec">Group 17: Proposition de specification de protocole
     </title>
 
     <!-- add 'role="editor"' below for the editors if appropriate -->
@@ -105,7 +105,7 @@
       </address>
 	</author>
 
-    <date month="February" year="2019" />
+    <date month="March" year="2019" />
 
 
     <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
@@ -125,9 +125,9 @@
     <abstract>
 
       <t>Ce document presente la specification du protocole de communication
-		utilise au sein de l'application c2w (Chat While Watching); Ce protocole
-		permettra a tous les utilisateurs du meme type de salon (principal ou de
-		visionnement d'une video) de s'echanger des messages.</t>
+   utilise au sein de l'application c2w (Chat While Watching);
+  Ce protocole permettra a tous les utilisateurs d'une meme salle
+   (principal ou dee film) de s'echanger des messages.</t>
 
     </abstract>
   </front>
@@ -148,74 +148,18 @@
 
 	  <t>Dans la suite du document nous spécifierons le fonctionnement
 		du protocole, les types de messages envoyés, le format des differents 
-		messages et donnerons differents examples de scenarii pouvant arriver dans 
+		messages et donnerons differents exemples de scenarii pouvant arriver dans 
 		l'execution du protocole.</t>
 
     </section>
 
-	  <section title="Fonctionnement">
-
-    <t>On suppose prealablement qu'un client possede necessairement un
-    couple (adresse IP, port), distinct de tous les autres utilisateurs. 
-    Pour pouvoir utiliser l'application c2w, le client doit se connecter au
-    serveur en entrant son pseudo choisi et le nom (ou l'adresse IP) du 
-    serveur. Les noms d'utilisateurs seront en caracteres alphanumeriques,
-    sans caracteres speciaux, et leur taille devra etre compris entre 4 et 
-    32 caracteres.</t>
-
-		<t>Il est a noter que le nom d'utilisateur peut etre refuse pour d'autres 
-    	raisons: il peut etre deja utilise par un autre client connecte ou il peut 
-    	faire partie de la liste des noms utilisateur bannis car juges offensant.</t>
-
-    	<t>Deux cas sont a analyser, le cas ou le serveur etablie la connexion et le
-    	cas ou il la refuse</t>
-
-    	<t>Premier cas: La connexion est etablie</t>
-
-    	<t>Il y a etablissement de connexion si et seulement si deux (2) conditions
-    	sont respectees:</t>
-
-    	<t>Le serveur n'est pas sature : Leur serveur est sature si il atteint le
-    	nombre maximal d'utilisateurs qu'il peut supporter en l'occurence 128. si ce n'est pas le cas
-    	la connexion peut etre etablie.</t>
-
-    	<t>Le nom d'utilisateur est correct: Il respecte les conditions de taille,
-    	il est alphanumerique sans caracteres speciaux, il ne fait partie ni des 
-    	pseudos existants ni des pseudos bannis.</t>
-
-    	<t>Une fois ces conditions satisfaites, le client est connecte. Il accede 
-      au salon principal et recoit la liste des videos disponibles la liste de 
-      tous les utilisateurs connectes. L'application precisera en outre si 
-      l'utilisateur est present dans la salle principale ou s'il est entrain de
-      visionner une video. La liste des utilisateurs recue par les autres
-    	utilisateurs est aussi actualisee. L'utilisateur pourra dialoguer avec 
-      les autres clients present dans son salon. Pour changer de salon, le 
-      client envoie au serveur le nom, le port et l'adresse IP de la video qu'il
-      souhaite visionner. Il se retrouve alors dans le salon de la video 
-      correspondant et recoit en meme temps la liste des utilisateurs regardant
-      la meme video. Ces derniers sont informes eux aussi de la venue d'un 
-      nouvel utilisateur. Le client peut decider de quitter le salon principal
-      ou un salon de visionnage a tout moment, en envoyant les messages
-      correspondants.</t>
-
-      <t>Il convient par ailleurs de preciser que le serveur se reserve le droit 
-      de deconnecter l'utilisateur dans deux (2) cas : En cas de longue periode
-      d'inactivite dans la salle principale ou en cas de spam (envois repetitifs
-      du meme message dans le chat).</t>
-
-    	<t>Deuxieme cas : La connexion est refusee</t>
-
-    	<t>La connexion echoue si l'une des deux conditions enoncees precedemment
-    	n'est pas respectee. Le client recoit alors un message d'erreur et est 
-    	invite a ressaisir ses acces.</t>
-	</section>
-
-   
+	    
     <section title="Types de paquet">
     <t>
-    Ce tableau enumere l'ensemble des paquets qui seront utilises au sein de 
-    notre systeme. Leur description se fera plus loin dans ce document, quand
-    ils seront precises dans les formats de paquets.
+    Ce tableau enumere l'ensemble des paquets qui seront utilises au sein
+   de notre systeme.  Leur description se fera dans la suite du document  
+   quand ils seront precises leurs formats de paquets.
+
     </t>
 
     <t>
@@ -225,20 +169,20 @@
     +------+--------------------------+-------------------------------+
     | code |       TypeDePaquet       |      Sens de Transmission     |
     +------+--------------------------+-------------------------------+
-    | 0000 |       acquittement        |     Client &lt;-----&gt; Serveur     |
-    | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur     |
-    | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur     |
-    | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur     |
-    | 0100 |  Envoie liste des films  |     Client &lt;-----x Serveur     |
-    | 0101 |  Envoie liste de users   |     Client &lt;-----x Serveur     |
-    | 0110 | Avertissemnt Inactivité  |     Client &lt;-----x Serveur     |
-    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur     |
-    | 1000 |    Demande acces film    |     Client x-----&gt; Serveur     |
-    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur     |
-    | 1010 |  Envoie message de Chat  |     Client &lt;-----&gt; Serveur     |
-    | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur     |
-    | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur     |
-    | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur     |
+    | 0000 |       Acquittement       |     Client &lt;-----&gt; Serveur    |
+    | 0001 |   Demande de connexion   |     Client x-----&gt; Serveur    |
+    | 0010 |   Erreur de connexion    |     Client &lt;-----x Serveur    |
+    | 0011 |     Connexion Reussie    |     Client &lt;-----x Serveur    |
+    | 0100 |  Envoi liste des films   |     Client &lt;-----x Serveur    |
+    | 0101 |  Envoi liste de users    |     Client &lt;-----x Serveur    |
+    | 0110 | Avertissemnt Inactivité  |     Client &lt;-----x Serveur    |
+    | 0111 |    Avertissemnt SPAM     |     Client &lt;-----x Serveur    |
+    | 1000 |    Demande acces film    |     Client x-----&gt; Serveur    |
+    | 1001 |    Erreur de sequence    |     Client &lt;-----&gt; Serveur    |
+    | 1010 |  Envoi message de Chat   |     Client &lt;-----&gt; Serveur    |
+    | 1011 |   Quitter la Main room   |     Client x-----&gt; Serveur    |
+    | 1100 | Quitter un salon de film |     Client x-----&gt; Serveur    |
+    | 1101 |  Message de deconnexion  |     Client &lt;-----x Serveur    |
     |______|__________________________|_______________________________|
 
   
@@ -251,7 +195,7 @@
   <t>
   Client &lt;-----x Server: Indique une communication du server vers le client</t>
   <t>
-  Client &lt;-----&gt; Server: Indique la possibilité d'avoir le cas 1. ou 2. </t>
+  Client &lt;-----&gt; Server: Indique la possibilité d'avoir le cas 1. et 2. </t>
   </list></t>
 
    
@@ -261,9 +205,10 @@
 
     <section title="Format des Paquets">
     <t>
-    Dans la suite nous allons decrire les differents type de paquet presenté ci-dessus. Nous présenterons 
-    la cause de ces differrents "événements", et les conséquence immédiates sur le système.
-    La totalité des paquets partagent au minimun les 3 champs présenté sur la figure 2. Nous eviterons alors 
+    Dans la suite nous allons decrire les differents types de paquet presentés ci-dessus, 
+    en présentant les différents champs qui les composents
+    La totalité des paquets partagent au minimun les 3 champs 
+    présenté sur la figure 2. Nous eviterons alors 
     les répétitions dans la suite.
     </t>
 
@@ -275,101 +220,9 @@
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+      
       </artwork></figure></t>            
 
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
-          </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
-          </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
-          </t>
-        </list>
-      </t>
-    
-
-      <section title="Acquitement"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
-         <t>
-      <figure align="center" anchor="ack">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
-
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Code = 0000 informant le client qu'il s'agit d'un acquitement. 
-          </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Le munéro de sé
-          </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
-          </t>
-        </list>
-      </t>
-      
-      </section>
-
-      <section title="Erreur de séquence"> 
-                <t>
-                Ce message est envoye lorsqu'il y a contradiction entre la sequence
-                attendue par le recepteur et celle recue. Dans notre systeme, chaque
-                paquet est identifie de maniere unique par son numero de sequence. 
-                Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence, il
-                detecte la redondance de message et soumet a l'emetteur cette erreur.
-                </t>
-         <t>
-      <figure align="center" anchor="seq_error">
-      <artwork>
-
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      | Code  |        Sequence       |            Taille             |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      </artwork></figure></t>
 
       <t> 
           <list hangIndent="8" style="hanging">
@@ -393,26 +246,80 @@
           <list hangIndent="8" style="hanging">
           <t hangText="Taille (16 bits)"><vspace blankLines="1" />
           C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+          de tous les champs du paquet reunis).
           </t>
         </list>
       </t>
+    
 
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="SequenceAttendue (12 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+      <section title="Acquitement"> 
+                <t> Ce paquet est transmis par le server ou le client pour informer 
+                le second acteur de transmission de la reception d'un paquet.
+                </t>
+         <t>
+      <figure align="center" anchor="ack">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      </artwork></figure></t>
+
+
+      <t>           
+           Code (4 bits): informant le client qu'il s'agit d'un acquitement. (Voir figure 1)
           </t>
-        </list>
-      </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>
+
+               
       
       </section>
 
+      <section title="Erreur de séquence"> 
+                <t>
+                Ce message est envoye lorsqu'il y a contradiction entre la sequence
+                attendue par le recepteur et celle recue. Dans notre systeme, chaque
+                paquet est identifie de maniere unique par son numero de sequence. 
+                Lorsqu'un recepteur recoit plusieurs fois le meme numero de sequence, il
+                detecte la redondance de message et soumet a l'emetteur cette erreur.
+                </t>
+         <t>
+      <figure align="center" anchor="seq_error">
+      <artwork>
+
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      | Code  |        Sequence       |            Taille             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+   
+      </artwork></figure></t>
+
+      <t>           
+           Code (4 bits): informant le client qu'il s'agit d'une notification d'erreur de sequence. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits):Taille totale du paquet.
+          </t>
+
+     
+      </section>
+
       <section title="Demande de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est le premier envoyé par le client au server pour la demande de connexion.</t>
       <t>
       <figure align="center" anchor="demande_co">
       <artwork>
@@ -430,31 +337,17 @@
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       </artwork></figure></t>
 
-       <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+        <t>           
+           Code (4 bits): informant le server qu'il s'agit d'une demande de connexion à l'application. (Voir figure 1)
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
           </t>
-        </list>
-      </t>
 
 
       <t> 
@@ -464,7 +357,8 @@ Temps envoyé par le client à chaque interaction volantaire
 avec le server: Demande de connection, envoie de message Chat ,
 Quitter un film, Demande Acces film.
 Ce temps nous permet de mesurer le temps d'inactivité d'un client.
-Comme dit plus haut un client inactif pendant 15 min se fera 
+Comme présnenter dans le scenarion 3 (Voir 5.3) un client inactif 
+pendant 15 min se fera 
 systematiquent deconnecter lorsqu'il est dans la Main Room, 
 les clients dans les salles de film n'etant pas concerner.
 Cela devrait permettre l'acces au service à d'autre client.
@@ -475,12 +369,23 @@ Cela devrait permettre l'acces au service à d'autre client.
 
 <t> 
           <list hangIndent="8" style="hanging">
-          <t hangText="Username (256 bits)"><vspace blankLines="1" />
-          Ce champs contient le Username du client. Tout les caracteres
+          <t hangText="Username (256 bits)"><vspace blankLines="0" />
+          Ce champs contient le Username du demandeur de connexion. Tout les caracteres
           UTF-8 sont acceptés.
-          Le Username du client est au maximun 256 bits une fois
-          le UserName sous forme binaire. 
-          </t>
+          Le Username du client est codé sur 256 bits et doit respecter 
+          certaines contraintes lors de la connexion d'un client.
+          <list style="numbers">
+          <t>
+          Le username doit pouvoir etre code sur 256 bits</t>
+          <t>
+          Le Username choisit ne doit pas etre deja utilisé</t>
+          <t>
+          Le username ne doit pas figuré parmis une liste de username jugés offenssant 
+          Exemple : Hitler, Merde,...</t>
+          </list>          
+          </t>        
+                  
+         
         </list>
       </t>
 
@@ -490,9 +395,7 @@ Cela devrait permettre l'acces au service à d'autre client.
 
 
       <section title="Erreur de connexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Paquet envoyé au demandeur de connexion lorsque son username est invalide.</t>
          <t>
       <figure align="center" anchor="Erreur_co">
       <artwork>
@@ -508,31 +411,17 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       </artwork></figure></t>
         
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+       <t>           
+           Code (4 bits): informant le client qu'il s'agit d'une notification d'erreur de connexion. (Voir figure 1)
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
           </t>
-        </list>
-      </t>
 
       <t> 
           <list hangIndent="8" style="hanging">
@@ -541,7 +430,7 @@ Cela devrait permettre l'acces au service à d'autre client.
           Le contenu du message permettra à l'utilisateur de savoir avec exactitude
           La cause l'erreur. Le message est encodé en UTF-8. 
           Suivant l'erreur sur le username le client saura que sont username est deja utilisé
-          , trop long ou n'est pas accepté (Hitler, etc)
+          , trop long ou n'est pas accepté.
           </t>
         </list>
       </t>
@@ -549,9 +438,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       </section>
 
       <section title="Connexion Reussie"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis par le server à un client lorsque la connexion à l'application est acceptée .</t>
          <t>
       <figure align="center" anchor="succed_co">
       <artwork>
@@ -565,53 +452,36 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+
        </artwork></figure></t>
       
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+       <t>           
+           Code (4 bits): informant le client qu'il s'agit d'une notification de connexion reussie. (Voir figure 1)
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
           </t>
-        </list>
-      </t>
 
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
-          Ce champ contient  entre 0 et 127. 
-          IdUser est attribué à chaque client lors de sa connexion
-          et doit permertre son identification client sans l'utilisation
-          de son username afin de reduire la taille des paquets de communication.  
+          Ce champ contient l'identifiant d'un user connecte. 
+           Code sur 7 bits un IdUser est attribue a chaque client lors de sa connexion et doit
+           permettre son identification sans l'utilisation de son
+           username afin de reduire la taille des paquets de
+           communication. Le nombre maximal de User connecté est 128 
           </t>
         </list>
       </t>
-
-
-     
       
       </section>
       
       
       <section title="Envoie liste des films"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis au client lors de sa première connexion 
+                (sauf ajout de nouveau film) pour ses futures selection de film à regarder.</t>
          <t>
       <figure align="center" anchor="list_films">
       <artwork>
@@ -639,37 +509,23 @@ Cela devrait permettre l'acces au service à d'autre client.
       </artwork></figure></t>
       
       
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+       <t>           
+           Code (4 bits): informant le client qu'il s'agit de la liste des films disposibles. (Voir figure 1)
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
           </t>
-        </list>
-      </t>
 
 <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Adresse IP (32 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champ correspond à l'addresse Ip du films situe dans le champ Nomfilm qui suit.
+
           </t>
         </list>
       </t>
@@ -678,8 +534,9 @@ Cela devrait permettre l'acces au service à d'autre client.
 <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="NumPort (16 bits)"><vspace blankLines="1" />
-          Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+          Ce champ correspond au Port utilisé par le film situe dans le champ Nomfilm qui suit.
+
+           
           </t>
         </list>
       </t>
@@ -691,10 +548,10 @@ Cela devrait permettre l'acces au service à d'autre client.
           <list hangIndent="8" style="hanging">
           <t hangText="NomFilm (256 bits)"><vspace blankLines="1" />
           Ce champ contient Le nom d'un film. Tous les caratères UTF-8 
-       doivent etre accepter et le message codes sur 256 bits 
-      Le message doit s'afficher parmis les messages de chat mais etre vu 
-      Le champ Salle etant code sur 4 bits l'application
-      doit dispose d'au maximun 15 films   
+       doivent etre accepter et le message codes sur 256 bits.
+      Le champ Salle (voir 3.10) etant code sur 4 bits l'application
+      doit dispose d'au maximun 15 films, la 16e salle étant la MainRoom 
+      (Salle Principale)
           </t>
         </list>
       </t>
@@ -704,9 +561,9 @@ Cela devrait permettre l'acces au service à d'autre client.
       </section>
 
        <section title="Envoie Liste des users"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t> Ce paquet est transmis par le server aux differents clients lorsqu'une personne
+                 rejoint ou quitte une salle (MainRoom ou Salle de film). Effectuant
+                 ainsi la mise à jour des clients présents dans chaque salle</t>
          <t>
       <figure align="center" anchor="send_user">
       <artwork>
@@ -726,91 +583,52 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       .                                                               .
       .                                                               .
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-          
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+          
       </artwork></figure></t>
 
-       <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Code (4 bits)"><vspace blankLines="1" />
-           Codé sur 4 bits il permet d'identifier les 14 différents types de paquets. 
+        <t>           
+           Code (4 bits): informant le client qu'il s'agit 
+           d'une liste de users. (Voir figure 1)
           </t>
-        </list>
-      </t>
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Sequence (12 bits)"><vspace blankLines="1" />
-          Numero de Permet d'identifier le type de paquet recu. Codé sur 4 bits 
-          il permet de d'envoyer 16 types de paquets différents. 
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
           </t>
-        </list>
-      </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>   
 
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Taille (16 bits)"><vspace blankLines="1" />
-          C'est la taille en bit de l'ensemble du message (c'est à dire
-          de tous les champs du paquet reunis). 
+     <t>           
+           IdUser (7 bits): l'identifiant du user dont le u
+           sername se trouve dans le champ qui suit.
           </t>
-        </list>
-      </t>
-      
-
-
-       <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="IdUser (7 bits)"><vspace blankLines="1" />
-          Ce champ contient  entre 0 et 127. 
-          IdUser est attribué à chaque client lors de sa connexion
-          et doit permertre son identification client sans l'utilisation
-          de son username afin de reduire la taille des paquets de communication.  
-          </t>
-        </list>
-      </t>
 
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="Salle (4 bits)"><vspace blankLines="1" />
          Ce champ code sur 4 bits contient le numero d'une Salle.
          0000 peut etre le numero pour designer la Main Room.
-         Chaque Films est aussi representé par sa salle (numero de salle :xxxx)
+         Chaque Film est aussi representé par sa salle (numero de salle :xxxx !=0000)
          Le champ salle doit permetre de localiser un client à tout moment.
-         En d'autre terme chaque client est lier à une salle qui permet au server de connaitre
-         les desitinataires des messages envoyé: 
-         MainRoom (Salle=0000) une salle de film (Salle !=0000)   
+         En d'autre terme chaque un client est lier à une salle qui permet au server de connaitre
+         les destinataires des messages qu'il lui envoie.
+            
           </t>
         </list>
       </t>
 
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Username (256 bits)"><vspace blankLines="0" />
-          Ce champs contient le Username d'un client. Tout les caracteres
-          UTF-8 sont acceptés.
-          Le Username du client est codé sur 256 bits et doit respecter 
-          certaines contraintes lors de la connexion d'un client.
-          <list style="numbers">
-          <t>
-          Le username doit pouvoir etre code sur 256 bits</t>
-          <t>
-          Le Username choisit ne doit pas etre deja utilisé</t>
-          <t>
-          Le username ne doit pas figuré parmis une liste de username jugés offenssant 
-          Exemple : Hitler, Merde,...</t>
-          </list>          
-          </t>        
+     <t>           
+           Username (256 bits): Username d'un client se trouvant dans une salle (MainRoom ,Salle de film). (Voir 3.3)
+          </t>
                   
-         
-        </list>
-      </t>
+      
       
       </section>
 
       <section title="Avertissement Inactivité"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis à un client se trouvant dans la MainRoom lorque aucune 
+                activité de sa part n'est detectées pendant un durée de 14 min.</t>
          <t>
       <figure align="center" anchor="warning_inact">
       <artwork>
@@ -823,16 +641,27 @@ Cela devrait permettre l'acces au service à d'autre client.
       |                                                               |
       .                     AvertissementInactivité                   .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
-      
-            
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       </artwork></figure></t>
+
+
+       <t>           
+           Code (4 bits): informant le client qu'il s'agit d'un message d'avertissemnt à afficher. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>
+
 
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="AvertissementInactivite (1024 bits)"><vspace blankLines="1" />
-        Ce champ contient un message avertissement le client 
+        Ce champ contient un message avertissant le client 
         qu'il sera deconnecté dans 1 minute parce qu'il
         est inactif dans la MainRoom. Tous les caratères UTF-8 doivent 
         etre accepter et le message codes sur 1024 bits 
@@ -845,9 +674,10 @@ Cela devrait permettre l'acces au service à d'autre client.
       </section>
 
        <section title="Avertissement SPAM"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis à un client se trouvant dans une salle quelconque 
+                lorqu'il envoi plusieurs messages sur un delai très court (2 messages en 1s). 
+                Le server identifie ces messages comme des SPAM.
+                .</t>
          <t>
       <figure align="center" anchor="warning_spam">
       <artwork>
@@ -860,20 +690,32 @@ Cela devrait permettre l'acces au service à d'autre client.
       |                                                               |
       .                       AvertissementSPAM                       .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+     
       </artwork></figure></t>
+
+       <t>           
+           Code (4 bits): informant le client qu'il s'agit d'un message d'avertissemnt à afficher. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>
+
 
 
       <t> 
           <list hangIndent="8" style="hanging">
           <t hangText="AvertissementSPAM (1024 bits)"><vspace blankLines="1" />
         Ce champ contient un message avertissement le client 
-        qu'il sera deconnecté dans 1 minute pour envoi repete de message 
+        qu'il sera deconnecté dans au prochain avertissement pour envoi repete de message 
        (2 messages par seconde). Tous les caratères UTF-8 
        doivent etre accepter et le message codes sur 1024 bits 
       Le message doit s'afficher parmis les messages de chat mais etre vu 
-      uniquement par le client concerne  
+      uniquement par le client concerne. 
           </t>
         </list>
       </t>
@@ -881,9 +723,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       </section>     
 
       <section title="Demande Accès film"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est envoyé par un client au server lorsqu'il veut joindre une salle de film.</t>
          <t>
       <figure align="center" anchor="acess_movie">
       <artwork>
@@ -898,44 +738,45 @@ Cela devrait permettre l'acces au service à d'autre client.
       | Salle |                                                       |
       +-+-+-+-+                    NomFilm                            .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            
-      
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+          
       </artwork></figure></t>
 
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="Salle (4 bits)"><vspace blankLines="1" />
-         Ce champ code sur 4 bits contient le numero de salle de la Main Room.
-         En d'autre terme de la localisation du client au momment de la demande d'acces,
-         soit Salle=0000
-         Tout comme pour l'envoi d'un message de Chat,
-         ce numero de salle doit etre utiliser pour l'envoie de la liste des users actualisé 
-         au clients situes dans la Main Room (salle 0000).
-     </t>
-        </list>
-      </t>
-
-
-      <t> 
-          <list hangIndent="8" style="hanging">
-          <t hangText="NomFilm (256 bits)"><vspace blankLines="1" />
-          Ce champ contient Le nom d'un film. Tous les caratères UTF-8 
-       doivent etre accepter et le message codes sur 256 bits 
-      Le message doit s'afficher parmis les messages de chat mais etre vu 
-      Le champ Salle etant code sur 4 bits l'application
-      doit dispose d'au maximun 15 films.   
+       <t>           
+           Code (4 bits): informant le server qu'il s'agit d'une demande d'accès à une salle de film. (Voir figure 1)
           </t>
-        </list>
-      </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>
+      
+
+       <t>           
+          Temps (32 bits): indiquant au server le temps d'envoi du paquet utilise pour le calcul du temps d'inactivité.
+          Celle nouvelle valeur devient la valeur de reference. (Voir 3.3)
+          </t>
+     
+     <t>           
+           Salle (4 bits): contient la salle actuel du client (MainRoom salle=0000) pour l'avertissement des users de la presente salle.
+          </t>
+    
+
+
+     
+     <t>           
+           NomFilm (256 bits): contient le nom du film souhaité par le client. (voir 3.6)
+          </t>
+     
       
       </section>
 
 
       <section title="Envoie Message de Chat"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet contient les messages courants de discussion dans les salles. Il est transmis par le client au server 
+                et retransmis par le server à l'ensemble des clients concernés</t>
          <t>
       <figure align="center" anchor="send_msg">
       <artwork>
@@ -950,10 +791,39 @@ Cela devrait permettre l'acces au service à d'autre client.
       |    IdUser   | Salle |                                         |
       +-+-+-+-+-+-+-+-+-+-+-+      Message                            .                             
       |                                                               |                             
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-          
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+   
       </artwork></figure></t>
 
+      <t>           
+           Code (4 bits): Informant le server qu'il s'agit d'un messagde chat à retransmettre. 
+                          Informant le client que c'est un message à afficher (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12 bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16 bits): Taille totale du paquet.
+          </t>
+
+          <t>           
+          Temps (32 bits): indiquant au server le temps d'envoi du paquet utilise pour le calcul du temps d'inactivité.
+          Celle nouvelle valeur devient la valeur de reference. (Voir 3.3)
+          </t>
+     
+
+      <t>           
+           IdUser (7 bits): l'identifiant du user à l'origine du message.
+
+          </t>
+        
+      <t>           
+           Salle (4 bits): la salle du user à l'origine du message.
+
+          </t>
+      
+      
 
 
       <t> 
@@ -961,9 +831,10 @@ Cela devrait permettre l'acces au service à d'autre client.
           <t hangText="Message (Taille variable)"><vspace blankLines="1" />
           Ce champ contient un message de chat envoye par un client
           en destination des clients présents dans la meme salle que lui. 
-          Tous les caratères UTF-8 
-          doivent etre accepter et le taille du message doit etre variable.
-          Le message doit s'afficher uniquement chez les clients de cette salle.   
+          Tous les caratères UTF-8 doivent etre accepter 
+          et la taille du message doit etre variable.
+          Le client doit envoyer au plus un message par seconde
+          et message s'afficher uniquement chez les clients de la salle de l'emetteur.   
           </t>
         </list>
       </t>
@@ -973,9 +844,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       </section>
 
       <section title="Quitter la MainRoom"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet est transmis par un client au server lorsqu'il souhaite quitter l'application.</t>
          <t>
       <figure align="center" anchor="quit_MR">
       <artwork>
@@ -987,13 +856,24 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      
       </artwork></figure></t>
+
+       <t>           
+           Code (4bits): informant le server que le client souhaite quitter l'application. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16bits): Taille totale du paquet.
+          </t>
       
       </section>
 
       <section title="Quitter un film"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce paquet transmis par le client au server lui signifaint qu'il souhaite 
+                quitter la salle dans laquelle il se trouve et rejoindre la MainRoom</t>
          <t>
       <figure align="center" anchor="quit_movie">
       <artwork>
@@ -1003,17 +883,39 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Code  |        Sequence       |            Taille             |
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      |                             Temps                             |
+      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
       | Salle |
       +-+-+-+-+      
       </artwork></figure></t>
 
+       <t>           
+           Code (4bits): informant le server qu'il souhaite rejoindre la Main Room. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16bits): Taille totale du paquet.
+          </t>
+
+     <t> Temps (32 bits): indiquant au server le temps d'envoi du paquet
+   utilise pour le calcul du temps d'inactivite.  Celle nouvelle valeur
+   devient la valeur de reference.  (Voir 3.3)</t>
+
+         
+     <t>           
+           Salle (4 bits): Le client joint sa localisation au message pour que les clients 
+           de cette salle soient avertis de son depart
+          </t>
       
       </section>
 
       <section title="Message de deconnexion"> 
-                <t>By default 3 levels of nesting show in table of contents but that
-          can be adjusted with the value of the "tocdepth" processing
-          instruction.</t>
+                <t>Ce message est transmis au client par le server lorsque ce dernier deconnecte volontairement le client de l'application 
+                Soit pour inactivité ou pour un detection de SPAM. </t>
          <t>
       <figure align="center" anchor="msg_deco">
       <artwork>
@@ -1029,19 +931,29 @@ Cela devrait permettre l'acces au service à d'autre client.
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       </artwork></figure></t>
 
+       <t>           
+           Code (4bits): informant le client qu'il s'agit d'un message à afficher. (Voir figure 1)
+          </t>
+     
+     <t>           
+           Sequence (12bits): le numero de sequence du paquet.
+          </t>
+     
+     <t>           
+           Taille (16bits): Taille totale du paquet.
+          </t>
+
         <t>
         <list hangIndent="8" style="hanging">
           <t hangText="NotificationDeconnexion (1024 bits)"><vspace blankLines="1" />
-          Ce champ contient un message avertissement le client 
-        qu'il sera deconnecté dans 1 minute pour envoi repete de message 
-       (2 messages par seconde). Tous les caratères UTF-8 
-       doivent etre accepter et le message codes sur 1024 bits 
+          Ce champ contient un message avertissant le client 
+        qu'il a été deconnecté. Pour ce message, tous les caratères UTF-8 
+       doivent etre accepter et le message codes sur 1024 bits.
       Le message doit s'afficher parmis les messages de chat mais etre vu 
-      uniquement par le client concerne  
+      uniquement par le client concerne.
           </t>
         </list>
       </t>
-
       
 
       </section>
@@ -1050,7 +962,7 @@ Cela devrait permettre l'acces au service à d'autre client.
     <section title="Fiabilité">
 
       <t>
-      La fiabilite du protocole est assuree par deux principaux
+      La fiabilite du protocole est assuree par trois principaux
       elements : Le numero de sequence, l'acquittement et les messages
       d'erreur.
       </t>
@@ -1058,7 +970,7 @@ Cela devrait permettre l'acces au service à d'autre client.
       <t>
       Le type de message acquittement: Ce type de message permet de s'assurer
       que les utilisateurs ou le serveur ait bien recu le message. Les deux 
-      entites attendent de recevoir ce message avant une autre emission du 
+      entites attendent de recevoir ce message avant l'emission du prochain message  
       meme message. En effet, en cas de non reception du message 
       d'acquittement, l'emetteur considere que le recepteur n'a pas recu le 
       message et le renvoie. De cette maniere, nous limitons le nombre de 
@@ -1070,27 +982,27 @@ Cela devrait permettre l'acces au service à d'autre client.
       <t>
       Le numero de sequence : Chaque message de notre service est associe a un
       numero de sequence, qui permet de l'identifier de maniere unique. De 
-      cette maniere, nous pouvons determiner quel paquet a ete recu. Prenons
+      cette maniere, nous pouvons determiner si paquet recu est le bon. Prenons
       un exemple. Supposons que le client A veut communiquer avec le serveur. 
       Il lui envoie le paquet de sequence 5, le serveur le recoit et lui 
       envoie un acquittement. Malheureusement, le client ne le recoit pas. Le
       client renvoie donc le paquet de sequence 5 au serveur. Le serveur
       ayant deja recu ce paquet, signale une erreur au client en lui envoyant
       un paquet "Erreur de sequence". Le client A sait donc que le paquet
-      de l'acquittement a ete egare. Cela s'averera tres utile dans le cas de
-      la transmission sous le protocole UDP
+      de l'acquittement a ete egare, incremente son compteur de sequence et cesse les reemissions
+      Cela s'averera tres utile dans le cas de la transmission sous le protocole UDP
       </t>
 
       <t>
       Messages d'erreur : Les messages d'erreur envoyes lors de l'execution
-      des taches du serveur permettront de reconnaitre les erreurs produites
-      afin de les corriger. 
+      des taches du serveur permettront de reconnaitre les erreurs produites pas les clients
+      afin de les corriger, sans toutefois avoir à se demander ce qui se passe.
       </t>
 
     </section>
 
     <section title="Exemple de scenario">
-    <section title="Scenario sans erreur 1: Regarder un film">
+    <section title="Scenario 1(sans erreur): Regarder un film">
     <t>
     Dans ce scenario, nous allons expliciter la suite de messages 
     envoyee entre un client et le serveur lorsque l'utilisateur veut
@@ -1103,9 +1015,9 @@ Cela devrait permettre l'acces au service à d'autre client.
     <artwork>
 
 
-                                          (salle               (salle 
-                                        principale)              001)
-Client A                Serveur           Client B             Client C          
+                                         (salle=0000)      (salle!=0000) 
+                                           MainRoom            MovieRoom
+Client A                Serveur            Client B             Client C          
   |                       |                   |                    |
   |      Demande de       |                   |                    |                     
   |      connexion        |                   |                    |
@@ -1192,16 +1104,20 @@ Client A                Serveur           Client B             Client C
     </section><!--End of example 1-->
 
 
-    <section title="Scenario sans erreur 2: Chat dans une salle">
+    <section title="Scenario 2(sans erreur): Chat dans une salle">
     <t>
     Ce scenario decrit la suite de message envoyes dans le cas d'un 
     envoi de messages dans une meme salle.
+    
     </t>
 
     <t>
     <figure>
     <artwork>
 
+
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1239,7 +1155,7 @@ Client A                Serveur           Client B             Client C
     </section><!--End of example 1-->
 
 
-    <section title="Scenario 3: Utilisateur inactif Dans la salle principale">
+    <section title="Scenario 3(sans erreur): Utilisateur inactif Dans la salle principale">
     <t>
     Ce scenario decrit la suite de messages envoyes dans le cas ou un
     utilisateur est inactif dans la salle principale.
@@ -1248,12 +1164,9 @@ Client A                Serveur           Client B             Client C
     <t>
     <figure>
     <artwork>
-MSG 1 from toto to titi
 
-etc
-
-You can also use a figure like this:
-
+                                                        (salle=0000) 
+                                                          MainRoom 
 Client A                                Serveur           Client B
   | =====  Processus de connexion  =====   |                 |
   | =====     (cf. Scenario 1)     =====   |                 |
@@ -1287,7 +1200,7 @@ Client A                                Serveur           Client B
     </section><!--End of example 1-->
 
 
-    <section title="Scenario sans erreur 4: Envoie de SPAM">
+    <section title="Scenario 4(sans erreur): Envoie de SPAM">
     <t>
     Ce scenario decrit l'ensemble des messages echanges lorsque 
     l'utilisateur envoie des messages a repetition dans le chat dans le
@@ -1297,6 +1210,9 @@ Client A                                Serveur           Client B
     <t>
     <figure>
     <artwork>
+    
+(salle=1000)                            (salle=1000)        (salle=1000) 
+MovieRoom                                 MainRoom            MovieRoom
 Client A                Serveur           Client B             Client C          
   |                       |                   |                    |
   |      Envoi de         |                   |                    |                     
@@ -1401,12 +1317,13 @@ Client A                Serveur           Client B             Client C
     </section><!--End of example 1-->
 
 
-    <section title="Scenario avec erreur : Quitter l'application">
+    <section title="Scenario 5(avec erreur) : Quitter l'application">
     <t>
     Dans ce scenario, nous allons simuler la suite de messages envoyes 
     lorsque l'utilisateur veut quitter l'application. Cependant, nous 
     ajouterons quelques erreurs qui peuvent arriver dans notre systeme
     et nous montrerons comment nous comptons les gerer.
+    Sur la figure Seq designera le numero de sequence.
     </t>
 
     <t>
@@ -1415,12 +1332,8 @@ Client A                Serveur           Client B             Client C
 
 Client A                                       Serveur
   |                                               |
-  |                                               |
-  |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |-----------------------x                       |
-  |                                               |
-  |                                               |
   |                                               |
   |       Quitter un salon de film (Seq = 6)      |
   |----------------------------------------------&gt;|
@@ -1428,12 +1341,10 @@ Client A                                       Serveur
   |  attend 2 secondes et renvoie le meme message |
   | avec le meme numero de sequence au serveur)   |
   |                                               |
-  |                                               |
   |               Acquittement                    |
   |                   x---------------------------|
   |     L'acquittement n'a pas atteint le         |
   |                   client)                     |
-  |                                               |
   |                                               |
   |       Quitter un salon de film  (Seq = 6)     |
   |----------------------------------------------&gt;|
@@ -1441,7 +1352,6 @@ Client A                                       Serveur
   |  encore une fois attend 2 secondes et         |
   |            renvoie le meme message            |
   | avec le meme numero de sequence au serveur)   |
-  |                                               |
   |                                               |
   |               Erreur de sequence              |
   |&lt;----------------------------------------------|
@@ -1451,10 +1361,8 @@ Client A                                       Serveur
   |    Le numero de sequence attendu etant        |
   |                le numero 7)                   |
   |                                               |
-  |                                               |
   |              Acquittement   (Seq = 7)         |
   |----------------------------------------------&gt;|
-  |                                               |
   |         ==== Deconnexion du client ====       |
 
 

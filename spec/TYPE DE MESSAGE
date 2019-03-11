@@ -39,8 +39,6 @@ LES SPECIFICATIONS LOGIN
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 1- envoie connection request : (typemsg,username, time,length,IP address,port number,message)
 
 2- acquitement
