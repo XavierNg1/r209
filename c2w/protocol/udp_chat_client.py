@@ -2,6 +2,8 @@
 from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
 import logging
+import struct
+global num_sequence = 0
 
 logging.basicConfig()
 moduleLogger = logging.getLogger('c2w.protocol.udp_chat_client_protocol')
@@ -76,6 +78,19 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         The client proxy calls this function when the user clicks on
         the login button.
         """
+        #Connecting to the server
+        self.transport.connect(self.serverAddress, self.serverPort)
+        #The message length
+        msg_length = 32 + len(userName)
+        #Combining the sequence number and the type
+        num_seq = num_sequence << 4
+        connection_type = 1
+        seq_and_connection = num_seq + connection_type
+        print(bin(seq_and_connection))
+        #Packing the username
+        length_username = str(len(userName))
+        buf = struct.pack('HH'+length_username+'s', msg_length, seq_and_connection, userName.encode('utf-8'))
+        self.transport.write(buf)
         moduleLogger.debug('loginRequest called with username=%s', userName)
 
     def sendChatMessageOIE(self, message):
