@@ -85,7 +85,7 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         ack_length = 32
         buf = struct.pack('HH', ack_length, seq_and_ack)
         self.transport.connect(host_port[0], host_port[1])
-        #self.transport.write(answer.encode('utf-8'))
+        #self.transport.write(buf.encode('utf-8'))
         self.transport.write(buf)
        
         

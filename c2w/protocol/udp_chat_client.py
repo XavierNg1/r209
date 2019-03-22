@@ -151,6 +151,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         print(connection_type)
         print(num_seq)
         #print(msg)
+        
 
 
         pass
