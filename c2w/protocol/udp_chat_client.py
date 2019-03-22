@@ -81,7 +81,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         """
         #num_sequence=0
         #Connecting to the server
-        self.transport.connect(self.serverAddress, self.serverPort)
+        #self.transport.connect(self.serverAddress, self.serverPort)
         #The message length taille du paquet 
         msg_length = 32 + len(userName)
         #Combining the sequence number and the type
@@ -92,7 +92,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         #Packing the username
         length_username = str(len(userName))
         buf = struct.pack('HH'+length_username+'s', msg_length, seq_and_connection, userName.encode('utf-8'))
-        self.transport.write(buf)
+        self.transport.write(buf, (self.serverAddress, self.serverPort))
         moduleLogger.debug('loginRequest called with username=%s', userName)
 
     def sendChatMessageOIE(self, message):
