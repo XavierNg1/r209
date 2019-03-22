@@ -3,7 +3,6 @@ from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
 import logging
 import struct
-global num_sequence = 0
 
 logging.basicConfig()
 moduleLogger = logging.getLogger('c2w.protocol.udp_chat_client_protocol')
@@ -83,7 +82,8 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         #The message length
         msg_length = 32 + len(userName)
         #Combining the sequence number and the type
-        num_seq = num_sequence << 4
+        num_seq = 0
+        num_seq = num_seq << 4
         connection_type = 1
         seq_and_connection = num_seq + connection_type
         print(bin(seq_and_connection))
