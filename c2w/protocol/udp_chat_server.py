@@ -72,15 +72,21 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         msg_length = struct.unpack('H', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('H', datagram[2:4])[0]
         num_seq = num_seq_and_type >> 4
-        msg_type = num_seq_and_type & 15
+        connection_type = num_seq_and_type & 15
         msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
+        print(connection_type)
+        print(num_seq)
+        print(msg)
         #sending the ACK message
-        global num_seq
+        
         num_seq = num_seq << 4
         ack_type = 0
-        seq_and_ack = num_seq + connection_type
+        seq_and_ack = num_seq + ack_type
         ack_length = 32
         buf = struct.pack('HH', ack_length, seq_and_ack)
+        self.transport.connect(host_port[0], host_port[1])
+        #self.transport.write(answer.encode('utf-8'))
         self.transport.write(buf)
-        print(msg)
+       
+        
         pass

@@ -142,7 +142,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         Called **by Twisted** when the client has received a UDP
         packet.
         """
-        #ack received
+        #ack receive
         msg_length = struct.unpack('H', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('H', datagram[2:4])[0]
         num_seq = num_seq_and_type >> 4
