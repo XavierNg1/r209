@@ -58,6 +58,23 @@ class c2wTcpChatClientProtocol(Protocol):
         The client proxy calls this function when the user clicks on
         the login button.
         """
+
+        #Connecting to the server
+        #self.transport.connect(self.serverAddress, self.serverPort)
+        #The message length taille du paquet 
+        msg_length = 4 + len(userName.encode('utf-8'))
+        #Combining the sequence number and the type
+        num_seq = self.num_sequence << 4 
+        connection_type = 1
+        seq_and_connection = num_seq + connection_type
+        #print(bin(seq_and_connection))
+        #Packing the username
+        length_username = str(len(userName))
+        buf = struct.pack('>hh'+length_username+'s', msg_length, seq_and_connection, userName.encode('utf-8'))
+        #self.transport.write(buf, (self.serverAddress, self.serverPort))
+        self.transport.write(buf)
+       
+
         moduleLogger.debug('loginRequest called with username=%s', userName)
 
     def sendChatMessageOIE(self, message):
