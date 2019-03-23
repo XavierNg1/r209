@@ -71,6 +71,7 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         packet.  You cannot change the signature of this method.
         """
         #Receiving the login request
+<<<<<<< HEAD
         #buf = struct.unpack('!hh',datagram)
         msg_length = struct.unpack('>h', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('>h', datagram[2:4])[0]
@@ -87,9 +88,35 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         #sending the ACK message
         num_seq_1 = num_seq
         num_seq_1 = num_seq_1 << 4
+=======
+        msg_length = struct.unpack('!H', datagram[0:2])[0]
+        num_seq_and_type = struct.unpack('!H', datagram[2:4])[0]
+        num_seq_msg = num_seq_and_type >> 4
+        connection_type = num_seq_and_type & 15
+        msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
+        print(connection_type)
+        print(num_seq_msg)
+        print(msg)
+        
+        #sending the ACK message
+        num_seq = 0
+        num_seq = num_seq << 4
+>>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
         ack_type = 0
-        seq_and_ack = num_seq_1 + ack_type
+        seq_and_ack = num_seq + ack_type
         ack_length = 4
+        buf = struct.pack('!hh', ack_length, seq_and_ack)
+        #self.transport.connect(host_port[0], host_port[1])
+        #self.transport.write(answer.encode('utf-8'))
+        self.transport.write(buf, (host_port[0], host_port[1]))
+
+        #sending the connection message
+        num_seq = 0
+        num_seq = num_seq << 4
+        connection_type = 7
+        seq_and_ack = num_seq + connection_type
+        ack_length = 4
+<<<<<<< HEAD
         buf = struct.pack('!HH', ack_length, seq_and_ack)
         #self.transport.connect(host_port[0], host_port[1])
         #self.transport.write(answer.encode('utf-8'))
@@ -109,6 +136,12 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
 
 
 
+=======
+        buf = struct.pack('!hh', ack_length, seq_and_ack)
+        #self.transport.connect(host_port[0], host_port[1])
+        #self.transport.write(answer.encode('utf-8'))
+        self.transport.write(buf, (host_port[0], host_port[1]))
+>>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
        
         
         pass

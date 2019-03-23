@@ -197,6 +197,11 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         ack_length = 4
         buf = struct.pack('!HH', 4, seq_and_ack)
         self.transport.write(buf, (host_port[0], host_port[1]))
+<<<<<<< HEAD
+=======
+        
+       
+>>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
 
         """
         def send_wait(self, packet):
