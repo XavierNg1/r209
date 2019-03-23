@@ -158,8 +158,9 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         ack_type = 0
         seq_and_ack = num_seq + ack_type
         ack_length = 4
-        buf = struct.pack('>HH', 4, seq_and_ack)
-        reactor.callLater(5, self.transport.write(buf, (host_port[0], host_port[1])))
+        buf = struct.pack('!HH', 4, seq_and_ack)
+        self.transport.write(buf, (host_port[0], host_port[1]))
+        
        
 
 
