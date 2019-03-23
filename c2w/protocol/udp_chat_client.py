@@ -3,7 +3,7 @@ from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
 import logging
 import struct
-
+from twisted.internet import reactor
 
 logging.basicConfig()
 moduleLogger = logging.getLogger('c2w.protocol.udp_chat_client_protocol')
@@ -79,13 +79,13 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         The client proxy calls this function when the user clicks on
         the login button.
         """
-        #num_sequence=0
+
         #Connecting to the server
         #self.transport.connect(self.serverAddress, self.serverPort)
         #The message length taille du paquet 
-        msg_length = 4 + len(userName)
+        msg_length = 4 + len(userName.encode('utf-8'))
         #Combining the sequence number and the type
-        num_seq = self.num_sequence << 4
+        num_seq = self.num_sequence << 4 
         connection_type = 1
         seq_and_connection = num_seq + connection_type
         #print(bin(seq_and_connection))
@@ -150,9 +150,17 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         #msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8') 
         print(connection_type)
         print(num_seq)
-        #print(msg)
-        
-        
+        print(msg)
+        #Sending the ack
+        #self.num_sequence += 1
+        num_seq = self.num_sequence
+        num_seq = num_seq << 4
+        ack_type = 0
+        seq_and_ack = num_seq + ack_type
+        ack_length = 4
+        buf = struct.pack('>HH', 4, seq_and_ack)
+        reactor.callLater(5, self.transport.write(buf, (host_port[0], host_port[1])))
+       
 
 
         pass

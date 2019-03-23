@@ -3,6 +3,8 @@ from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
 import logging
 import struct
+from twisted.internet import reactor
+#sequence_number
 
 
 logging.basicConfig()
@@ -79,14 +81,15 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         print(msg)
         #sending the ACK message
         
-        num_seq = num_seq << 4
+        num_seq_1 = 0
+        num_seq_1 = num_seq_1 << 4
         ack_type = 0
-        seq_and_ack = num_seq + ack_type
-        ack_length = 32
-        buf = struct.pack('HH', ack_length, seq_and_ack)
-        self.transport.connect(host_port[0], host_port[1])
-        #self.transport.write(buf.encode('utf-8'))
-        self.transport.write(buf)
+        seq_and_ack = num_seq_1 + ack_type
+        ack_length = 4
+        buf = struct.pack('>HH', ack_length, seq_and_ack)
+        #self.transport.connect(host_port[0], host_port[1])
+        #self.transport.write(answer.encode('utf-8'))
+        reactor.callLater(500, self.transport.write(buf, (host_port[0], host_port[1])))
        
         
         pass
