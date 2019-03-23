@@ -81,13 +81,13 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         """
 
         #Connecting to the server
+        #self.transport.connect(self.serverAddress, self.serverPort)
         #The message length taille du paquet 
         msg_length = 4 + len(userName.encode('utf-8'))
         #Combining the sequence number and the type
         num_seq = self.num_sequence << 4 
         connection_type = 1
-        seq_and_connection = num_seq | connection_type
-        #seq_and_connection = seq_and_connection << 1
+        seq_and_connection = num_seq + connection_type
         #print(bin(seq_and_connection))
         #Packing the username
         length_username = str(len(userName))
@@ -147,7 +147,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         num_seq_and_type = struct.unpack('H', datagram[2:4])[0]
         num_seq = num_seq_and_type >> 4
         connection_type = num_seq_and_type & 15
-        msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8') 
+        #msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8') 
         print(connection_type)
         print(num_seq)
         print(msg)
