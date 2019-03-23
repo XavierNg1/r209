@@ -3,8 +3,7 @@ from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
 import logging
 import struct
-#sequence_number
-num_seq = 0
+
 
 logging.basicConfig()
 moduleLogger = logging.getLogger('c2w.protocol.udp_chat_server_protocol')
@@ -47,6 +46,7 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         #: access and modify the user list).
         self.serverProxy = serverProxy
         self.lossPr = lossPr
+        self.num_sequence=0
 
     def startProtocol(self):
         """
