@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
+import c2w.protocol.util as util
 import logging
 import struct
 from twisted.internet import reactor
-
+from c2w.main.constants import ROOM_IDS
 
 
 logging.basicConfig()
@@ -49,6 +50,9 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         self.serverProxy = serverProxy
         self.lossPr = lossPr
         self.num_sequence=0
+        self.users=[]
+        self.movies=[]
+        
 
     def startProtocol(self):
         """
@@ -70,38 +74,78 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         Twisted calls this method when the server has received a UDP
         packet.  You cannot change the signature of this method.
         """
+
+
+        packet_type=util.get_type(datagram)
+        num_sequence_client=util.get_numSequence(datagram)
+        if packet_type ==0:  #Reception ACK
+
+           
+
+            print(packet_type)
+        
+        elif packet_type ==1:  # Reception login request 
+
+            print(self.serverProxy.getMovieList()[0])
+            
+            """
+            Traitement a effectuer !!!
+            """
+
+             #sending the ACK message
+            buf=util.format_ack(num_sequence_client)
+            self.transport.write(buf, (host_port[0], host_port[1]))
+
+
+            #sending the connection message
+            #num_seq = 0
+            #num_seq = num_seq << 4
+            #connection_type = 7
+            #seq_and_ack = num_seq + connection_type
+            #ack_length = 4
+            #buf = struct.pack('!hh', ack_length, seq_and_ack)
+            #self.transport.connect(host_port[0], host_port[1])
+            #self.transport.write(answer.encode('utf-8'))
+
+            buf2=util.format_header(7,self.num_sequence)
+            self.transport.write(buf2, (host_port[0], host_port[1]))
+
+            #self.transport.write(buf2, (host_port[0], host_port[1]))
+            reactor.callLater(1,self.transport.write, buf2, (host_port[0], host_port[1]) )
+
+
+        elif packet_type ==2:  # Quitter Application choix de film
+
+            t=0
+
+        elif packet_type == 3: # Choix de film
+            #self.users.append(self.username)
+            print(packet_type)
+         
+
+        elif packet_type==4: #
+            t=0   
+        elif packet_type==9:  # rdd
+            t=0
+        """    
         #Receiving the login request
-<<<<<<< HEAD
-        #buf = struct.unpack('!hh',datagram)
-        msg_length = struct.unpack('>h', datagram[0:2])[0]
-        num_seq_and_type = struct.unpack('>h', datagram[2:4])[0]
-        num_seq = num_seq_and_type >> 4
-        connection_type = num_seq_and_type & 15
-        msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
-        #print(buf)
-        #print(connection_type)
-        #print(msg_length)
-        #print(num_seq)
-        #print(msg)
-
-
-        #sending the ACK message
-        num_seq_1 = num_seq
-        num_seq_1 = num_seq_1 << 4
-=======
         msg_length = struct.unpack('!H', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('!H', datagram[2:4])[0]
         num_seq_msg = num_seq_and_type >> 4
         connection_type = num_seq_and_type & 15
-        msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
+        userName = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
         print(connection_type)
         print(num_seq_msg)
-        print(msg)
+        #print(self.serverProxy.getMovieList())
+
+        print(userName)
+        #print(self.serverProxy.getMovieList())
+                
+        #self.serverProxy.addUser(userName,ROOM_IDS.MAIN_ROOM,None,host_port)  
         
         #sending the ACK message
         num_seq = 0
         num_seq = num_seq << 4
->>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
         ack_type = 0
         seq_and_ack = num_seq + ack_type
         ack_length = 4
@@ -109,39 +153,21 @@ class c2wUdpChatServerProtocol(DatagramProtocol):
         #self.transport.connect(host_port[0], host_port[1])
         #self.transport.write(answer.encode('utf-8'))
         self.transport.write(buf, (host_port[0], host_port[1]))
-
+        
+        #print(ROOM_IDS.MAIN_ROOM)  
+        
         #sending the connection message
         num_seq = 0
         num_seq = num_seq << 4
         connection_type = 7
         seq_and_ack = num_seq + connection_type
         ack_length = 4
-<<<<<<< HEAD
-        buf = struct.pack('!HH', ack_length, seq_and_ack)
-        #self.transport.connect(host_port[0], host_port[1])
-        #self.transport.write(answer.encode('utf-8'))
-        self.transport.write(buf, (host_port[0], host_port[1]))
-
-
-        #sending connexion reussi
-    
-        msg_length = 4 
-        num_seq = self.num_sequence << 4 
-        connection_type = 7
-        seq_and_connection = num_seq + connection_type
-        buf2 = struct.pack('!hh', msg_length, seq_and_connection)
-        self.transport.write(buf2, (host_port[0], host_port[1]))
-
-        self.transport.write(buf2, (host_port[0], host_port[1]))
-
-
-
-=======
         buf = struct.pack('!hh', ack_length, seq_and_ack)
         #self.transport.connect(host_port[0], host_port[1])
         #self.transport.write(answer.encode('utf-8'))
         self.transport.write(buf, (host_port[0], host_port[1]))
->>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
-       
+
+        self.transport.write(buf, (host_port[0], host_port[1]))
+       """
         
         pass

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from twisted.internet.protocol import DatagramProtocol
 from c2w.main.lossy_transport import LossyTransport
+import c2w.protocol.util as util
 import logging
 import struct
 from twisted.internet import reactor
 import time
+from c2w.main.constants import ROOM_IDS
+
+
 
 logging.basicConfig()
 moduleLogger = logging.getLogger('c2w.protocol.udp_chat_client_protocol')
@@ -61,10 +65,11 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         self.clientProxy = clientProxy
         self.lossPr = lossPr
         self.num_sequence=0
-        timeStamp = time.gmtime()
-        self.compteur = int(time.mktime(timeStamp))
-        self.conectionetablie = False
+        self.users=[]
+        self.movies=[]
         self.memory=[]
+        self.username=''
+        
 
     def startProtocol(self):
         """
@@ -84,34 +89,35 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         The client proxy calls this function when the user clicks on
         the login button.
         """
-        
+        """
         #Connecting to the server
         #self.transport.connect(self.serverAddress, self.serverPort)
         #The message length taille du paquet 
         msg_length = 4 + len(userName.encode('utf-8'))
         #Combining the sequence number and the type
-        num_seq = self.num_sequence << 4 
-        connection_type = 1
-        seq_and_connection = num_seq + connection_type
+        #num_seq = self.num_sequence << 4 
+        #connection_type = 1
+        seq_and_connection = util.prepare_header(self.num_sequence,1)
         #print(bin(seq_and_connection))
         #Packing the username
         length_username = str(len(userName))
         buf = struct.pack('!hh'+length_username+'s', msg_length, seq_and_connection, userName.encode('utf-8'))
         self.transport.write(buf, (self.serverAddress, self.serverPort))
-        reactor.callLater(1,self.transport.write, buf, (self.serverAddress, self.serverPort))
-        
-
-            
-        
         """
-        timeStamp = time.gmtime()
-        temp= int(time.mktime(timeStamp))
-        if temp>=self.compteur + 5 and self.conectionetablie==False:
-            reactor.callLater(1, self.transport.write(buf, (self.serverAddress, self.serverPort)))
-     """
+        self.username=userName
+        buf=util.format_login(userName)
+        self.transport.write(buf, (self.serverAddress, self.serverPort))
+        reactor.callLater(1,self.transport.write, buf, (self.serverAddress, self.serverPort))
+        """
         #callID = reactor.callLater(5, f)
         #callID.cancel()
         #reactor.run()
+    
+        #sending the connection message
+        num_seq = 0
+        num_seq = num_seq << 4
+        connection_type = 7
+        """
         moduleLogger.debug('loginRequest called with username=%s', userName)
 
         
@@ -152,6 +158,7 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         Called by the client proxy  when the user
         has clicked on the leave button in the main room.
         """
+        self.clientProxy.applicationQuit()
         pass
 
     def datagramReceived(self, datagram, host_port):
@@ -161,52 +168,86 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
 
         Called **by Twisted** when the client has received a UDP
         packet.
-        """
-        print(self.conectionetablie)
-        self.conectionetablie=True
+        
+        #print(self.conectionetablie)
+        #self.conectionetablie=True
         #ack receive
 
         
-        buf = struct.unpack('!hh',datagram)
-        """
+        #buf = struct.unpack('!hh',datagram)
+        
         msg_length = struct.unpack('>h', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('>h', datagram[2:4])[0]
         num_seq = num_seq_and_type >> 4
         connection_type = num_seq_and_type & 15
         msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
         """
+        packet_type=util.get_type(datagram)
+        if packet_type ==0:  #Reception d'un ACK
+
+            print(packet_type)
+
         
+        elif packet_type ==5:  # Reception liste des films
+
+            t=0
+
+        elif packet_type ==6:  # Reception liste des Users
+
+            t=0
+
+        elif packet_type == 7:
+            #self.users.append(self.username)
+            print(packet_type)
+            
+            self.clientProxy.initCompleteONE(self.users,self.movies)
+
+            buf=util.format_ack(self.num_sequence)
+
+            """
+            
+            num_seq = self.num_sequence
+            num_seq = num_seq << 4
+            ack_type = 0
+            seq_and_ack = num_seq + ack_type
+            ack_length = 4
+            buf = struct.pack('!HH', 4, seq_and_ack)
+            """
+            self.transport.write(buf, (host_port[0], host_port[1]))  #POUR LES TEST A SUPPRIMER
+
+        elif packet_type==8:
+            self.clientProxy.connectionRejectedONE("CONNEXION REFUSE")  
+            
+        elif packet_type==9:  #
+            t=0
+        """
         msg_length = struct.unpack('!H', datagram[0:2])[0]
         num_seq_and_type = struct.unpack('!H', datagram[2:4])[0]
         num_seq = num_seq_and_type >> 4
         connection_type = num_seq_and_type & 15
+        """
+        #self.clientProxy.initCompleteONE([],[])
         #msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8') 
-        print(msg_length)
-        print(buf)
-        print(num_seq)
-        print(self.conectionetablie)
-        print(connection_type)
+        #print(msg_length)
+        #print(buf)
+        #print(num_seq)
+        
+        #print(connection_type)
         
         #Sending the ack connexion reussi ou echouee
 
         #self.num_sequence += 1
-        num_seq = self.num_sequence
-        num_seq = num_seq << 4
-        ack_type = 0
-        seq_and_ack = num_seq + ack_type
-        ack_length = 4
-        buf = struct.pack('!HH', 4, seq_and_ack)
-        self.transport.write(buf, (host_port[0], host_port[1]))
-<<<<<<< HEAD
-=======
+
         
        
->>>>>>> 199b4d4c038b2900b32c5ba0d7b857310dd5aa9f
+        
+        
+       
 
         """
         def send_wait(self, packet):
             self.memory.append(packet)
             reactor.callLater(1, self.transport.write, buf, (self.serverAddress, self.serverPort))
-        """
-
+        
+    """
         pass
