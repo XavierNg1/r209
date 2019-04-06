@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import struct
+import re
+from c2w.main.constants import ROOM_IDS
+
 
 def prepare_header(numSeq,code_type):
         return (numSeq << 4 )+ code_type
@@ -12,6 +15,141 @@ def format_ack(num_sequence):
         ack_length = 4
         packet = struct.pack('!hh', ack_length, seq_and_ack)
         return packet
+
+        """
+        def afficher_movieList(listMovies):
+                for m in listMovies:
+                        print("************************ MOVIES ******************************")
+                        titre=m.movieTitle
+                        print(titre)               
+                        port=m.moviePort
+                        print(port)
+                        iD=m.movieId
+                        print(iD)
+                        ip=m.movieIpAddress
+                        movieIP=re.findall(r"\d+",ip)
+                        formatIP=(int(movieIP[0])<<24)+(int(movieIP[1])<<16)+(int(movieIP[2])<<8)+(int(movieIP[3]))
+                        print(ip)
+                        print(movieIP)
+                        print("************************ paquetage ip ******************************")
+                        print(formatIP)
+                        print("************************ depaquetage ip ******************************")
+                        print(formatIP>>24)
+                        print((formatIP>>16)&15)
+                        print((formatIP>>8)&15)
+                        print((formatIP)&15)
+                        
+                        
+                        print(iD)
+                        print("**************************************************************")
+        """
+def format_moviesList(listMovies):
+        numSeq=1
+        code_type=5
+        secondbyte=prepare_header(numSeq,code_type)
+        packet_moviesList=[]
+        packet_length=4
+        for m in listMovies:
+                packet_length = packet_length + 9 + len(m.movieTitle.encode('utf-8'))
+
+        packet_moviesList = struct.pack('!hh',packet_length,secondbyte)
+
+        for m in listMovies:
+                movie_length =  9 + len(m.movieTitle.encode('utf-8'))
+                length_movie = str(len(m.movieTitle))
+                port=m.moviePort
+                #print("*********************",port)
+                ip=m.movieIpAddress
+                iD=m.movieId
+                ip_Packet=re.findall(r"\d+",ip)
+                ip_Packeted=(int(ip_Packet[0])<<24)+(int(ip_Packet[1])<<16)+(int(ip_Packet[2])<<8)+(int(ip_Packet[3]))
+                packet_moviesList = packet_moviesList + struct.pack('!Ihhb'+length_movie+'s',ip_Packeted, port, movie_length, iD, m.movieTitle.encode('utf-8'))
+               # print("**********************block movie")
+               # print(packet_moviesList)
+        return packet_moviesList
+
+def formatage(ip):
+        iP = str.join(".",(str(ip>>24),str((ip>>16)&15),str((ip>>8)&15),str(ip&15)))
+        return iP
+
+def get_moviesList(packet):
+        List=[]
+        #moviesList=[]
+        pLength=get_packet_lenght(packet)
+        #cursor=pLength
+     
+        #print("***************************",pLength)
+        deb=0
+        mLength=0
+        while deb+4<pLength: 
+                mLength2 = struct.unpack("!h", packet[mLength+4+6:mLength+4+8])[0]
+                
+                iP=struct.unpack("!ihhb"+str(mLength2-9)+'s', packet[mLength+4:+mLength+mLength2+4]) #pas encore formate
+                mLength+=mLength2
+                        
+                deb=deb+mLength2
+                         
+                iP=list(iP)
+                iP[4]=iP[4].decode('utf-8')    
+                iP[0]=formatage(iP[0])
+                mov=(iP[4],iP[0],iP[1],iP[3])
+                List.append(mov)
+        return List
+
+
+def format_usersList(usersList,moviesList):
+        numSeq=2
+        code_type=6
+        secondbyte=prepare_header(numSeq,code_type)
+        packet_usersList=[]
+        packet_length=4
+        for m in usersList:
+                packet_length = packet_length + 2 + len(m[0].encode('utf-8'))
+
+        packet_usersList = struct.pack('!hh',packet_length,secondbyte)
+        for m in usersList:
+                userName_length =  len(m[0].encode('utf-8'))
+                length_userName = str(len(m[0]))
+                packet_usersList = packet_usersList + struct.pack('!bb'+length_userName+'s',userName_length,m[3], m[0].encode('utf-8'))
+               # print("**********************block movie")
+               # print(packet_moviesList)
+        return packet_usersList
+
+
+def get_usersList(packet,moviesList):
+        List=[]
+        #moviesList=[]
+        pLength=get_packet_lenght(packet)
+        #cursor=pLength
+     
+        #print("***************************",pLength)
+        deb=0
+        mLength=0
+        
+        while deb+4<pLength: 
+                mLength2 = struct.unpack("!b", packet[mLength+4:mLength+5])[0]
+                                
+                iP=struct.unpack("!bb"+str(mLength2)+'s', packet[mLength+4:mLength+mLength2+2+4]) #pas encore formate
+                mLength+=mLength2+2
+                        
+                deb=deb+mLength2+2
+                         
+                iP=list(iP)
+                iP[2]=iP[2].decode('utf-8')    
+                #iP[0]=formatage(iP[0])
+                room=ROOM_IDS.MAIN_ROOM
+                
+                for m in moviesList:
+                        if(m[3]==iP[1]):
+                                room=m[0]
+ 
+                mov=(iP[2],room)
+                List.append(mov)
+       
+        return List
+
+
+
 
 def format_header(header_type,num_sequence):
         num_seq = num_sequence << 4
@@ -67,6 +205,7 @@ def get_userName_length(packet):
         pseudo_length = struct.unpack('s', packet[4:5])[0].decode('utf-8')
         return pseudo_length 
 
+#Fonctions de récupération d'éléments d'entête
 def get_type(packet):
         num_seq_and_type = struct.unpack('!H', packet[2:4])[0]       
         code_type = num_seq_and_type & 15

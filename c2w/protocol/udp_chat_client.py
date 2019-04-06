@@ -59,16 +59,56 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         #: The IP address of the c2w server.
         self.serverAddress = serverAddress
         #: The port number of the c2w server.
-        self.serverPort = serverPort
+        self.serverPort = serverPort 
         #: The clientProxy, which the protocol must use
         #: to interact with the Graphical User Interface.
         self.clientProxy = clientProxy
         self.lossPr = lossPr
         self.num_sequence=0
         self.users=[]
+        self.numDeconection=0
+        self.listUser=[]
         self.movies=[]
-        self.memory=[]
+        self.filattente=[]
         self.username=''
+
+
+    # fonction pour verifier si on a recu un ack
+    def traitementAck(self,numSeq):
+            
+        for p in self.filattente:
+                if (p[0]==numSeq):
+                    p[2]=1
+                    #print(p)                    
+                    #print(self.filattente)
+                    #if numSeq==self.numDeconection and numSeq>=1:
+                     #   self.clientProxy.applicationQuit()
+                      #  break 
+
+                    self.num_sequence+=1
+                    print(self.num_sequence)
+                    print('ack envoye par le serveur')
+                    #self.filattente.remove(p)
+                            
+    #fonction pour envoyer le paquet si jamais on a toujours pas recu d ack
+    def sendAndWait(self,host_port):
+        for p in self.filattente:
+                if (p[4]==host_port):  
+                    if (p[1] <= 7): # 7 correspond au nombre maximum de fois qu'on doit ramener un paquet
+                        if (p[2] == 0):
+                            self.transport.write(p[3],host_port)
+                            p[1]+=1
+                            print('nombre de message envoye:'+str(p[1]))
+                            reactor.callLater(1,self.sendAndWait,host_port)
+                        elif(p[2] == 1):
+                            print('Le paquet a ete aquitte')  
+                            self.filattente.remove(p)   
+                            
+                            
+                    else:
+                        print('Le paquet envoye est perdu')
+                        self.filattente.remove(p)
+
         
 
     def startProtocol(self):
@@ -107,13 +147,16 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         self.username=userName
         buf=util.format_login(userName)
         self.transport.write(buf, (self.serverAddress, self.serverPort))
-        reactor.callLater(1,self.transport.write, buf, (self.serverAddress, self.serverPort))
-        """
+        self.filattente.append([self.num_sequence,1,0,buf,(self.serverAddress, self.serverPort)])  
+        print(self.filattente)
+        reactor.callLater(1,self.sendAndWait,(self.serverAddress, self.serverPort))    
+        
         #callID = reactor.callLater(5, f)
         #callID.cancel()
         #reactor.run()
     
         #sending the connection message
+        """
         num_seq = 0
         num_seq = num_seq << 4
         connection_type = 7
@@ -151,6 +194,8 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
             c2w.main.constants.ROOM_IDS.MAIN_ROOM when the user
             wants to go back to the main room.
         """
+        self.clientProxy.joinRoomOKONE()
+
         pass
 
     def sendLeaveSystemRequestOIE(self):
@@ -158,7 +203,20 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         Called by the client proxy  when the user
         has clicked on the leave button in the main room.
         """
+
+        """
+        #A faire envoyer demande de deconnexion
+        buf2=util.format_header(2,self.num_sequence)
+        print("jeveuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuupannnnnnnnnnnn")
+        self.transport.write(buf2, (self.serverAddress, self.serverPort))
+        self.filattente.append([self.num_sequence,1,0,buf2,(self.serverAddress, self.serverPort)])
+        reactor.callLater(1,self.sendAndWait,(self.serverAddress, self.serverPort))    
+        self.numDeconection=self.num_sequence
+        """ 
         self.clientProxy.applicationQuit()
+
+
+        
         pass
 
     def datagramReceived(self, datagram, host_port):
@@ -167,87 +225,98 @@ class c2wUdpChatClientProtocol(DatagramProtocol):
         :param host_port: a touple containing the source IP address and port.
 
         Called **by Twisted** when the client has received a UDP
-        packet.
-        
-        #print(self.conectionetablie)
-        #self.conectionetablie=True
-        #ack receive
-
-        
-        #buf = struct.unpack('!hh',datagram)
-        
-        msg_length = struct.unpack('>h', datagram[0:2])[0]
-        num_seq_and_type = struct.unpack('>h', datagram[2:4])[0]
-        num_seq = num_seq_and_type >> 4
-        connection_type = num_seq_and_type & 15
-        msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8')
+        packet.       
+       
         """
         packet_type=util.get_type(datagram)
-        if packet_type ==0:  #Reception d'un ACK
+        packet_numSeq= util.get_numSequence (datagram)
 
-            print(packet_type)
+        if packet_type ==0:  #Reception d'un ACK
+           
+            self.traitementAck(packet_numSeq)
+            print("*******************ACK DU SERVER",packet_numSeq)
+            print("************************MON NUM SEQ",self.num_sequence)
+            print("****-----------------*ACK CONNEXION REQUEST****")
+
+            #if packet_numSeq==self.numDeconection and packet_numSeq>=1:
+             #   self.clientProxy.applicationQuit()
+
 
         
         elif packet_type ==5:  # Reception liste des films
+            
 
-            t=0
+            buf=util.format_ack(packet_numSeq)
+            self.transport.write(buf, (host_port[0], host_port[1]))
+
+
+            print("*******************ACK DU SERVER",packet_numSeq)
+            print("************************MON NUM SEQ",self.num_sequence)
+            self.movies=util.get_moviesList(datagram)
+            print(self.movies)
+             
+            """""""""""""""""""""""" 
+            #self.clientProxy.initCompleteONE(self.listUser,self.movies)
+            #print(packet_type)  
+            """"""""""""
+
 
         elif packet_type ==6:  # Reception liste des Users
 
-            t=0
+            if self.listUser==[]:
 
-        elif packet_type == 7:
+                buf=util.format_ack(packet_numSeq)
+                self.transport.write(buf, (host_port[0], host_port[1]))
+
+                print("********************************Reception USER**************************")
+                #print(util.format_usersList(self.usersList,self.serverProxy.getMovieList()))
+                print(datagram)
+                self.listUser=util.get_usersList(datagram,self.movies)
+                #self.filattente.append([2,1,0,listUser,(host_port[0], host_port[1])])
+                #self.transport.write(listUser, (host_port[0], host_port[1]))
+                print(self.listUser)
+                print(self.movies)
+                #print(listUser)           
+                
+                self.clientProxy.initCompleteONE(self.listUser,self.movies)
+                #print(packet_type)
+                 
+            else:
+                buf=util.format_ack(packet_numSeq)
+                self.transport.write(buf, (host_port[0], host_port[1]))
+                
+                self.listUser=util.get_usersList(datagram,self.movies)
+                self.clientProxy.setUserListONE(self.listUser)
+
+
+        elif packet_type == 7: #        --------------  ACCEPTATION DE CONNECTION
+            
             #self.users.append(self.username)
-            print(packet_type)
-            
-            self.clientProxy.initCompleteONE(self.users,self.movies)
+            #print(packet_type)            
+           # self.clientProxy.initCompleteONE(self.users,self.movies)
 
-            buf=util.format_ack(self.num_sequence)
+            buf=util.format_ack(packet_numSeq)
+            self.transport.write(buf, (host_port[0], host_port[1]))  
+            print("*******************ACK DU SERVER",packet_numSeq)
+            print("***********",packet_numSeq)
 
-            """
-            
-            num_seq = self.num_sequence
-            num_seq = num_seq << 4
-            ack_type = 0
-            seq_and_ack = num_seq + ack_type
-            ack_length = 4
-            buf = struct.pack('!HH', 4, seq_and_ack)
-            """
-            self.transport.write(buf, (host_port[0], host_port[1]))  #POUR LES TEST A SUPPRIMER
+
+
+
+
+
 
         elif packet_type==8:
-            self.clientProxy.connectionRejectedONE("CONNEXION REFUSE")  
+            buf=util.format_ack(packet_numSeq)
+            self.transport.write(buf, (host_port[0], host_port[1]))
+            self.clientProxy.connectionRejectedONE("\nLe pseudo que vous avez entrez est deja utilisé.\nVeuillez réessayer avec un autre")  
+
+            
             
         elif packet_type==9:  #
             t=0
-        """
-        msg_length = struct.unpack('!H', datagram[0:2])[0]
-        num_seq_and_type = struct.unpack('!H', datagram[2:4])[0]
-        num_seq = num_seq_and_type >> 4
-        connection_type = num_seq_and_type & 15
-        """
-        #self.clientProxy.initCompleteONE([],[])
-        #msg = struct.unpack(str(len(datagram[4:]))+'s', datagram[4:])[0].decode('utf-8') 
-        #print(msg_length)
-        #print(buf)
-        #print(num_seq)
-        
-        #print(connection_type)
-        
-        #Sending the ack connexion reussi ou echouee
-
-        #self.num_sequence += 1
-
-        
-       
+            ##MANQUE LA RETRANSMISSION
         
         
-       
-
-        """
-        def send_wait(self, packet):
-            self.memory.append(packet)
-            reactor.callLater(1, self.transport.write, buf, (self.serverAddress, self.serverPort))
-        
-    """
+   
         pass
